@@ -20,13 +20,14 @@ public class GameEntry : MonoBehaviour
     }
     public bool isDEBUG = false;
 
+   
     [SerializeField]
-    private List<Sprite> FOREHEADSPRITES = new List<Sprite>();
+    private List<SO_SlimePart> SO_ForeheadParts = new List<SO_SlimePart>();
 
-    private Dictionary<string, Sprite> forehead_sprites = new Dictionary<string, Sprite>();
+    private Dictionary<string, SO_SlimePart> forehead_sprites = new Dictionary<string, SO_SlimePart>();
     private void LoadAssets()
     {
-        foreach (var s in FOREHEADSPRITES)
+        foreach (var s in SO_ForeheadParts)
         {
             if (forehead_sprites.ContainsKey(s.name))
             {
@@ -50,11 +51,16 @@ public class GameEntry : MonoBehaviour
 
     }
     public GameObject SlimePrefab;
-    public void SpawnSlime()
+    public GameObject SpawnSlime()
     {
         GameObject slimePrefab = Instantiate(SlimePrefab);
-        Slime toBeSpawned = slimePrefab.GetComponent<Slime>();
-        Sprite ToBeRendered = forehead_sprites.Values.ElementAt(UnityEngine.Random.Range(0, forehead_sprites.Values.Count));
+        Slime slimeComp = slimePrefab.GetComponent<Slime>();
+        slimeComp.Init();
+
+        Sprite ToBeRendered = forehead_sprites.Values.ElementAt
+            (UnityEngine.Random.Range(0, forehead_sprites.Values.Count)).ImgToDisplay;
+        slimeComp.UpdateSlimePart(Slime_Part.FOREHEAD, ToBeRendered);
         //toBeSpawned.AddPart(forehead);
+        return slimePrefab;
     }
 }

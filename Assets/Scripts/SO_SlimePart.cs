@@ -30,4 +30,5 @@ public class SO_SlimePart : ScriptableObject
     public Slime_Type slimeType;
     public string PartName;
     public Sprite ImgToDisplay;
+    public float power;
 }

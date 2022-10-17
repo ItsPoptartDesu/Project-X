@@ -12,7 +12,7 @@ public class Slime : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         foreach (var p in _RenderParts)
         {
@@ -26,6 +26,12 @@ public class Slime : MonoBehaviour
             }
             slimeParts.Add(p.whichPart, p);
         }
+    }
+
+    public void UpdateSlimePart(Slime_Part _piece, Sprite _toBeRendered)
+    {
+        SlimePiece sp = slimeParts[_piece];
+        sp.ToBeRendered = _toBeRendered;
     }
 
     // Update is called once per frame
