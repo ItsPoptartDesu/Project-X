@@ -20,24 +20,28 @@ public class GameEntry : MonoBehaviour
     }
     public bool isDEBUG = false;
 
-   
+
     [SerializeField]
     private List<SO_SlimePart> SO_ForeheadParts = new List<SO_SlimePart>();
 
-    private Dictionary<string, SO_SlimePart> forehead_sprites = new Dictionary<string, SO_SlimePart>();
+    [SerializeField]
+    private List<SO_SlimePart> SO_EarParts = new List<SO_SlimePart>();
+
+    [SerializeField]
+    private List<SO_SlimePart> SO_EyeParts = new List<SO_SlimePart>();
+
+    [SerializeField]
+    private List<SO_SlimePart> SO_MouthParts = new List<SO_SlimePart>();
+
+    [SerializeField]
+    private List<SO_SlimePart> SO_TailParts = new List<SO_SlimePart>();
+
+    [SerializeField]
+    private List<SO_SlimePart> SO_BackParts = new List<SO_SlimePart>();
+
     private void LoadAssets()
     {
-        foreach (var s in SO_ForeheadParts)
-        {
-            if (forehead_sprites.ContainsKey(s.name))
-            {
-                Debug.LogWarning($"extra {s.name} added to FOREHEADSPRITES");
-                continue;
-            }
-            if (isDEBUG)
-                Debug.Log($"adding {s.name} to forehead sprites");
-            forehead_sprites.Add(s.name, s);
-        }
+        
     }
     // Start is called before the first frame update
     void Start()
@@ -57,9 +61,29 @@ public class GameEntry : MonoBehaviour
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
         slimeComp.Init();
 
-        Sprite ToBeRendered = forehead_sprites.Values.ElementAt
-            (UnityEngine.Random.Range(0, forehead_sprites.Values.Count)).ImgToDisplay;
+        Sprite ToBeRendered = SO_ForeheadParts.ElementAt
+            (UnityEngine.Random.Range(0, SO_ForeheadParts.Count)).ImgToDisplay;
         slimeComp.UpdateSlimePart(Slime_Part.FOREHEAD, ToBeRendered);
+
+        ToBeRendered = SO_EyeParts.ElementAt
+    (UnityEngine.Random.Range(0, SO_EyeParts.Count)).ImgToDisplay;
+        slimeComp.UpdateSlimePart(Slime_Part.EYES, ToBeRendered);
+
+        ToBeRendered = SO_EarParts.ElementAt
+    (UnityEngine.Random.Range(0, SO_EarParts.Count)).ImgToDisplay;
+        slimeComp.UpdateSlimePart(Slime_Part.EARS, ToBeRendered);
+
+        ToBeRendered = SO_MouthParts.ElementAt
+    (UnityEngine.Random.Range(0, SO_MouthParts.Count)).ImgToDisplay;
+        slimeComp.UpdateSlimePart(Slime_Part.MOUTH, ToBeRendered);
+
+        ToBeRendered = SO_BackParts.ElementAt
+    (UnityEngine.Random.Range(0, SO_BackParts.Count)).ImgToDisplay;
+        slimeComp.UpdateSlimePart(Slime_Part.BACK, ToBeRendered);
+
+        ToBeRendered = SO_TailParts.ElementAt
+    (UnityEngine.Random.Range(0, SO_TailParts.Count)).ImgToDisplay;
+        slimeComp.UpdateSlimePart(Slime_Part.TAIL, ToBeRendered);
         //toBeSpawned.AddPart(forehead);
         return slimePrefab;
     }

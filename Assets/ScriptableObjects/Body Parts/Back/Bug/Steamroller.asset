@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ad895c582a223249850700fb5c45983, type: 3}
-  m_Name: Pin Missile
+  m_Name: Steamroller
   m_EditorClassIdentifier: 
-  slimePart: 0
-  slimeType: 0
-  PartName: 
-  ImgToDisplay: {fileID: 0}
+  SlimePart: 3
+  SlimeType: 5
+  PartName: Steamroller
+  ImgToDisplay: {fileID: 21300000, guid: d8def3eb964b813489fd39de64bebd8d, type: 3}
+  Power: 65
+  Cost: 1

@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ad895c582a223249850700fb5c45983, type: 3}
-  m_Name: Spider Web
+  m_Name: Powder
   m_EditorClassIdentifier: 
-  slimePart: 0
-  slimeType: 0
-  PartName: 
-  ImgToDisplay: {fileID: 0}
+  SlimePart: 3
+  SlimeType: 5
+  PartName: Powder
+  ImgToDisplay: {fileID: 21300000, guid: 65febdd04ca8b0045ab8b207e3397e01, type: 3}
+  Power: 0
+  Cost: 0

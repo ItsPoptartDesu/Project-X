@@ -20,15 +20,16 @@ public enum Slime_Type
     FIRE, DRAGON, POISON,
     DARK, GROUND, AIR,
     ELECTRIC, FLYING, FIGHTING,
-    NA
+    NORMAL,
 }
 
 [CreateAssetMenu(fileName = "New Part", menuName = "Body Part")]
 public class SO_SlimePart : ScriptableObject
 {
-    public Slime_Part slimePart;
-    public Slime_Type slimeType;
+    public Slime_Part SlimePart;
+    public Slime_Type SlimeType;
     public string PartName;
     public Sprite ImgToDisplay;
-    public float power;
+    public float Power;
+    public int Cost;
 }

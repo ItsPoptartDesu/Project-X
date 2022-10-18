@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ad895c582a223249850700fb5c45983, type: 3}
-  m_Name: Twineedle
+  m_Name: Bug Bite
   m_EditorClassIdentifier: 
-  slimePart: 6
-  slimeType: 5
-  PartName: Twineedle
-  ImgToDisplay: {fileID: 21300000, guid: 79264f57d0079394b81c0a96ed4353aa, type: 3}
+  SlimePart: 0
+  SlimeType: 0
+  PartName: Bug Bite
+  ImgToDisplay: {fileID: 21300000, guid: b65330d91392c444881dfa4a38099983, type: 3}
+  Power: 60
+  Cost: 1
