@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 5
   SlimeType: 5
   PartName: Savage Spin-Out
-  ImgToDisplay: {fileID: 21300000, guid: 5a0d1d943c2768f4ea11146e910a6ccc, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 5d5de1dc15cfc5a429f7382d5654be48, type: 3}
   Power: 0
   Cost: 0

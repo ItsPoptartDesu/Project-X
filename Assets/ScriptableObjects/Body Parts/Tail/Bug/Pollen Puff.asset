@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 5
   SlimeType: 5
   PartName: Pollen Puff
-  ImgToDisplay: {fileID: 21300000, guid: f02bdf562934d4042ae4a3455f78abb3, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 1c9bb118559a80143825bbb0e34627f4, type: 3}
   Power: 90
   Cost: 2

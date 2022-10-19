@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 2
   SlimeType: 5
   PartName: Defend Order
-  ImgToDisplay: {fileID: 21300000, guid: 927fd47a5f3234342b9a5cdc6012f1e0, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 96acac42bb1d98f46a6f62168e861908, type: 3}
   Power: 0
   Cost: 0

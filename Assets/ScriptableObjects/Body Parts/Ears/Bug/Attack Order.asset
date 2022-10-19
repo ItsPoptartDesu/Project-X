@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 0
   SlimeType: 0
   PartName: Attack Order
-  ImgToDisplay: {fileID: 21300000, guid: abe5a183c98494042a37cf0a53fb82ed, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 4f6427d7b184d4344bd0c1f23a865b1e, type: 3}
   Power: 90
   Cost: 2

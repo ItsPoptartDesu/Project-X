@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 5
   SlimeType: 5
   PartName: First Impression
-  ImgToDisplay: {fileID: 21300000, guid: 0d19aaccae52c414493a93e11a3af36e, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 7dd6be259164e144f8d25152aaae227c, type: 3}
   Power: 90
   Cost: 2

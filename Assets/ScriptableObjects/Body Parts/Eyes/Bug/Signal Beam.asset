@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 0
   SlimeType: 0
   PartName: Signal Beam
-  ImgToDisplay: {fileID: 21300000, guid: 7789a1b093fdff64ebcebc3ab356921c, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 4b22278fc446f0a4599b15df455e32af, type: 3}
   Power: 75
   Cost: 1

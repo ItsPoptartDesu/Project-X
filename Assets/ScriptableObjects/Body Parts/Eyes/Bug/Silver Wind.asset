@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 0
   SlimeType: 0
   PartName: Silver Wind
-  ImgToDisplay: {fileID: 21300000, guid: ffaacb41afa44274196cfb1d040e404b, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 9e9459b6f740d8143a2d1a2209e9c9a1, type: 3}
   Power: 60
   Cost: 1

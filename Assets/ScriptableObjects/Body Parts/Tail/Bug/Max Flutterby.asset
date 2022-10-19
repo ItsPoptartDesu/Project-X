@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 5
   SlimeType: 5
   PartName: Max Flutterby
-  ImgToDisplay: {fileID: 21300000, guid: d17f2c70569d6c043b8fcd0e8e94c2cc, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 6d213a1042ae28949b61f2493f77fe26, type: 3}
   Power: 0
   Cost: 0

@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 3
   SlimeType: 5
   PartName: Sticky Web
-  ImgToDisplay: {fileID: 21300000, guid: 81d87162c81cb48479fa7617f22611db, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 633606b0e26f4db408c39d9a1812c6d1, type: 3}
   Power: 0
   Cost: 0

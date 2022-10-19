@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 0
   SlimeType: 0
   PartName: X-Scissor
-  ImgToDisplay: {fileID: 21300000, guid: 4b2dc185e4d73ab4583b895db3273337, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 46f720ad65bbc584b97073a5f0a78ee9, type: 3}
   Power: 80
   Cost: 1

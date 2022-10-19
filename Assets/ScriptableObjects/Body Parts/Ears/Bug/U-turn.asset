@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 0
   SlimeType: 0
   PartName: U-turn
-  ImgToDisplay: {fileID: 21300000, guid: 75f8765a074633244b75afd49bd50a7e, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: dfa6f47d20f3dea458ec29b775fa88f8, type: 3}
   Power: 70
   Cost: 1

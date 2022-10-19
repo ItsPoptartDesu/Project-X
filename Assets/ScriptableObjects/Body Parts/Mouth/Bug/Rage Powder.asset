@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 2
   SlimeType: 5
   PartName: Rage Powder
-  ImgToDisplay: {fileID: 21300000, guid: ae207c0a35d35324ba9d6c1173fcfe6a, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: d303ff3e02c98064a84c66ddf0373d96, type: 3}
   Power: 0
   Cost: 0

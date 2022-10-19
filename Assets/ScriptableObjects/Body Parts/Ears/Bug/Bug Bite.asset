@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 0
   SlimeType: 0
   PartName: Bug Bite
-  ImgToDisplay: {fileID: 21300000, guid: b65330d91392c444881dfa4a38099983, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 346478bca638a1342a2bb39a743638e5, type: 3}
   Power: 60
   Cost: 1

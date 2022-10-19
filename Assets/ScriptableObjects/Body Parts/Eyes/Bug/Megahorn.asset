@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 0
   SlimeType: 0
   PartName: Megahorn
-  ImgToDisplay: {fileID: 21300000, guid: ab713bafd64167643a6f53609b6b7e07, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: e2bbb8b2ade110d4ea47a6725ce28636, type: 3}
   Power: 120
   Cost: 2

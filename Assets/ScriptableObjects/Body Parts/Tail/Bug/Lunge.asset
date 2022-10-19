@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 5
   SlimeType: 5
   PartName: Lunge
-  ImgToDisplay: {fileID: 21300000, guid: 219ea92662bfa404a8c18a9f7085eb59, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: a22afab7dbed97f4bbff27c9cd3c9613, type: 3}
   Power: 80
   Cost: 1

@@ -15,6 +15,6 @@ MonoBehaviour:
   SlimePart: 2
   SlimeType: 5
   PartName: Heal Order
-  ImgToDisplay: {fileID: 21300000, guid: a48cfe4da93c7304d9327595ca216150, type: 3}
+  ImgToDisplay: {fileID: 21300000, guid: 4f2d2e75fe14ffd4c84c0c132f01110e, type: 3}
   Power: 0
   Cost: 0
