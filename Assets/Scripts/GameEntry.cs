@@ -5,8 +5,8 @@ using System.Linq;
 public class GameEntry : MonoBehaviour
 {
 
-    public static event System.Action OnCollectionMenuClick;
-
+    public static event System.Action OnClickCollectionMenu;
+    public static event System.Action OnClickReturnToMainMenu;
 
     public static GameEntry Instance { get; private set; }
     private void Awake()
@@ -118,11 +118,20 @@ public class GameEntry : MonoBehaviour
     private GameObject MenuCollection_UI;
 
 
-    public void Button_OnToCollectionClick()
+    public void Button_OnClickToCollectionClick()
     {
-        OnCollectionMenuClick?.Invoke();//changes FSM menu
+        OnClickCollectionMenu?.Invoke();//changes FSM menu
         //switch menu UI
         MenuIdle_UI.SetActive(false);
         MenuCollection_UI.SetActive(true);
+    }
+
+    public void Button_OnClickToMenuIdle()
+    {
+        //change the FSM
+        OnClickReturnToMainMenu?.Invoke();
+        // switch menu UI
+        MenuCollection_UI.SetActive(false);
+        MenuIdle_UI.SetActive(true);
     }
 }

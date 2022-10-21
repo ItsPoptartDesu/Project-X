@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FSM_Collection : FSM_State
 {
+    private bool toMainMenu;
     public FSM_Collection()
     {
         stateID = StateID.Collection;
@@ -15,13 +16,24 @@ public class FSM_Collection : FSM_State
 
     public override void Reason(Behaviour player, FSM_System npc)
     {
+        if (toMainMenu)
+        {
+            npc.PerformTransition(Transition.To_Idle);
+        }
+    }
+    private void FSM_OnClickBack()
+    {
+        toMainMenu = true;
     }
     public override void DoBeforeEntering()
     {
         Debug.Log("FSM_Collection DoBeforeEntering()");
+        GameEntry.OnClickReturnToMainMenu += FSM_OnClickBack;
     }
     public override void DoBeforeLeaving()
     {
+        GameEntry.OnClickReturnToMainMenu -= FSM_OnClickBack;
+        toMainMenu = false;
         Debug.Log("FSM_Collection DoBeforeLeaving()");
     }
 }

@@ -26,7 +26,7 @@ public class FSM_Idle : FSM_State
 
     public override void DoBeforeEntering()
     {
-        GameEntry.OnCollectionMenuClick += FSM_OnCollectionClick;
+        GameEntry.OnClickCollectionMenu += FSM_OnCollectionClick;
         Debug.Log("FSM_Idle DoBeforeEntering()");
     }
 
@@ -40,8 +40,9 @@ public class FSM_Idle : FSM_State
     }
     public override void DoBeforeLeaving()
     {
-        GameEntry.OnCollectionMenuClick -= FSM_OnCollectionClick;
+        GameEntry.OnClickCollectionMenu -= FSM_OnCollectionClick;
         toSettings = false;
+        toCollection = false;
         Debug.Log("FSM_Idle DoBeforeLeaving()");
     }
 }
