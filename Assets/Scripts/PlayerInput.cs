@@ -18,7 +18,7 @@ public class PlayerInput : MonoBehaviour
         {
             if (SpawnedObject != null)
                 Destroy(SpawnedObject);
-            SpawnedObject = GameEntry.Instance.SpawnSlime();
+            SpawnedObject = GameEntry.Instance.GenerateRandomSlime();
         }
     }
 }
