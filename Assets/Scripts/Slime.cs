@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Slime : MonoBehaviour
 {
@@ -8,8 +9,6 @@ public class Slime : MonoBehaviour
     private List<SlimePiece> _RenderParts = new List<SlimePiece>();
 
     private Dictionary<Slime_Part, SlimePiece> slimeParts = new Dictionary<Slime_Part, SlimePiece>();
-
-
 
     // Start is called before the first frame update
     public void Init()
@@ -33,7 +32,10 @@ public class Slime : MonoBehaviour
         SlimePiece sp = slimeParts[_piece];
         sp.ToBeRendered = _toBeRendered;
     }
-
+    public List<SlimePiece> GetActiveParts()
+    {
+        return slimeParts.Values.ToList();
+    }
     // Update is called once per frame
     void Update()
     {

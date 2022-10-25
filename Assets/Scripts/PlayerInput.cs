@@ -16,9 +16,14 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
-            if (SpawnedObject != null)
-                Destroy(SpawnedObject);
-            SpawnedObject = GameEntry.Instance.GenerateRandomSlime();
+            GenerateRandomSlime();
         }
+    }
+
+    public void GenerateRandomSlime()
+    {
+        if (SpawnedObject != null)
+            Destroy(SpawnedObject);
+        SpawnedObject = GameEntry.Instance.GenerateRandomSlime();
     }
 }
