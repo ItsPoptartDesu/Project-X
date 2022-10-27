@@ -5,10 +5,11 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     private GameObject SpawnedObject = null;
+    private List<Slime> ActiveTeam;
     // Start is called before the first frame update
     void Start()
     {
-
+        ActiveTeam = new List<Slime>();
     }
 
     // Update is called once per frame
@@ -25,5 +26,12 @@ public class PlayerInput : MonoBehaviour
         if (SpawnedObject != null)
             Destroy(SpawnedObject);
         SpawnedObject = GameEntry.Instance.GenerateRandomSlime();
+    }
+
+    public List<Slime> GetActiveTeam()
+    {
+        ActiveTeam.Clear();
+        ActiveTeam.Add(SpawnedObject.GetComponent<Slime>());
+        return ActiveTeam;
     }
 }

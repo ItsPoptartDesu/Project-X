@@ -4,31 +4,26 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
+    private SaveData MySaveData;
 
-    public static SaveManager Instance { get; set;}
     private void Awake()
     {
-        // If there is an instance, and it's not me, delete myself.
 
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void FirstLoad()
     {
-        
+        MySaveData = new SaveData();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void SaveGame()
+    {
+        MySaveData.WriteFile();
     }
 }

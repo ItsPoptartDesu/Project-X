@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Linq;
 public class GameEntry : MonoBehaviour
 {
+    [SerializeField]
+    private SaveManager saveManager;
 
     public static event System.Action OnClickCollectionMenu;
     public static event System.Action OnClickReturnToMainMenu;
@@ -23,7 +25,7 @@ public class GameEntry : MonoBehaviour
         }
     }
     public bool isDEBUG = false;
-
+    public PlayerInput playerInput;
 
     [SerializeField]
     private List<SO_SlimePart> SO_ForeheadParts = new List<SO_SlimePart>();
@@ -70,6 +72,7 @@ public class GameEntry : MonoBehaviour
     void Start()
     {
         LoadAssets();
+        saveManager.FirstLoad();
     }
 
     // Update is called once per frame
