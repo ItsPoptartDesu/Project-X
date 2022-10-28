@@ -34,27 +34,16 @@ public class SaveData : MonoBehaviour
         //build the toBeSavedData
         foreach (var t in tt)
         {
-            JsonSaveData data = new JsonSaveData();
+            JsonSlimeInfo sInfo = new JsonSlimeInfo();
             foreach (var p in t.GetActiveParts())//get the part names
-                data.PartNames.Add(p.SlimePartName);
+                sInfo.PartNames.Add(p.SlimePartName);
             //grab the name :TODO NOT ASSIGNED
-            data.SlimeName = t.SlimeName;
+            sInfo.SlimeName = t.SlimeName;
             //and finally the board pos
-            data.TeamPos = t.myBoardPos;
+            sInfo.TeamPos = t.myBoardPos;
             //finally save the part data to the master list to be written out
-            toBeSaved=data;
+            toBeSaved.SavedSlime.Add(sInfo);
         }
-
-        Debug.Log($"active team {tt}");
-        gameData.SaveSlimes(tt);
-
-        //foreach (var s in toBeSaved)
-        //{
-        //    Debug.Log($"{s.SlimeName} has parts ");
-        //    foreach (var p in s.PartNames)
-        //        Debug.Log($"{p} - part name");
-        //    Debug.Log($"at postion {s.TeamPos}");
-        //}
 
         string jsonString = JsonUtility.ToJson(toBeSaved, true);
         Debug.Log($"writting to {savePath} with {jsonString}");
@@ -68,12 +57,24 @@ public class JsonSaveData
 {
     public JsonSaveData()
     {
+        SavedSlime = new List<JsonSlimeInfo>();
+    }
+    [SerializeField]
+    public List<JsonSlimeInfo> SavedSlime;
+}
+
+[System.Serializable]
+public class JsonSlimeInfo
+{
+    [SerializeField]
+    public List<string> PartNames;
+    public JsonSlimeInfo()
+    {
         PartNames = new List<string>();
     }
     [SerializeField]
     public string SlimeName;
-    [SerializeField]
-    public List<string> PartNames;
+
     [SerializeField]
     public BoardPos TeamPos;
 }

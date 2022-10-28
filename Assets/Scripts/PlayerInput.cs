@@ -6,6 +6,9 @@ public class PlayerInput : MonoBehaviour
 {
     private GameObject SpawnedObject = null;
     private List<Slime> ActiveTeam;
+
+    [SerializeField]
+    private TeamSelectionManager teamSelectionManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,12 +29,18 @@ public class PlayerInput : MonoBehaviour
         if (SpawnedObject != null)
             Destroy(SpawnedObject);
         SpawnedObject = GameEntry.Instance.GenerateRandomSlime();
+        teamSelectionManager.OnSpawnAttachment(SpawnedObject.transform);
+    }
+
+    public void OnClickAddToTeam()
+    {
+        ActiveTeam.Add(SpawnedObject.GetComponent<Slime>());
+        teamSelectionManager.AttachNewMember(SpawnedObject.transform);
+        SpawnedObject = null;
     }
 
     public List<Slime> GetActiveTeam()
     {
-        ActiveTeam.Clear();
-        ActiveTeam.Add(SpawnedObject.GetComponent<Slime>());
         return ActiveTeam;
     }
 }
