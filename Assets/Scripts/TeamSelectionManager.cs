@@ -10,11 +10,12 @@ public class TeamSelectionManager : MonoBehaviour
     private Transform RandomSpawnRoot;
     public void AttachNewMember(Transform _toBeAttached)
     {
-        _toBeAttached.SetParent(ActiveTeamRoot, false);
+        _toBeAttached.SetParent(ActiveTeamRoot);
+        //_toBeAttached.localPosition = Vector3.zero;
     }
     public void OnSpawnAttachment(Transform _toBeAttached)
     {
-        RandomSpawnRoot.SetParent(_toBeAttached, false);
+        _toBeAttached.SetParent(RandomSpawnRoot);
     }
     // Start is called before the first frame update
     void Start()

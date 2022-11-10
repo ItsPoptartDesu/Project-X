@@ -6,11 +6,21 @@ public class GameEntry : MonoBehaviour
 {
     [SerializeField]
     private SaveManager saveManager;
+    [SerializeField]
+    private GameObject MenuIdle_UI;
+    [SerializeField]
+    private GameObject MenuCollection_UI;
+   
+    public bool isDEBUG = false;
+    public PlayerInput playerInput;
 
     public static event System.Action OnClickCollectionMenu;
     public static event System.Action OnClickReturnToMainMenu;
-
     public static GameEntry Instance { get; private set; }
+
+
+    private FSM_System gameloop;
+
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -24,33 +34,13 @@ public class GameEntry : MonoBehaviour
             Instance = this;
         }
     }
-    public bool isDEBUG = false;
-    public PlayerInput playerInput;
+ 
+   
 
-    [SerializeField]
-    private List<SO_SlimePart> SO_ForeheadParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_EarParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_EyeParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_MouthParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_TailParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_BackParts = new List<SO_SlimePart>();
-
-    private FSM_System gameloop;
     private void LoadAssets()
     {
         //build game loop
         gameloop = new FSM_System();
-
         FSM_Idle FIdle = new FSM_Idle();
         FIdle.AddTransition(Transition.To_Collection, StateID.Collection);
         //FIdle.AddTransition(Transition.To_Play, StateID.Play);
@@ -68,6 +58,8 @@ public class GameEntry : MonoBehaviour
         MenuCollection_UI.SetActive(false);
         MenuIdle_UI.SetActive(true);
     }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,45 +73,6 @@ public class GameEntry : MonoBehaviour
         gameloop.CurrentState.Act(this, gameloop);
         gameloop.CurrentState.Reason(this, gameloop);
     }
-    public GameObject SlimePrefab;
-    public GameObject GenerateRandomSlime()
-    {
-        GameObject slimePrefab = Instantiate(SlimePrefab);
-        Slime slimeComp = slimePrefab.GetComponent<Slime>();
-        slimeComp.Init();
-
-        Sprite ToBeRendered = SO_ForeheadParts.ElementAt
-            (UnityEngine.Random.Range(0, SO_ForeheadParts.Count)).ImgToDisplay;
-        slimeComp.UpdateSlimePart(Slime_Part.FOREHEAD, ToBeRendered);
-
-        ToBeRendered = SO_EyeParts.ElementAt
-    (UnityEngine.Random.Range(0, SO_EyeParts.Count)).ImgToDisplay;
-        slimeComp.UpdateSlimePart(Slime_Part.EYES, ToBeRendered);
-
-        ToBeRendered = SO_EarParts.ElementAt
-    (UnityEngine.Random.Range(0, SO_EarParts.Count)).ImgToDisplay;
-        slimeComp.UpdateSlimePart(Slime_Part.EARS, ToBeRendered);
-
-        ToBeRendered = SO_MouthParts.ElementAt
-    (UnityEngine.Random.Range(0, SO_MouthParts.Count)).ImgToDisplay;
-        slimeComp.UpdateSlimePart(Slime_Part.MOUTH, ToBeRendered);
-
-        ToBeRendered = SO_BackParts.ElementAt
-    (UnityEngine.Random.Range(0, SO_BackParts.Count)).ImgToDisplay;
-        slimeComp.UpdateSlimePart(Slime_Part.BACK, ToBeRendered);
-
-        ToBeRendered = SO_TailParts.ElementAt
-    (UnityEngine.Random.Range(0, SO_TailParts.Count)).ImgToDisplay;
-        slimeComp.UpdateSlimePart(Slime_Part.TAIL, ToBeRendered);
-        //toBeSpawned.AddPart(forehead);
-        return slimePrefab;
-    }
-
-    [SerializeField]
-    private GameObject MenuIdle_UI;
-    [SerializeField]
-    private GameObject MenuCollection_UI;
-
 
     public void Button_OnClickToCollectionClick()
     {

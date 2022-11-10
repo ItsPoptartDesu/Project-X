@@ -8,35 +8,39 @@ public class SaveData : MonoBehaviour
 {
     string FileName = "/GameData.json";
     private string savePath;
-    private GameData gameData;
     [SerializeField]
     private JsonSaveData toBeSaved;
+
+    public JsonSaveData GetLastSavedGame() { return toBeSaved; }
     public SaveData()
     {
         savePath = Application.persistentDataPath + FileName;
-        gameData = new GameData();
         toBeSaved = new JsonSaveData();
         Debug.Log($"Saving too {savePath}");
     }
 
-    public void ReadFile()
+    public bool ReadFile()
     {
         if (File.Exists(savePath))
         {
             string fileContent = File.ReadAllText(savePath);
-            gameData = JsonUtility.FromJson<GameData>(fileContent);
+            toBeSaved = JsonUtility.FromJson<JsonSaveData>(fileContent);
+            return true;
         }
+        return false;
     }
 
     public void WriteFile()
     {
         List<Slime> tt = GameEntry.Instance.playerInput.GetActiveTeam();
+        if (File.Exists(savePath))
+            File.Delete(savePath);
         //build the toBeSavedData
         foreach (var t in tt)
         {
             JsonSlimeInfo sInfo = new JsonSlimeInfo();
             foreach (var p in t.GetActiveParts())//get the part names
-                sInfo.PartNames.Add(p.SlimePartName);
+                sInfo.PartNames.Add(p.GetSlimePartName().ToString());
             //grab the name :TODO NOT ASSIGNED
             sInfo.SlimeName = t.SlimeName;
             //and finally the board pos
@@ -47,7 +51,10 @@ public class SaveData : MonoBehaviour
 
         string jsonString = JsonUtility.ToJson(toBeSaved, true);
         Debug.Log($"writting to {savePath} with {jsonString}");
-        File.WriteAllText(savePath, jsonString);
+        StreamWriter FileWriter = new StreamWriter(savePath, false);
+        FileWriter.Write(jsonString);
+        FileWriter.Close();
+
     }
 
 }
@@ -77,4 +84,12 @@ public class JsonSlimeInfo
 
     [SerializeField]
     public BoardPos TeamPos;
+    public void DebugStatement()
+    {
+        Debug.Log($"{SlimeName} has ");
+        foreach (var p in PartNames)
+        {
+            Debug.Log($"{p} attached to it");
+        }
+    }
 }

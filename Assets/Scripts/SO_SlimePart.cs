@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum Slime_Part
+public enum ESlimePart
 {
     EARS,
     EYES,
@@ -12,7 +12,7 @@ public enum Slime_Part
     FOREHEAD,
 }
 
-public enum Slime_Type
+public enum ESlimeType
 {
     PSYCHIC, STEEL, ICE,
     WATER, FAIRY, BUG,
@@ -26,8 +26,8 @@ public enum Slime_Type
 [CreateAssetMenu(fileName = "New Part", menuName = "Body Part")]
 public class SO_SlimePart : ScriptableObject
 {
-    public Slime_Part SlimePart;
-    public Slime_Type SlimeType;
+    public ESlimePart SlimePart;
+    public ESlimeType SlimeType;
     public string PartName;
     public Sprite ImgToDisplay;
     public float Power;

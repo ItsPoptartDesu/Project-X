@@ -28,7 +28,8 @@ public class PlayerInput : MonoBehaviour
     {
         if (SpawnedObject != null)
             Destroy(SpawnedObject);
-        SpawnedObject = GameEntry.Instance.GenerateRandomSlime();
+        SpawnedObject = ObjectManager.Instance.GenerateRandomSlime();
+        SpawnedObject.transform.localScale = new Vector3(13f, 13f, 0);
         teamSelectionManager.OnSpawnAttachment(SpawnedObject.transform);
     }
 

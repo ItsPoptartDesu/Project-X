@@ -16,34 +16,38 @@ public class Slime : MonoBehaviour
     [SerializeField]
     private List<SlimePiece> _RenderParts = new List<SlimePiece>();
 
-    private Dictionary<Slime_Part, SlimePiece> slimeParts = new Dictionary<Slime_Part, SlimePiece>();
+    private Dictionary<ESlimePart, SlimePiece> slimeParts = new Dictionary<ESlimePart, SlimePiece>();
     public string SlimeName { get; private set; }
     public BoardPos myBoardPos = BoardPos.NA;
     // Start is called before the first frame update
-    public void Init()
+    public Slime()
+    {
+        //Init();
+    }
+    public  void Init()
     {
         foreach (var p in _RenderParts)
         {
-            if (slimeParts.ContainsKey(p.whichPart))
+            if (slimeParts.ContainsKey(p.GetESlimePart()))
             {
                 if (GameEntry.Instance.isDEBUG)
                 {
-                    Debug.LogWarning($"duplicate part added {p.whichPart + " || " + p.SlimePartName }");
+                    Debug.LogWarning($"duplicate part added {p.GetESlimePart() + " || " + p.GetSlimePartName() }");
                 }
                 continue;
             }
-            Debug.Log($"adding part {p.whichPart} to slime {SlimeName}");
-            slimeParts.Add(p.whichPart, p);
+            Debug.Log($"adding part {p.GetESlimePart()} to slime {SlimeName}");
+            slimeParts.Add(p.GetESlimePart(), p);
         }
         System.Array values = System.Enum.GetValues(typeof(BoardPos));
         System.Random random = new System.Random();
         myBoardPos = (BoardPos)values.GetValue(random.Next(values.Length));
     }
 
-    public void UpdateSlimePart(Slime_Part _piece, Sprite _toBeRendered)
+    public void UpdateSlimePart(ESlimePart _piece, SO_SlimePart _part)
     {
         SlimePiece sp = slimeParts[_piece];
-        sp.ToBeRendered = _toBeRendered;
+        sp.UpdateSlimePart(_part);
     }
     public List<SlimePiece> GetActiveParts()
     {
@@ -53,5 +57,15 @@ public class Slime : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void DebugStatement()
+    {
+        Debug.Log($"{SlimeName} has ");
+        foreach (var p in slimeParts.Values)
+        {
+            Debug.Log($"{p.GetSlimePartName()} ");
+        }
+        Debug.Log("attached to it");
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
+    private GameData gameData;
     private SaveData MySaveData;
-
     private void Awake()
     {
 
@@ -13,7 +13,19 @@ public class SaveManager : MonoBehaviour
 
     public void FirstLoad()
     {
+        gameData = new GameData();
         MySaveData = new SaveData();
+        if (MySaveData.ReadFile())
+        {
+            // we have already played the game before
+            gameData.Load(MySaveData);
+            Debug.Log("LOADING A GAME");
+        }
+        else
+        {
+            // this is our first load
+            Debug.Log("this is our first load");
+        }
     }
 
     // Update is called once per frame
