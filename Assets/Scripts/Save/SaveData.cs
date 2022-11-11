@@ -10,11 +10,13 @@ public class SaveData : MonoBehaviour
     private string savePath;
     [SerializeField]
     private JsonSaveData toBeSaved;
-
+    [SerializeField]
+    private JsonSaveData saveSlotOne;
     public JsonSaveData GetLastSavedGame() { return toBeSaved; }
     public SaveData()
     {
         savePath = Application.persistentDataPath + FileName;
+        saveSlotOne = new JsonSaveData();
         toBeSaved = new JsonSaveData();
         Debug.Log($"Saving too {savePath}");
     }
@@ -24,7 +26,7 @@ public class SaveData : MonoBehaviour
         if (File.Exists(savePath))
         {
             string fileContent = File.ReadAllText(savePath);
-            toBeSaved = JsonUtility.FromJson<JsonSaveData>(fileContent);
+            saveSlotOne = JsonUtility.FromJson<JsonSaveData>(fileContent);
             return true;
         }
         return false;
@@ -33,8 +35,6 @@ public class SaveData : MonoBehaviour
     public void WriteFile()
     {
         List<Slime> tt = GameEntry.Instance.playerInput.GetActiveTeam();
-        if (File.Exists(savePath))
-            File.Delete(savePath);
         //build the toBeSavedData
         foreach (var t in tt)
         {
@@ -50,13 +50,20 @@ public class SaveData : MonoBehaviour
         }
 
         string jsonString = JsonUtility.ToJson(toBeSaved, true);
-        Debug.Log($"writting to {savePath} with {jsonString}");
-        StreamWriter FileWriter = new StreamWriter(savePath, false);
-        FileWriter.Write(jsonString);
-        FileWriter.Close();
+        Debug.Log($"Path: {savePath}. Size: {tt.Count()}, Context: {jsonString}");
+        //StreamWriter FileWriter = new StreamWriter(savePath, false);
+        //FileWriter.Write(jsonString);
+        //FileWriter.Close();
 
+        FileStream fileStream = new FileStream(savePath, FileMode.Truncate);
+        StreamWriter sw = new StreamWriter(fileStream);
+        sw.Write(jsonString);
+        sw.Flush();
+        fileStream.Flush();
+        sw.Close();
+        fileStream.Close();
+        toBeSaved.SavedSlime.Clear();
     }
-
 }
 
 [System.Serializable]

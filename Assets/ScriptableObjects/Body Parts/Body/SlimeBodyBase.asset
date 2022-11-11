@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ad895c582a223249850700fb5c45983, type: 3}
   m_Name: SlimeBodyBase
   m_EditorClassIdentifier: 
-  slimePart: 4
-  slimeType: 18
+  SlimePart: 4
+  SlimeType: 18
   PartName: SlimeBodyBase
   ImgToDisplay: {fileID: 21300000, guid: d0152f4ee89cbea43b0a371634b987c8, type: 3}
+  Power: 0
+  Cost: 0
