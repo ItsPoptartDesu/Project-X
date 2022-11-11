@@ -12,7 +12,7 @@ public class SaveData : MonoBehaviour
     private JsonSaveData toBeSaved;
     [SerializeField]
     private JsonSaveData saveSlotOne;
-    public JsonSaveData GetLastSavedGame() { return toBeSaved; }
+    public JsonSaveData GetLastSavedGame() { return saveSlotOne; }
     public SaveData()
     {
         savePath = Application.persistentDataPath + FileName;
@@ -27,6 +27,8 @@ public class SaveData : MonoBehaviour
         {
             string fileContent = File.ReadAllText(savePath);
             saveSlotOne = JsonUtility.FromJson<JsonSaveData>(fileContent);
+            foreach (var s in saveSlotOne.SavedSlime)
+                s.DebugStatement();
             return true;
         }
         return false;
@@ -93,10 +95,12 @@ public class JsonSlimeInfo
     public BoardPos TeamPos;
     public void DebugStatement()
     {
-        Debug.Log($"{SlimeName} has ");
+        string statement = "";
+        statement = SlimeName + " Parts: ";
         foreach (var p in PartNames)
         {
-            Debug.Log($"{p} attached to it");
+            statement += p + " & ";
         }
+        Debug.Log(statement);
     }
 }
