@@ -6,11 +6,8 @@ public class GameEntry : MonoBehaviour
 {
     [SerializeField]
     private SaveManager saveManager;
-    [SerializeField]
-    private GameObject MenuIdle_UI;
-    [SerializeField]
-    private GameObject MenuCollection_UI;
-   
+
+
     public bool isDEBUG = false;
     public PlayerInput playerInput;
 
@@ -34,8 +31,8 @@ public class GameEntry : MonoBehaviour
             Instance = this;
         }
     }
- 
-   
+
+
 
     private void LoadAssets()
     {
@@ -43,20 +40,18 @@ public class GameEntry : MonoBehaviour
         gameloop = new FSM_System();
         FSM_Idle FIdle = new FSM_Idle();
         FIdle.AddTransition(Transition.To_Collection, StateID.Collection);
-        //FIdle.AddTransition(Transition.To_Play, StateID.Play);
-        //FIdle.AddTransition(Transition.To_Settings, StateID.Settings);
-        //FSM_Play FPlay = new FSM_Play();
-        //FSM_Settings FSettings = new FSM_Settings();
 
         FSM_Collection FCollection = new FSM_Collection();
         FCollection.AddTransition(Transition.To_Idle, StateID.Idle);
 
         gameloop.AddState(FIdle);
         gameloop.AddState(FCollection);
+        
+        //load games assest
+        ObjectManager.Instance.LoadAssets();
 
         //turn off all UI except for base UI on load
-        MenuCollection_UI.SetActive(false);
-        MenuIdle_UI.SetActive(true);
+        UIManager.Instance.ResetUI();
     }
 
 
@@ -70,16 +65,21 @@ public class GameEntry : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameloop.CurrentState.Act(this, gameloop);
-        gameloop.CurrentState.Reason(this, gameloop);
+        gameloop.CurrentState.Act(playerInput, gameloop);
+        gameloop.CurrentState.Reason(playerInput, gameloop);
     }
 
     public void Button_OnClickToCollectionClick()
     {
         OnClickCollectionMenu?.Invoke();//changes FSM menu
         //switch menu UI
-        MenuIdle_UI.SetActive(false);
-        MenuCollection_UI.SetActive(true);
+        UIManager.Instance.ShowCollectionUI();
+        JsonSaveData jsd = saveManager.GetSaveSlotOne();
+        foreach (var s in jsd.SavedSlime)
+        {
+            GameObject Slime = ObjectManager.Instance.GenerateSlime(s);
+            UIManager.Instance.teamSelectionManager.AttachNewMember(Slime.transform);
+        }
     }
 
     public void Button_OnClickToMenuIdle()
@@ -87,7 +87,8 @@ public class GameEntry : MonoBehaviour
         //change the FSM
         OnClickReturnToMainMenu?.Invoke();
         // switch menu UI
-        MenuCollection_UI.SetActive(false);
-        MenuIdle_UI.SetActive(true);
+        UIManager.Instance.ResetUI();
+        ObjectManager.Instance.DeleteMarkedObjects();
+        
     }
 }

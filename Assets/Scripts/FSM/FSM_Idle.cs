@@ -23,13 +23,11 @@ public class FSM_Idle : FSM_State
             npc.PerformTransition(Transition.To_Collection);
         }
     }
-
     public override void DoBeforeEntering()
     {
         GameEntry.OnClickCollectionMenu += FSM_OnCollectionClick;
         Debug.Log("FSM_Idle DoBeforeEntering()");
     }
-
     private void FSM_OnSettingsClick()
     {
         toSettings = true;

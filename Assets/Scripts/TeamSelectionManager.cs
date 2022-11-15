@@ -10,6 +10,7 @@ public class TeamSelectionManager : MonoBehaviour
     private Transform RandomSpawnRoot;
     public void AttachNewMember(Transform _toBeAttached)
     {
+        _toBeAttached.localScale = new Vector3(13f, 13f, 0);
         _toBeAttached.SetParent(ActiveTeamRoot);
         //_toBeAttached.localPosition = Vector3.zero;
     }

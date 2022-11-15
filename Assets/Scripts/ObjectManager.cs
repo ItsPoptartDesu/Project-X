@@ -30,6 +30,20 @@ public class ObjectManager : MonoBehaviour
     private List<SO_SlimePart> SO_BodyParts = new List<SO_SlimePart>();
 
     public static ObjectManager Instance { get; private set; }
+
+    private List<GameObject> toBeDeleted = new List<GameObject>();
+
+    public void DeleteMarkedObjects()
+    {
+        foreach (GameObject o in toBeDeleted)
+            Destroy(o);
+    }
+
+    public void MarkObjectToBeDeleted(GameObject _go)
+    {
+        toBeDeleted.Add(_go);
+    }
+
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -77,9 +91,25 @@ public class ObjectManager : MonoBehaviour
         ToBeRendered = SO_BodyParts.ElementAt
 (UnityEngine.Random.Range(0, SO_BodyParts.Count));
         slimeComp.UpdateSlimePart(ESlimePart.BODY, ToBeRendered);
+        MarkObjectToBeDeleted(slimePrefab);
         return slimePrefab;
     }
 
+    public GameObject GenerateSlime(JsonSlimeInfo _copy)
+    {
+        GameObject slimePrefab = Instantiate(SlimePrefab);
+        Slime slimeComp = slimePrefab.GetComponent<Slime>();
+        slimeComp.Init();
+
+        foreach(string partName in _copy.PartNames)
+        {
+            SO_SlimePart part = LookupTable[partName];
+            slimeComp.UpdateSlimePart(part.SlimePart, part);
+        }
+
+        MarkObjectToBeDeleted(slimePrefab);
+        return slimePrefab;
+    }
 
     public void LoadAssets()
     {

@@ -27,8 +27,9 @@ public class SaveData : MonoBehaviour
         {
             string fileContent = File.ReadAllText(savePath);
             saveSlotOne = JsonUtility.FromJson<JsonSaveData>(fileContent);
-            foreach (var s in saveSlotOne.SavedSlime)
-                s.DebugStatement();
+            if (GameEntry.Instance.isDEBUG)
+                foreach (var s in saveSlotOne.SavedSlime)
+                    s.DebugStatement();
             return true;
         }
         return false;

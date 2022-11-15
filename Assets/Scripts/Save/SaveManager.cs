@@ -6,6 +6,7 @@ public class SaveManager : MonoBehaviour
 {
     private GameData gameData;
     private SaveData MySaveData;
+    public JsonSaveData GetSaveSlotOne() { return MySaveData.GetLastSavedGame(); }
     private void Awake()
     {
 
