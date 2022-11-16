@@ -20,6 +20,11 @@ public class UIManager : MonoBehaviour
         MenuIdle_UI.SetActive(false);
         MenuCollection_UI.SetActive(true);
     }
+    public void ToGameUI()
+    {
+        MenuCollection_UI.SetActive(false);
+        MenuIdle_UI.SetActive(false);
+    }
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.

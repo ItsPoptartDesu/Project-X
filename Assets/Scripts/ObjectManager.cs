@@ -6,6 +6,10 @@ using System.Linq;
 
 public class ObjectManager : MonoBehaviour
 {
+    [SerializeField]
+    GameObject PlayerPrefab;
+
+
     private Dictionary<string, SO_SlimePart> LookupTable = new Dictionary<string, SO_SlimePart>();
 
     [SerializeField]
@@ -57,7 +61,6 @@ public class ObjectManager : MonoBehaviour
             Instance = this;
         }
     }
-
     public GameObject SlimePrefab;
     public GameObject GenerateRandomSlime()
     {
@@ -94,14 +97,13 @@ public class ObjectManager : MonoBehaviour
         MarkObjectToBeDeleted(slimePrefab);
         return slimePrefab;
     }
-
     public GameObject GenerateSlime(JsonSlimeInfo _copy)
     {
         GameObject slimePrefab = Instantiate(SlimePrefab);
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
         slimeComp.Init();
 
-        foreach(string partName in _copy.PartNames)
+        foreach (string partName in _copy.PartNames)
         {
             SO_SlimePart part = LookupTable[partName];
             slimeComp.UpdateSlimePart(part.SlimePart, part);
@@ -110,11 +112,9 @@ public class ObjectManager : MonoBehaviour
         MarkObjectToBeDeleted(slimePrefab);
         return slimePrefab;
     }
-
     public void LoadAssets()
     {
         CreateLookUpTable();
-
     }
     private void CreateLookUpTable()
     {
@@ -132,5 +132,11 @@ public class ObjectManager : MonoBehaviour
             LookupTable.Add(p.PartName, p);
         foreach (var p in SO_BodyParts)
             LookupTable.Add(p.PartName, p);
+    }
+    public GameObject GeneratePlayer(/*probly need player save data outside of slime*/)
+    {
+        GameObject player = Instantiate(PlayerPrefab);
+        MarkObjectToBeDeleted(player);
+        return player;
     }
 }

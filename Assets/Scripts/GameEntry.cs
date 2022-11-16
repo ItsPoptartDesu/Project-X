@@ -18,6 +18,9 @@ public class GameEntry : MonoBehaviour
 
     private FSM_System gameloop;
 
+    [SerializeField]
+    LevelTags currentLevel = LevelTags.LEVEL_1;
+
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -46,12 +49,15 @@ public class GameEntry : MonoBehaviour
 
         gameloop.AddState(FIdle);
         gameloop.AddState(FCollection);
-        
+
         //load games assest
         ObjectManager.Instance.LoadAssets();
-
         //turn off all UI except for base UI on load
         UIManager.Instance.ResetUI();
+        //Turn on camera
+        CameraManager.Instance.Init();
+        //set up game levels
+        LevelManager.Instance.Init();
     }
 
 
@@ -81,7 +87,6 @@ public class GameEntry : MonoBehaviour
             UIManager.Instance.teamSelectionManager.AttachNewMember(Slime.transform);
         }
     }
-
     public void Button_OnClickToMenuIdle()
     {
         //change the FSM
@@ -89,6 +94,20 @@ public class GameEntry : MonoBehaviour
         // switch menu UI
         UIManager.Instance.ResetUI();
         ObjectManager.Instance.DeleteMarkedObjects();
-        
+    }
+    public void Button_OnClickToPlay()
+    {
+        //remove any objects that need to be
+        ObjectManager.Instance.DeleteMarkedObjects();
+        //set camera
+        CameraManager.Instance.ToGame();
+        //TODO: use different scenes, but for now we testing and its small so its built in
+        LevelManager.Instance.ToggleLevel(currentLevel);
+        //set correct UI
+        UIManager.Instance.ToGameUI();
+        //spawn the player
+        GameObject Player = ObjectManager.Instance.GeneratePlayer();
+        CameraManager.Instance.AttachPlayerCamera(Player);
+        LevelManager.Instance.MovePlayerToLevelInfo(Player, currentLevel);
     }
 }
