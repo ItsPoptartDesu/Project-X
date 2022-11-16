@@ -34,6 +34,8 @@ public class PlayerInput : MonoBehaviour
 
     public void OnClickAddToTeam()
     {
+        if (SpawnedObject == null)
+            return;
         ActiveTeam.Add(SpawnedObject.GetComponent<Slime>());
         teamSelectionManager.AttachNewMember(SpawnedObject.transform);
         SpawnedObject = null;

@@ -24,7 +24,7 @@ public class Slime : MonoBehaviour
     {
         //Init();
     }
-    public  void Init()
+    public void Init()
     {
         foreach (var p in _RenderParts)
         {
@@ -36,7 +36,8 @@ public class Slime : MonoBehaviour
                 }
                 continue;
             }
-            Debug.Log($"adding part {p.GetESlimePart()} to slime {SlimeName}");
+            if (GameEntry.Instance.isDEBUG)
+                Debug.Log($"adding part {p.GetESlimePart()} to slime {SlimeName}");
             slimeParts.Add(p.GetESlimePart(), p);
         }
         System.Array values = System.Enum.GetValues(typeof(BoardPos));
