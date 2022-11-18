@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using System;
 
 public class ObjectManager : MonoBehaviour
 {
     [SerializeField]
     GameObject PlayerPrefab;
 
+    private PlayerController ActivePlayer;
+    public GameObject GetActivePlayerObject() { return ActivePlayer.gameObject; }
+    public PlayerController GetActivePlayer() { return ActivePlayer; }
 
     private Dictionary<string, SO_SlimePart> LookupTable = new Dictionary<string, SO_SlimePart>();
 
@@ -61,12 +64,17 @@ public class ObjectManager : MonoBehaviour
             Instance = this;
         }
     }
+    public void LoadPlayer()
+    {
+        GeneratePlayer();
+        ActivePlayer.ToggleRenderers(false);
+    }
     public GameObject SlimePrefab;
     public GameObject GenerateRandomSlime()
     {
         GameObject slimePrefab = Instantiate(SlimePrefab);
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
-        slimeComp.Init();
+        slimeComp.Init(null);
         SO_SlimePart ToBeRendered = SO_ForeheadParts.ElementAt
             (UnityEngine.Random.Range(0, SO_ForeheadParts.Count));
         slimeComp.UpdateSlimePart(ESlimePart.FOREHEAD, ToBeRendered);
@@ -101,7 +109,7 @@ public class ObjectManager : MonoBehaviour
     {
         GameObject slimePrefab = Instantiate(SlimePrefab);
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
-        slimeComp.Init();
+        slimeComp.Init(_copy);
 
         foreach (string partName in _copy.PartNames)
         {
@@ -136,7 +144,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject GeneratePlayer(/*probly need player save data outside of slime*/)
     {
         GameObject player = Instantiate(PlayerPrefab);
-        MarkObjectToBeDeleted(player);
+        ActivePlayer = player.GetComponent<PlayerController>();
         return player;
     }
 }

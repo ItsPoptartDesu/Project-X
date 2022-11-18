@@ -7,9 +7,10 @@ public class GameEntry : MonoBehaviour
     [SerializeField]
     private SaveManager saveManager;
 
+    public SaveManager GetSaveManager() { return saveManager; }
 
     public bool isDEBUG = false;
-    public PlayerInput playerInput;
+    public PlayerController playerInput;
 
     public static event System.Action OnClickCollectionMenu;
     public static event System.Action OnClickReturnToMainMenu;
@@ -58,6 +59,8 @@ public class GameEntry : MonoBehaviour
         CameraManager.Instance.Init();
         //set up game levels
         LevelManager.Instance.Init();
+        //finally load the player
+        ObjectManager.Instance.LoadPlayer();
     }
 
 
@@ -80,10 +83,10 @@ public class GameEntry : MonoBehaviour
         OnClickCollectionMenu?.Invoke();//changes FSM menu
         //switch menu UI
         UIManager.Instance.ShowCollectionUI();
-        JsonSaveData jsd = saveManager.GetSaveSlotOne();
-        foreach (var s in jsd.SavedSlime)
+        List<Slime> at = saveManager.GetActiveTeam();
+        foreach (var s in at)
         {
-            GameObject Slime = ObjectManager.Instance.GenerateSlime(s);
+            GameObject Slime = ObjectManager.Instance.GenerateSlime(s.dna);
             UIManager.Instance.teamSelectionManager.AttachNewMember(Slime.transform);
         }
     }
@@ -105,9 +108,7 @@ public class GameEntry : MonoBehaviour
         LevelManager.Instance.ToggleLevel(currentLevel);
         //set correct UI
         UIManager.Instance.ToGameUI();
-        //spawn the player
-        GameObject Player = ObjectManager.Instance.GeneratePlayer();
-        CameraManager.Instance.AttachPlayerCamera(Player);
-        LevelManager.Instance.MovePlayerToLevelInfo(Player, currentLevel);
+        CameraManager.Instance.AttachPlayerCamera(ObjectManager.Instance.GetActivePlayerObject());
+        LevelManager.Instance.MovePlayerToLevelInfo(ObjectManager.Instance.GetActivePlayerObject(), currentLevel);
     }
 }

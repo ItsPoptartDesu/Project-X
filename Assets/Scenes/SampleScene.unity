@@ -549,7 +549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e58d99caf824944a6a37f3c46b5937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamSelectionManager: {fileID: 1881674978}
 --- !u!4 &66533967
 Transform:
   m_ObjectHideFlags: 0
@@ -1833,8 +1832,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 66533966}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 1881674978}
+        m_TargetAssemblyTypeName: UISlimeCollectionController, Assembly-CSharp
         m_MethodName: OnClickAddToTeam
         m_Mode: 1
         m_Arguments:
@@ -2100,9 +2099,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1385555359}
-        m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
-        m_MethodName: SaveGame
+      - m_Target: {fileID: 1881674978}
+        m_TargetAssemblyTypeName: UISlimeCollectionController, Assembly-CSharp
+        m_MethodName: OnClickSaveTeam
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9774,6 +9773,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e64d8bf0472f8409366fe7ce0da7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toBeSaved:
+    SavedSlime: []
+  saveSlotOne:
+    SavedSlime: []
 --- !u!114 &1385555360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9786,7 +9789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 388459504133c8d45ab36b258cb9e1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 5628018141983903104, guid: ef67ba864d1ecc042b5f4cf48455c0a6,
+  PlayerPrefab: {fileID: 5628018141983903104, guid: 1a21ccbf6e5f32049bc66324e835081b,
     type: 3}
   SO_ForeheadParts:
   - {fileID: 11400000, guid: 87d1eed7be2c6b540b5a44fb14fbd81e, type: 2}
@@ -9903,6 +9906,7 @@ MonoBehaviour:
   teamSelectionManager: {fileID: 1881674978}
   MenuIdle_UI: {fileID: 1350276132}
   MenuCollection_UI: {fileID: 2022015916}
+  slimeCollectionController_UI: {fileID: 0}
 --- !u!114 &1385555362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25538,8 +25542,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 66533966}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 1881674978}
+        m_TargetAssemblyTypeName: UISlimeCollectionController, Assembly-CSharp
         m_MethodName: GenerateRandomSlime
         m_Mode: 1
         m_Arguments:

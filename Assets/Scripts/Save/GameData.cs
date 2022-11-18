@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameData : MonoBehaviour
+public class GameData
 {
     public GameData()
     {
         ActiveTeam = new List<Slime>();
     }
     private JsonSaveData LastSave;
+    public List<Slime> GetActiveTeam() { return ActiveTeam; }
     public void SetLastSave(JsonSaveData _FromFile)
     {
         LastSave = _FromFile;
@@ -23,9 +24,13 @@ public class GameData : MonoBehaviour
             ActiveTeam.Add(s);
     }
 
-    public void Load(SaveData mySaveData)
+    public void Load(JsonSaveData _mySaveData)
     {
+        SetLastSave(_mySaveData);
+        //convert json to c#
+        //foreach(var s in mySaveData.GetLastSavedGame().SavedSlime)
+        //{
 
-        SetLastSave(mySaveData.GetLastSavedGame());
+        //}
     }
 }

@@ -13,6 +13,9 @@ public enum BoardPos
 
 public class Slime : MonoBehaviour
 {
+    [HideInInspector]
+    public JsonSlimeInfo dna;
+
     [SerializeField]
     private List<SlimePiece> _RenderParts = new List<SlimePiece>();
 
@@ -24,8 +27,9 @@ public class Slime : MonoBehaviour
     {
         //Init();
     }
-    public void Init()
+    public void Init(JsonSlimeInfo _copy)
     {
+        dna = _copy;
         foreach (var p in _RenderParts)
         {
             if (slimeParts.ContainsKey(p.GetESlimePart()))
