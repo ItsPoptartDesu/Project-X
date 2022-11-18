@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8293122548996207180}
   - component: {fileID: 849867226132110121}
-  - component: {fileID: 881944533594306872}
+  - component: {fileID: 8845436600138647657}
   m_Layer: 0
   m_Name: BackAttachPoint
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &881944533594306872
+--- !u!114 &8845436600138647657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2039436527268995500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75fe8b7846c48d4eb85b56555324d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cd4b10faa2288a4dbc897c3ed3dab9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eSlimePart: 3
@@ -110,7 +110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7913018957004992485}
   - component: {fileID: 5390380967972175985}
-  - component: {fileID: 4088253165982711213}
+  - component: {fileID: 7004534411314096955}
   m_Layer: 0
   m_Name: EyesAttachPoint
   m_TagString: Untagged
@@ -185,7 +185,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4088253165982711213
+--- !u!114 &7004534411314096955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5783604936331607395}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75fe8b7846c48d4eb85b56555324d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cd4b10faa2288a4dbc897c3ed3dab9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eSlimePart: 1
@@ -210,7 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7814029621945183734}
   - component: {fileID: 4144401684611949621}
-  - component: {fileID: 3301783766860087558}
+  - component: {fileID: 5686712388414269646}
   m_Layer: 0
   m_Name: TailAttachPoint
   m_TagString: Untagged
@@ -285,7 +285,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3301783766860087558
+--- !u!114 &5686712388414269646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6553135368856808518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75fe8b7846c48d4eb85b56555324d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cd4b10faa2288a4dbc897c3ed3dab9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eSlimePart: 5
@@ -310,7 +310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2633489686096874386}
   - component: {fileID: 9207533364125294124}
-  - component: {fileID: 7363765655899694998}
+  - component: {fileID: 1979553154256273469}
   m_Layer: 0
   m_Name: EarsAttachPoint
   m_TagString: Untagged
@@ -385,7 +385,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7363765655899694998
+--- !u!114 &1979553154256273469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -394,7 +394,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6823317311711805380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75fe8b7846c48d4eb85b56555324d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cd4b10faa2288a4dbc897c3ed3dab9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eSlimePart: 0
@@ -454,18 +454,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 7406302591809983975}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de4208b95ac500045a4390dfa017bf4b, type: 3}
+  m_Script: {fileID: 11500000, guid: c04785af5adb46942baa9e432948f9af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dna:
+    PartNames: []
+    SlimeName: 
+    TeamPos: 0
   _RenderParts:
-  - {fileID: 5556269441722483715}
-  - {fileID: 8876395494674161937}
-  - {fileID: 7363765655899694998}
-  - {fileID: 4088253165982711213}
-  - {fileID: 7238729278561053869}
-  - {fileID: 881944533594306872}
-  - {fileID: 3301783766860087558}
-  myBoardPos: 5
+  - {fileID: 3074912535185798926}
+  - {fileID: 7989483929756840640}
+  - {fileID: 1979553154256273469}
+  - {fileID: 7004534411314096955}
+  - {fileID: 2741924016891288393}
+  - {fileID: 8845436600138647657}
+  - {fileID: 5686712388414269646}
+  myBoardPos: 6
 --- !u!114 &369451995706673055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,7 +500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7406302592015560571}
   - component: {fileID: 7406302592015560570}
-  - component: {fileID: 5556269441722483715}
+  - component: {fileID: 3074912535185798926}
   m_Layer: 0
   m_Name: ForeheadAttachPoint
   m_TagString: Untagged
@@ -571,7 +575,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5556269441722483715
+--- !u!114 &3074912535185798926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -580,7 +584,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7406302592015560564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75fe8b7846c48d4eb85b56555324d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cd4b10faa2288a4dbc897c3ed3dab9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eSlimePart: 6
@@ -596,7 +600,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7406302593585736711}
   - component: {fileID: 7406302593585736710}
-  - component: {fileID: 8876395494674161937}
+  - component: {fileID: 7989483929756840640}
   m_Layer: 0
   m_Name: SlimeBodyBase
   m_TagString: Untagged
@@ -671,7 +675,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8876395494674161937
+--- !u!114 &7989483929756840640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -680,7 +684,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7406302593585736704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75fe8b7846c48d4eb85b56555324d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cd4b10faa2288a4dbc897c3ed3dab9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eSlimePart: 4
@@ -696,7 +700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8148931840424956142}
   - component: {fileID: 7755696755801770916}
-  - component: {fileID: 7238729278561053869}
+  - component: {fileID: 2741924016891288393}
   m_Layer: 0
   m_Name: MouthAttachPoint
   m_TagString: Untagged
@@ -771,7 +775,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7238729278561053869
+--- !u!114 &2741924016891288393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -780,7 +784,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9087500783884170247}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75fe8b7846c48d4eb85b56555324d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cd4b10faa2288a4dbc897c3ed3dab9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eSlimePart: 2

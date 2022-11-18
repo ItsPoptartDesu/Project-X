@@ -63,7 +63,11 @@ public class Slime : MonoBehaviour
     {
 
     }
-
+    public void ToggleRenderers()
+    {
+        foreach (var piece in _RenderParts)
+            piece.ToggleRenderer();
+    }
     public void DebugStatement()
     {
         Debug.Log($"{SlimeName} has ");

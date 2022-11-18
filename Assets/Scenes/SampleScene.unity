@@ -9739,6 +9739,7 @@ GameObject:
   - component: {fileID: 1385555360}
   - component: {fileID: 1385555361}
   - component: {fileID: 1385555362}
+  - component: {fileID: 1385555363}
   m_Layer: 0
   m_Name: manager
   m_TagString: Untagged
@@ -9916,7 +9917,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1385555357}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac77662cfddb367418fa94e4ef46303d, type: 3}
+  m_Script: {fileID: 11500000, guid: 259b70cb011af444e9aa2559cc33e93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerCamera: {fileID: 1237388054}
+  UICamera: {fileID: 519420031}
+--- !u!114 &1385555363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385555357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0615632022557344a9e204dfd765fcdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Levels:
@@ -25237,7 +25252,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2003520990}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e11c1145e599be84e9a62d53add9103a, type: 3}
+  m_Script: {fileID: 11500000, guid: b6bcdb535e7679444877c07753b89d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoints:

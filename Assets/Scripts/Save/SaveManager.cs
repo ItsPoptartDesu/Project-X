@@ -9,7 +9,10 @@ public class SaveManager : MonoBehaviour
     private GameData gameData;
     public JsonSaveData GetSaveSlotOne() { return gameData.GetLastSave(); }
     public List<Slime> GetActiveTeam() { return gameData.GetActiveTeam(); }
-
+    public void AddSlimeToTeam(Slime _slime)
+    {
+        gameData.AddSlimeToTeam(_slime);
+    }
     public void FirstLoad()
     {
         savePath = Application.persistentDataPath + FileName;
@@ -49,6 +52,7 @@ public class SaveManager : MonoBehaviour
         {
             string fileContent = File.ReadAllText(savePath);
             saveSlotOne = JsonUtility.FromJson<JsonSaveData>(fileContent);
+            gameData.SetLastSave(saveSlotOne);
             if (GameEntry.Instance.isDEBUG)
                 foreach (var s in saveSlotOne.SavedSlime)
                     s.DebugStatement();
@@ -115,8 +119,7 @@ public class JsonSlimeInfo
     public BoardPos TeamPos;
     public void DebugStatement()
     {
-        string statement = "";
-        statement = SlimeName + " Parts: ";
+        string statement = SlimeName + " Parts: ";
         foreach (var p in PartNames)
         {
             statement += p + " & ";

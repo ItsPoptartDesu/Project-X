@@ -17,6 +17,10 @@ public class GameData
     }
     public JsonSaveData GetLastSave() { return LastSave; }
     private List<Slime> ActiveTeam;
+    public void AddSlimeToTeam(Slime _slime)
+    {
+        ActiveTeam.Add(_slime);
+    }
     public void SaveSlimes(List<Slime> _activeTeam)
     {
         ActiveTeam.Clear();

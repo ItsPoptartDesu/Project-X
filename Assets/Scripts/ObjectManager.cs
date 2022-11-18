@@ -67,7 +67,7 @@ public class ObjectManager : MonoBehaviour
     public void LoadPlayer()
     {
         GeneratePlayer();
-        ActivePlayer.ToggleRenderers(false);
+        ActivePlayer.FirstLoad();
     }
     public GameObject SlimePrefab;
     public GameObject GenerateRandomSlime()
@@ -105,7 +105,7 @@ public class ObjectManager : MonoBehaviour
         MarkObjectToBeDeleted(slimePrefab);
         return slimePrefab;
     }
-    public GameObject GenerateSlime(JsonSlimeInfo _copy)
+    public GameObject GenerateSlime(JsonSlimeInfo _copy, bool _overrideDelete = false)
     {
         GameObject slimePrefab = Instantiate(SlimePrefab);
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
@@ -116,8 +116,8 @@ public class ObjectManager : MonoBehaviour
             SO_SlimePart part = LookupTable[partName];
             slimeComp.UpdateSlimePart(part.SlimePart, part);
         }
-
-        MarkObjectToBeDeleted(slimePrefab);
+        if (!_overrideDelete)
+            MarkObjectToBeDeleted(slimePrefab);
         return slimePrefab;
     }
     public void LoadAssets()

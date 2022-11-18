@@ -61,14 +61,16 @@ public class GameEntry : MonoBehaviour
         LevelManager.Instance.Init();
         //finally load the player
         ObjectManager.Instance.LoadPlayer();
+        CameraManager.Instance.AttachPlayerCamera(ObjectManager.Instance.GetActivePlayerObject());
+
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        LoadAssets();
         saveManager.FirstLoad();
+        LoadAssets();
     }
 
     // Update is called once per frame

@@ -37,4 +37,8 @@ public class SlimePiece : MonoBehaviour
     {
         myRenderer.sprite = basePart.ImgToDisplay;
     }
+    public void ToggleRenderer()
+    {
+        myRenderer.enabled = !myRenderer.enabled;
+    }
 }
