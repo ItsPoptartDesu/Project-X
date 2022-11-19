@@ -15,6 +15,8 @@ public class Slime : MonoBehaviour
 {
     [HideInInspector]
     public JsonSlimeInfo dna;
+    [HideInInspector]
+    public string secret;
 
     [SerializeField]
     private List<SlimePiece> _RenderParts = new List<SlimePiece>();
@@ -30,6 +32,7 @@ public class Slime : MonoBehaviour
     public void Init(JsonSlimeInfo _copy)
     {
         dna = _copy;
+        secret = _copy == null ? System.Guid.NewGuid().ToString() : _copy.secret;
         foreach (var p in _RenderParts)
         {
             if (slimeParts.ContainsKey(p.GetESlimePart()))

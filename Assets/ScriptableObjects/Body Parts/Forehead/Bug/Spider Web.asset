@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
   m_Name: Spider Web
   m_EditorClassIdentifier: 
-  SlimePart: 0
-  SlimeType: 0
+  SlimePart: 6
+  SlimeType: 5
   PartName: Spider Web
   ImgToDisplay: {fileID: 21300000, guid: 5a75d544e1c05b94397497ee4d66e348, type: 3}
   Power: 0

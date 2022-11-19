@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
   m_Name: Pin Missile
   m_EditorClassIdentifier: 
-  SlimePart: 0
-  SlimeType: 0
+  SlimePart: 6
+  SlimeType: 5
   PartName: Pin Missile
   ImgToDisplay: {fileID: 21300000, guid: 1d9efcd1339430d44bc94c7173a479d8, type: 3}
   Power: 25

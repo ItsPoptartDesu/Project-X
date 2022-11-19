@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
   m_Name: Tail Glow
   m_EditorClassIdentifier: 
-  SlimePart: 0
-  SlimeType: 0
+  SlimePart: 1
+  SlimeType: 5
   PartName: Tail Glow
   ImgToDisplay: {fileID: 21300000, guid: 043e253245dbf2e45b76c18b2c4879cf, type: 3}
   Power: 0

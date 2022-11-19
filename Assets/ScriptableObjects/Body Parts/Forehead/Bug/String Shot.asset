@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
   m_Name: String Shot
   m_EditorClassIdentifier: 
-  SlimePart: 0
-  SlimeType: 0
+  SlimePart: 6
+  SlimeType: 5
   PartName: String Shot
   ImgToDisplay: {fileID: 21300000, guid: 8c370d3f7e6462549af62dcef01cf86e, type: 3}
   Power: 0

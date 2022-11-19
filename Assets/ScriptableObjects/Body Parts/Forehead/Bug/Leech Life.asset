@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
   m_Name: Leech Life
   m_EditorClassIdentifier: 
-  SlimePart: 0
-  SlimeType: 0
+  SlimePart: 6
+  SlimeType: 5
   PartName: Leech Life
   ImgToDisplay: {fileID: 21300000, guid: 3724b353e68e7cb4da0d63e21b03811a, type: 3}
   Power: 80

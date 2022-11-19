@@ -46,6 +46,6 @@ public class UISlimeCollectionController : MonoBehaviour
     }
     public void OnClickSaveTeam()
     {
-        JsonSaveData jsd = GameEntry.Instance.GetSaveManager().GetSaveSlotOne();
+        GameEntry.Instance.GetSaveManager().SaveGame(ActiveTeam_UI);
     }
 }

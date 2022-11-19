@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bug Buzz
   m_EditorClassIdentifier: 
   SlimePart: 0
-  SlimeType: 0
+  SlimeType: 5
   PartName: Bug Buzz
   ImgToDisplay: {fileID: 21300000, guid: 74e38b9f2185a8b45868fc78786d10c1, type: 3}
   Power: 90
