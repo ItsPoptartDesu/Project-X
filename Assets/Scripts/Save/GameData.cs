@@ -31,10 +31,5 @@ public class GameData
     public void Load(JsonSaveData _mySaveData)
     {
         SetLastSave(_mySaveData);
-        //convert json to c#
-        //foreach(var s in mySaveData.GetLastSavedGame().SavedSlime)
-        //{
-
-        //}
     }
 }

@@ -35,7 +35,10 @@ public class GameEntry : MonoBehaviour
         }
     }
 
-
+    public List<Slime> GetActiveTeam()
+    {
+        return saveManager.GetActiveTeam();
+    }
 
     private void LoadAssets()
     {

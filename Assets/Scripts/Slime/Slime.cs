@@ -73,11 +73,12 @@ public class Slime : MonoBehaviour
     }
     public void DebugStatement()
     {
-        Debug.Log($"{SlimeName} has ");
+        string statement = $"{SlimeName} has ";
         foreach (var p in slimeParts.Values)
         {
-            Debug.Log($"{p.GetSlimePartName()} ");
+            statement += $"{p.GetSlimePartName()} ";
         }
-        Debug.Log("attached to it");
+        statement += "attached to it";
+        Debug.Log(statement);
     }
 }

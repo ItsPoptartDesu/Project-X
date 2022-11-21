@@ -12,6 +12,14 @@ public class PlayerController : MonoBehaviour
         {
             OnClickOpenMenu();
         }
+        if(Input.GetKeyDown(KeyCode.F12))
+        {
+            var at = GameEntry.Instance.GetActiveTeam();
+            foreach(var slime in at)
+            {
+                slime.DebugStatement();
+            }
+        }
     }
     public void AttachToSelf(Transform _toBeAttached)
     {
