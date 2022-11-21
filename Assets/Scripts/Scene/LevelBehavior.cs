@@ -6,10 +6,10 @@ using System.Linq;
 public class LevelBehavior : MonoBehaviour
 {
     public List<Transform> spawnPoints = new List<Transform>();
+    public InGameUIController inGameUIController;
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -28,5 +28,14 @@ public class LevelBehavior : MonoBehaviour
         System.Random r = new System.Random();
         int Index = r.Next(0, spawnPoints.Count);
         _player.transform.position = spawnPoints[Index].position;
+    }
+
+    public void ToggleInGameUI()
+    {
+        inGameUIController.ToggleSelf();
+    }
+    public void DisableInGameIU()
+    {
+        inGameUIController.DisableInGameUI();
     }
 }

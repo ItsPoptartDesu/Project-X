@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TopDownCharacterController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float speed;
     private Animator animator;

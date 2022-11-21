@@ -7,6 +7,7 @@ public class FSM_Idle : FSM_State
 {
     private bool toSettings = false;
     private bool toCollection = false;
+    private bool toGame = false;
     public FSM_Idle()
     {
         stateID = StateID.Idle;
@@ -22,11 +23,20 @@ public class FSM_Idle : FSM_State
         {
             npc.PerformTransition(Transition.To_Collection);
         }
+        if(toGame)
+        {
+            npc.PerformTransition(Transition.To_Play);
+        }
     }
     public override void DoBeforeEntering()
     {
         GameEntry.OnClickCollectionMenu += FSM_OnCollectionClick;
+        GameEntry.OnClickToGame += FSM_OnClickToGame;
         Debug.Log("FSM_Idle DoBeforeEntering()");
+    }
+    private void FSM_OnClickToGame()
+    {
+        toGame = true;
     }
     private void FSM_OnSettingsClick()
     {
@@ -39,8 +49,10 @@ public class FSM_Idle : FSM_State
     public override void DoBeforeLeaving()
     {
         GameEntry.OnClickCollectionMenu -= FSM_OnCollectionClick;
+        GameEntry.OnClickToGame -= FSM_OnClickToGame;
         toSettings = false;
         toCollection = false;
+        toGame = false;
         Debug.Log("FSM_Idle DoBeforeLeaving()");
     }
 }

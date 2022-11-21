@@ -23,8 +23,8 @@ public class UIManager : MonoBehaviour
     }
     public void ShowCollectionUI()
     {
-        MenuIdle_UI.SetActive(false);
         MenuCollection_UI.SetActive(true);
+        MenuIdle_UI.SetActive(false);
     }
     public void ToGameUI()
     {

@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private TopDownCharacterController playerMovement;
+    private PlayerMovement playerMovement;
     private SpriteRenderer[] myRenderers;
+    public void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnClickOpenMenu();
+        }
+    }
     public void AttachToSelf(Transform _toBeAttached)
     {
         _toBeAttached.parent = transform;
@@ -17,8 +24,6 @@ public class PlayerController : MonoBehaviour
     }
     public void ToggleRenderers()
     {
-        if (myRenderers == null)
-            myRenderers = GetComponents<SpriteRenderer>();
         foreach (var r in myRenderers)
         {
             r.enabled = !r.enabled;
@@ -28,15 +33,19 @@ public class PlayerController : MonoBehaviour
     {
         playerMovement.enabled = !playerMovement.enabled;
     }
+    public void TogglePlayerMovement(bool _isOn)
+    {
+        playerMovement.enabled = _isOn;
+    }
     public void FirstLoad()
     {
         if (myRenderers == null)
             myRenderers = GetComponents<SpriteRenderer>();
         if (playerMovement == null)
-            playerMovement = GetComponent<TopDownCharacterController>();
-        //turn the player off
+            playerMovement = GetComponent<PlayerMovement>();
+        //turn it off until we load a level
         ToggleRenderers(false);
-        TogglePlayerMovement();//turn it off untill we load a level
+        TogglePlayerMovement(false);
         //load slimes
         List<JsonSlimeInfo> slimeJSON = GameEntry.Instance.GetSaveManager().GetSaveSlotOne().SavedSlime;
         Debug.Log($"TeamSize: {slimeJSON.Count}");
@@ -48,5 +57,19 @@ public class PlayerController : MonoBehaviour
             slimeComp.ToggleRenderers();
             GameEntry.Instance.GetSaveManager().AddSlimeToTeam(slimeComp);
         }
+    }
+    public void OnClickOpenMenu()
+    {
+        LevelManager.Instance.GetCurrentLevelBehavior().ToggleInGameUI();
+    }
+    public void EnablePlayerMovementAndRenderer()
+    {
+        TogglePlayerMovement(true);
+        ToggleRenderers(true);
+    }
+    public void DisablePlayerMovementAndRenderer()
+    {
+        TogglePlayerMovement(false);
+        ToggleRenderers(false);
     }
 }

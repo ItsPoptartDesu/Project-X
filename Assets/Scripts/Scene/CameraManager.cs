@@ -34,8 +34,12 @@ public class CameraManager : MonoBehaviour
     public void ToGame()
     {
         PlayerCamera.gameObject.SetActive(true);
-        PlayerCamera.transform.SetParent(null);
         UICamera.gameObject.SetActive(false);
+    }
+    public void GameToMainMenu()
+    {
+        PlayerCamera.gameObject.SetActive(false);
+        UICamera.gameObject.SetActive(true);
     }
 
     public void AttachPlayerCamera(GameObject _player)

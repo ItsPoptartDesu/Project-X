@@ -27,11 +27,11 @@ public class FSM_Collection : FSM_State
     public override void DoBeforeEntering()
     {
         Debug.Log("FSM_Collection DoBeforeEntering()");
-        GameEntry.OnClickReturnToMainMenu += FSM_OnClickBack;
+        GameEntry.OnClickUIToMainMenu += FSM_OnClickBack;
     }
     public override void DoBeforeLeaving()
     {
-        GameEntry.OnClickReturnToMainMenu -= FSM_OnClickBack;
+        GameEntry.OnClickUIToMainMenu -= FSM_OnClickBack;
         toMainMenu = false;
         Debug.Log("FSM_Collection DoBeforeLeaving()");
     }

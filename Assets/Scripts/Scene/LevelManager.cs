@@ -35,7 +35,6 @@ public class LevelManager : MonoBehaviour
     }
 
     public List<LevelInfo> Levels = new List<LevelInfo>();
-
     public void MovePlayerToLevelInfo(GameObject _player, LevelTags _lvlTag)
     {
         LevelInfo lvl = Levels.Where(x => x.LevelTag == _lvlTag).FirstOrDefault();
@@ -70,5 +69,9 @@ public class LevelManager : MonoBehaviour
         {
             lvl.Level.gameObject.SetActive(!lvl.Level.gameObject.activeInHierarchy);
         }
+    }
+    public LevelBehavior GetCurrentLevelBehavior()
+    {
+        return Levels.Where(x => x.LevelTag == GameEntry.Instance.GetCurrentLevel()).FirstOrDefault().Level;
     }
 }
