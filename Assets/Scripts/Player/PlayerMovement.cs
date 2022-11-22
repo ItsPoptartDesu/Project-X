@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour //TODO: use new unity input system. and seperate input from movement logic
 {
     public float speed;
     private Animator animator;
