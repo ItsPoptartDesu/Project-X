@@ -4,10 +4,21 @@ using UnityEngine;
 using System.Linq;
 using System;
 
+public enum ObjectType
+{
+    Player,
+    Enemy,
+    Collectible
+}
+
+
 public class ObjectManager : MonoBehaviour
 {
     [SerializeField]
     GameObject PlayerPrefab;
+
+    [SerializeField]
+    private List<GameObject> EnemyPrefabs = new List<GameObject>();
 
     private PlayerController ActivePlayer;
     public GameObject GetActivePlayerObject() { return ActivePlayer.gameObject; }

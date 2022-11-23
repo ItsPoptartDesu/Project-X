@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
         LevelInfo lvl = Levels.Where(x => x.LevelTag == _lvlTag).FirstOrDefault();
         if (lvl.Level != null)
         {
-            lvl.Level.MoveToFirstSpawnPoint(_player);
+            lvl.Level.GetPlayerSpawnPoint(_player);
         }
     }
     public void Init()
