@@ -7,6 +7,19 @@ using System.Linq;
 public class SaveManager : MonoBehaviour
 {
     private GameData gameData;
+
+    string FileName = "/GameData.json";
+    private string savePath;
+
+    [SerializeField]
+    private JsonSaveData toBeSaved;
+    [SerializeField]
+    private JsonSaveData saveSlotOne;
+    [HideInInspector]
+    Dictionary<string, JSONTrainerInfo> TrainerLookup = new Dictionary<string, JSONTrainerInfo>();
+    public JsonSaveData GetLastSavedGame() { return saveSlotOne; }
+
+
     public JsonSaveData GetSaveSlotOne() { return gameData.GetLastSave(); }
     public List<Slime> GetActiveTeam() { return gameData.GetActiveTeam(); }
     public void AddSlimeToTeam(Slime _slime)
@@ -32,7 +45,8 @@ public class SaveManager : MonoBehaviour
                 File.Create(savePath);
             Debug.Log("this is our first load");
         }
-
+        if (!LoadTrainers())
+            Debug.LogError("Failed to Load Trainers");
     }
     //used to save from mainUI might be removed later but for now thats how we get Slimes
     public void SaveGame(List<Slime> _fromUI)
@@ -70,16 +84,6 @@ public class SaveManager : MonoBehaviour
         }
         WriteFile();
     }
-    string FileName = "/GameData.json";
-    private string savePath;
-
-    [SerializeField]
-    private JsonSaveData toBeSaved;
-    [SerializeField]
-    private JsonSaveData saveSlotOne;
-    [HideInInspector]
-    JSONTrainerInfo trainerInfo = null;
-    public JsonSaveData GetLastSavedGame() { return saveSlotOne; }
 
     public bool ReadFile()
     {
@@ -98,13 +102,22 @@ public class SaveManager : MonoBehaviour
 
     public bool LoadTrainers()
     {
-        TextAsset file = Resources.Load<TextAsset>("/Trainers/Trainers.json");
-        trainerInfo = JsonUtility.FromJson<JSONTrainerInfo>(file.text);
+        TextAsset file = Resources.Load<TextAsset>("Trainers/Trainers") as TextAsset;
+        var trainerInfo = JsonUtility.FromJson<JSONTrainerInfo>(file.text);
         if (trainerInfo != null)
+        {
+            TrainerLookup.Add(trainerInfo.TrainerName, trainerInfo);
             return true;
+        }
         else
             return false;
     }
+
+    public JSONTrainerInfo LookUpTrainer(string _name)
+    {
+        return TrainerLookup[_name];
+    }
+
     private void WriteFile()
     { 
         string jsonString = JsonUtility.ToJson(toBeSaved, true);

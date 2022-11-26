@@ -15,6 +15,8 @@ public class NPC_Trainer : MonoBehaviour
     private Transform rayCastPoint;
     [SerializeField]
     Vector2 LookDir = Vector2.left;
+    [SerializeField]
+    JSONTrainerInfo trainerInfo;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,5 +34,10 @@ public class NPC_Trainer : MonoBehaviour
         {
             Debug.Log($"Hit: {hit.transform.gameObject.name}");
         }
+    }
+
+    public void LoadTrainerData(JSONTrainerInfo _trainerData)
+    {
+        trainerInfo = _trainerData;
     }
 }

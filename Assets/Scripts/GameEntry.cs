@@ -117,6 +117,7 @@ public class GameEntry : MonoBehaviour
         CameraManager.Instance.ToGame();
         //TODO: use different scenes, but for now we testing and its small so its built in
         LevelManager.Instance.ToggleLevel(currentLevel);
+        LevelManager.Instance.LoadTrainerData(currentLevel);
         //set correct UI
         UIManager.Instance.ToGameUI();
         CameraManager.Instance.AttachPlayerCamera(ObjectManager.Instance.GetActivePlayerObject());

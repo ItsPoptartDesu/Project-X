@@ -70,6 +70,16 @@ public class LevelManager : MonoBehaviour
             lvl.Level.gameObject.SetActive(!lvl.Level.gameObject.activeInHierarchy);
         }
     }
+
+    public void LoadTrainerData(LevelTags _level)
+    {
+        LevelInfo lvl = Levels.Where(x => x.LevelTag == _level).FirstOrDefault();
+        foreach (var t in lvl.Level.npc_Trainers)
+        {
+            JSONTrainerInfo tInfo = GameEntry.Instance.GetSaveManager().LookUpTrainer(t.name);
+            t.LoadTrainerData(tInfo);
+        }
+    }
     public LevelBehavior GetCurrentLevelBehavior()
     {
         return Levels.Where(x => x.LevelTag == GameEntry.Instance.GetCurrentLevel()).FirstOrDefault().Level;
