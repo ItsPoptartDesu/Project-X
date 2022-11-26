@@ -1,0 +1,49 @@
+{
+    "TrainerName": "Poptart",
+    "teamInfo": {
+        "SavedSlime": [
+            {
+                "PartNames": [
+                    "Dragon Breath",
+                    "SlimeBodyBase",
+                    "Taunt",
+                    "Tail Glow",
+                    "Quiver Dance",
+                    "Clangorous Soul",
+                    "Snarl"
+                ],
+                "SlimeName": "",
+                "secret": "576659ce-2c32-43b2-a3f7-1bb6b583212a",
+                "TeamPos": 0
+            },
+            {
+                "PartNames": [
+                    "Twister",
+                    "SlimeBodyBase",
+                    "X-Scissor",
+                    "Fake Tears",
+                    "Clanging Scales",
+                    "Fell Stinger",
+                    "Night Daze"
+                ],
+                "SlimeName": "",
+                "secret": "dbe36519-f2be-416a-9ad0-33eda672e56c",
+                "TeamPos": 1
+            },
+            {
+                "PartNames": [
+                    "Embargo",
+                    "SlimeBodyBase",
+                    "Bug Buzz",
+                    "Assurance",
+                    "Nasty Plot",
+                    "Bite",
+                    "Pollen Puff"
+                ],
+                "SlimeName": "",
+                "secret": "5cc1713b-8e9f-49ea-ab94-969c1ce3dbe8",
+                "TeamPos": 3
+            }
+        ]
+    }
+}

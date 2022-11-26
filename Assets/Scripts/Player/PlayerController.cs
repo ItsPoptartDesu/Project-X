@@ -55,6 +55,10 @@ public class PlayerController : MonoBehaviour
         ToggleRenderers(false);
         TogglePlayerMovement(false);
         //load slimes
+        var SaveSlot = GameEntry.Instance.GetSaveManager().GetSaveSlotOne();
+        //on a clean load we wont have any team to load
+        if (SaveSlot == null)
+            return;
         List<JsonSlimeInfo> slimeJSON = GameEntry.Instance.GetSaveManager().GetSaveSlotOne().SavedSlime;
         Debug.Log($"TeamSize: {slimeJSON.Count}");
         foreach (JsonSlimeInfo s in slimeJSON)

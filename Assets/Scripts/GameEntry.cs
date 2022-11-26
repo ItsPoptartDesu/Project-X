@@ -78,6 +78,7 @@ public class GameEntry : MonoBehaviour
     {
         saveManager.FirstLoad();
         LoadAssets();
+        //saveManager.Write2();
     }
 
     // Update is called once per frame

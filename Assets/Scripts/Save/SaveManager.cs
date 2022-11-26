@@ -28,7 +28,8 @@ public class SaveManager : MonoBehaviour
         }
         else
         {
-            // this is our first load
+            if (!File.Exists(savePath))
+                File.Create(savePath);
             Debug.Log("this is our first load");
         }
 
@@ -46,13 +47,13 @@ public class SaveManager : MonoBehaviour
             JsonSlimeInfo info = new JsonSlimeInfo(slime);
             toBeSaved.SavedSlime.Add(info);
         }
-        foreach(var slime in _fromUI)
+        foreach (var slime in _fromUI)
         {
             if (keys.Contains(slime.secret))
                 continue;
             JsonSlimeInfo info = new JsonSlimeInfo(slime);
             toBeSaved.SavedSlime.Add(info);
-        }    
+        }
         WriteFile();
     }
     public void SaveGame()
@@ -71,10 +72,13 @@ public class SaveManager : MonoBehaviour
     }
     string FileName = "/GameData.json";
     private string savePath;
+
     [SerializeField]
     private JsonSaveData toBeSaved;
     [SerializeField]
     private JsonSaveData saveSlotOne;
+    [HideInInspector]
+    JSONTrainerInfo trainerInfo = null;
     public JsonSaveData GetLastSavedGame() { return saveSlotOne; }
 
     public bool ReadFile()
@@ -91,8 +95,18 @@ public class SaveManager : MonoBehaviour
         }
         return false;
     }
-    private void WriteFile()
+
+    public bool LoadTrainers()
     {
+        TextAsset file = Resources.Load<TextAsset>("/Trainers/Trainers.json");
+        trainerInfo = JsonUtility.FromJson<JSONTrainerInfo>(file.text);
+        if (trainerInfo != null)
+            return true;
+        else
+            return false;
+    }
+    private void WriteFile()
+    { 
         string jsonString = JsonUtility.ToJson(toBeSaved, true);
         Debug.Log($"Path: {savePath}. Size: {toBeSaved.SavedSlime.Count()}, Context: {jsonString}");
         FileStream filestream = new FileStream(savePath, FileMode.Truncate);
@@ -103,35 +117,6 @@ public class SaveManager : MonoBehaviour
         streamwriter.Close();
         filestream.Close();
     }
-    //public void WriteFileUIONLY()//probly should jsut remove tbh
-    //{
-    //    List<Slime> tt = UIManager.Instance.GetUISlimes();
-    //    //build the toBeSavedData
-    //    foreach (var t in tt)
-    //    {
-    //        JsonSlimeInfo sInfo = new JsonSlimeInfo();
-    //        foreach (var p in t.GetActiveParts())//get the part names
-    //            sInfo.PartNames.Add(p.GetSlimePartName());
-    //        //grab the name :TODO NOT ASSIGNED
-    //        sInfo.SlimeName = t.SlimeName;
-    //        //and finally the board pos
-    //        sInfo.TeamPos = t.myBoardPos;
-    //        //finally save the part data to the master list to be written out
-    //        toBeSaved.SavedSlime.Add(sInfo);
-    //    }
-
-    //    string jsonString = JsonUtility.ToJson(toBeSaved, true);
-    //    Debug.Log($"Path: {savePath}. Size: {tt.Count()}, Context: {jsonString}");
-
-    //    FileStream fileStream = new FileStream(savePath, FileMode.Truncate);
-    //    StreamWriter sw = new StreamWriter(fileStream);
-    //    sw.Write(jsonString);
-    //    sw.Flush();
-    //    fileStream.Flush();
-    //    sw.Close();
-    //    fileStream.Close();
-    //    toBeSaved.SavedSlime.Clear();
-    //}
 }
 
 [System.Serializable]
@@ -178,4 +163,16 @@ public class JsonSlimeInfo
         }
         Debug.Log(statement);
     }
+}
+
+[System.Serializable]
+public class JSONTrainerInfo
+{
+    public string TrainerName;
+    public JSONTrainerInfo(string _name)
+    {
+        teamInfo = new JsonSaveData();
+        TrainerName = _name;
+    }
+    public JsonSaveData teamInfo;
 }
