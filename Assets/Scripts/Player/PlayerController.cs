@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private string UserName = "PeachRings";
+    public string GetUsername() { return UserName; }
+    public void SetUsername(string _name) { UserName = _name; }
+
     private PlayerMovement playerMovement;
     private SpriteRenderer[] myRenderers;
+    private Rigidbody2D myRigidbody;
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             OnClickOpenMenu();
         }
-        if(Input.GetKeyDown(KeyCode.F12))
+        if (Input.GetKeyDown(KeyCode.F12))
         {
             var at = GameEntry.Instance.GetActiveTeam();
-            foreach(var slime in at)
+            foreach (var slime in at)
             {
                 slime.DebugStatement();
             }
+        }
+        if(Input.GetKeyDown(KeyCode.F1))
+        {
+            TogglePlayerMovement(true);
         }
     }
     public void AttachToSelf(Transform _toBeAttached)
@@ -37,13 +46,10 @@ public class PlayerController : MonoBehaviour
             r.enabled = !r.enabled;
         }
     }
-    public void TogglePlayerMovement()
-    {
-        playerMovement.enabled = !playerMovement.enabled;
-    }
     public void TogglePlayerMovement(bool _isOn)
     {
         playerMovement.enabled = _isOn;
+        myRigidbody.velocity = Vector3.zero;
     }
     public void FirstLoad()
     {
@@ -51,6 +57,8 @@ public class PlayerController : MonoBehaviour
             myRenderers = GetComponents<SpriteRenderer>();
         if (playerMovement == null)
             playerMovement = GetComponent<PlayerMovement>();
+        if (myRigidbody == null)
+            myRigidbody = GetComponent<Rigidbody2D>();
         //turn it off until we load a level
         ToggleRenderers(false);
         TogglePlayerMovement(false);

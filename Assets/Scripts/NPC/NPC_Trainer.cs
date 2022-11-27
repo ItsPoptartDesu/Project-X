@@ -17,6 +17,7 @@ public class NPC_Trainer : MonoBehaviour
     Vector2 LookDir = Vector2.left;
     [SerializeField]
     JSONTrainerInfo trainerInfo;
+    bool hasBeenBattled = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,9 +31,11 @@ public class NPC_Trainer : MonoBehaviour
     {
         Debug.DrawRay(rayCastPoint.position, LookDir * LookDistance);
         var hit = Physics2D.Raycast(rayCastPoint.position, LookDir * LookDistance);
-        if (hit.collider != null)
+        if (hit.collider != null && !hasBeenBattled)
         {
+            hasBeenBattled = true;
             Debug.Log($"Hit: {hit.transform.gameObject.name}");
+            LevelManager.Instance.StartBattle(this, hit.transform.gameObject.GetComponent<PlayerController>());
         }
     }
 

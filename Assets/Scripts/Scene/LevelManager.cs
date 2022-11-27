@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 [System.Serializable]
 public enum LevelTags
@@ -47,6 +48,14 @@ public class LevelManager : MonoBehaviour
     {
         DisableLevels();
     }
+
+    public void StartBattle(NPC_Trainer nPC_Trainer, PlayerController playerController)
+    {
+        Debug.Log($"{nPC_Trainer.name} is in a battle with {playerController.GetUsername()}");
+        playerController.TogglePlayerMovement(false);
+        GameEntry.Instance.PlayToBattleTransition(nPC_Trainer, playerController);
+    }
+
     private void DisableLevels()
     {
         foreach (var lvl in Levels)

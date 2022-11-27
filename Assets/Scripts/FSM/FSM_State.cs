@@ -13,7 +13,8 @@ public enum Transition
     To_Idle,
     To_Settings,
     To_Play,
-    To_Collection
+    To_Collection,
+    To_Battle,
 }
 /// <summary>
 /// Place the labels for the States in this enum.
@@ -26,6 +27,7 @@ public enum StateID
     Settings,
     Play,
     Collection,
+    Battle,
 }
 
 /// <summary>

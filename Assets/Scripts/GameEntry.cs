@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
+
 public class GameEntry : MonoBehaviour
 {
     [SerializeField]
@@ -14,6 +16,7 @@ public class GameEntry : MonoBehaviour
     public static event System.Action OnClickCollectionMenu;
     public static event System.Action OnClickToGame;
     public static event System.Action OnClickUIToMainMenu;
+    public static event System.Action PlayStateToBattleState;
     public static GameEntry Instance { get; private set; }
 
     private FSM_System gameloop;
@@ -53,10 +56,15 @@ public class GameEntry : MonoBehaviour
 
         FSM_Play FPlay = new FSM_Play();
         FPlay.AddTransition(Transition.To_Idle, StateID.Idle);
+        FPlay.AddTransition(Transition.To_Battle, StateID.Battle);
+
+        FSM_Battle FBattle = new FSM_Battle();
+        FBattle.AddTransition(Transition.To_Play, StateID.Play);
 
         gameloop.AddState(FIdle);
         gameloop.AddState(FCollection);
         gameloop.AddState(FPlay);
+        gameloop.AddState(FBattle);
 
         //load games assest
         ObjectManager.Instance.LoadAssets();
@@ -69,7 +77,11 @@ public class GameEntry : MonoBehaviour
         //finally load the player
         ObjectManager.Instance.LoadPlayer();
         CameraManager.Instance.AttachPlayerCamera(ObjectManager.Instance.GetActivePlayerObject());
+    }
 
+    public void PlayToBattleTransition(NPC_Trainer nPC_Trainer, PlayerController playerController)
+    {
+        PlayStateToBattleState?.Invoke();
     }
 
 
@@ -78,7 +90,6 @@ public class GameEntry : MonoBehaviour
     {
         saveManager.FirstLoad();
         LoadAssets();
-        //saveManager.Write2();
     }
 
     // Update is called once per frame
