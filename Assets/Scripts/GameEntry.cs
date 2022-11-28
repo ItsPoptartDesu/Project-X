@@ -8,7 +8,8 @@ public class GameEntry : MonoBehaviour
 {
     [SerializeField]
     private SaveManager saveManager;
-
+    [SerializeField]
+    private SceneLoader sceneLoader;
     public SaveManager GetSaveManager() { return saveManager; }
 
     public bool isDEBUG = false;
@@ -36,6 +37,7 @@ public class GameEntry : MonoBehaviour
         {
             Instance = this;
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     public List<Slime> GetActiveTeam()
@@ -69,14 +71,11 @@ public class GameEntry : MonoBehaviour
         //load games assest
         ObjectManager.Instance.LoadAssets();
         //turn off all UI except for base UI on load
-        UIManager.Instance.ResetUI();
-        //Turn on camera
-        CameraManager.Instance.Init();
-        //set up game levels
-        LevelManager.Instance.Init();
+        MainMenuUI.Instance.ResetUI();
+        //Load Level Defaults
+        LevelManager.Instance.Load(currentLevel);
         //finally load the player
         ObjectManager.Instance.LoadPlayer();
-        CameraManager.Instance.AttachPlayerCamera(ObjectManager.Instance.GetActivePlayerObject());
     }
 
     public void PlayToBattleTransition(NPC_Trainer nPC_Trainer, PlayerController playerController)
@@ -103,12 +102,12 @@ public class GameEntry : MonoBehaviour
     {
         OnClickCollectionMenu?.Invoke();//changes FSM menu
         //switch menu UI
-        UIManager.Instance.ShowCollectionUI();
+        MainMenuUI.Instance.ShowCollectionUI();
         List<Slime> at = saveManager.GetActiveTeam();
         foreach (var s in at)
         {
             GameObject Slime = ObjectManager.Instance.GenerateSlime(s.dna);
-            UIManager.Instance.teamSelectionManager.AttachNewMember(Slime.transform);
+            MainMenuUI.Instance.teamSelectionManager.AttachNewMember(Slime.transform);
         }
     }
     public void Button_OnClickToMenuIdle()
@@ -116,7 +115,7 @@ public class GameEntry : MonoBehaviour
         //change the FSM
         OnClickUIToMainMenu?.Invoke();
         // switch menu UI
-        UIManager.Instance.ResetUI();
+        MainMenuUI.Instance.ResetUI();
         ObjectManager.Instance.DeleteMarkedObjects();
     }
     public void Button_OnClickToPlay()
@@ -125,26 +124,35 @@ public class GameEntry : MonoBehaviour
         //remove any objects that need to be
         ObjectManager.Instance.DeleteMarkedObjects();
         //set camera
-        CameraManager.Instance.ToGame();
-        //TODO: use different scenes, but for now we testing and its small so its built in
-        LevelManager.Instance.ToggleLevel(currentLevel);
-        LevelManager.Instance.LoadTrainerData(currentLevel);
+        SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
+        currentLevel = LevelTags.LEVEL_1;
+        sceneLoader.StartAsyncLoad(currentLevel);
+        //LevelManager.Instance.LoadTrainerData(currentLevel);
         //set correct UI
-        UIManager.Instance.ToGameUI();
-        CameraManager.Instance.AttachPlayerCamera(ObjectManager.Instance.GetActivePlayerObject());
-        LevelManager.Instance.MovePlayerToLevelInfo(ObjectManager.Instance.GetActivePlayerObject(), currentLevel);
-        ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementAndRenderer();
+        //UIManager.Instance.ToGameUI();
+        //CameraManager.Instance.AttachPlayerCamera(ObjectManager.Instance.GetActivePlayerObject());
+        //LevelManager.Instance.MovePlayerToLevelInfo(ObjectManager.Instance.GetActivePlayerObject(), currentLevel);
+        //ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementAndRenderer();
+        //InGameUIController.OnClickGameToMainMenu += LeaveLevel;
+    }
+    public void OnAsyncLevelLoadFinish()
+    {
+        Debug.Log("OnAsyncLevelLoadFinish");
+        LevelManager.Instance.OnPlayerEnterClean(ObjectManager.Instance.GetActivePlayerObject(), currentLevel);
+        ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
         InGameUIController.OnClickGameToMainMenu += LeaveLevel;
+        SceneLoader.OnAsyncLoadFinish -= OnAsyncLevelLoadFinish;
     }
     private void LeaveLevel()
     {
+        currentLevel = LevelTags.MainMenu;
         ObjectManager.Instance.DeleteMarkedObjects();
-        CameraManager.Instance.GameToMainMenu();
-        LevelManager.Instance.GetCurrentLevelBehavior().DisableInGameIU();
-        LevelManager.Instance.ToggleLevel(currentLevel);
-        UIManager.Instance.ResetUI();
-        ObjectManager.Instance.GetActivePlayer().DisablePlayerMovementAndRenderer();
+        LevelManager.Instance.Load();
+        //LevelManager.Instance.GetCurrentLevelBehavior().DisableInGameIU();
+        //UIManager.Instance.ResetUI();
+        ObjectManager.Instance.GetActivePlayer().DisablePlayerMovementRendererCamera();
         InGameUIController.OnClickGameToMainMenu -= LeaveLevel;
+        sceneLoader.StartAsyncLoad(LevelTags.MainMenu);
     }
 
 }

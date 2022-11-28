@@ -7,6 +7,7 @@ using System;
 [System.Serializable]
 public enum LevelTags
 {
+    MainMenu,
     LEVEL_1,
 }
 [System.Serializable]
@@ -20,7 +21,7 @@ public struct LevelInfo
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
-
+    public LevelBehavior currentLevel;
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -36,17 +37,14 @@ public class LevelManager : MonoBehaviour
     }
 
     public List<LevelInfo> Levels = new List<LevelInfo>();
-    public void MovePlayerToLevelInfo(GameObject _player, LevelTags _lvlTag)
+    public void OnPlayerEnterClean(GameObject _player, LevelTags _lvlTag)
     {
-        LevelInfo lvl = Levels.Where(x => x.LevelTag == _lvlTag).FirstOrDefault();
-        if (lvl.Level != null)
+        //LevelInfo lvl = Levels.Where(x => x.LevelTag == _lvlTag).FirstOrDefault();
+        currentLevel = GameObject.FindObjectOfType<LevelBehavior>();
+        if (currentLevel != null)
         {
-            lvl.Level.GetPlayerSpawnPoint(_player);
+            currentLevel.GetPlayerSpawnPoint(_player);
         }
-    }
-    public void Init()
-    {
-        DisableLevels();
     }
 
     public void StartBattle(NPC_Trainer nPC_Trainer, PlayerController playerController)
@@ -63,27 +61,12 @@ public class LevelManager : MonoBehaviour
             lvl.Level.gameObject.SetActive(false);
         }
     }
-    public void ToggleLevel(LevelTags _level, bool _isOn)
-    {
-        LevelInfo lvl = Levels.Where(x => x.LevelTag == _level).FirstOrDefault();
-        if (lvl.Level != null)
-        {
-            lvl.Level.gameObject.SetActive(_isOn);
-        }
-    }
-    public void ToggleLevel(LevelTags _level)
-    {
-        LevelInfo lvl = Levels.Where(x => x.LevelTag == _level).FirstOrDefault();
-        if (lvl.Level != null)
-        {
-            lvl.Level.gameObject.SetActive(!lvl.Level.gameObject.activeInHierarchy);
-        }
-    }
 
     public void LoadTrainerData(LevelTags _level)
     {
-        LevelInfo lvl = Levels.Where(x => x.LevelTag == _level).FirstOrDefault();
-        foreach (var t in lvl.Level.npc_Trainers)
+        if (currentLevel == null)
+            currentLevel = GameObject.FindObjectOfType<LevelBehavior>();
+        foreach (var t in currentLevel.npc_Trainers)
         {
             JSONTrainerInfo tInfo = GameEntry.Instance.GetSaveManager().LookUpTrainer(t.name);
             t.LoadTrainerData(tInfo);
@@ -91,6 +74,18 @@ public class LevelManager : MonoBehaviour
     }
     public LevelBehavior GetCurrentLevelBehavior()
     {
-        return Levels.Where(x => x.LevelTag == GameEntry.Instance.GetCurrentLevel()).FirstOrDefault().Level;
+        if (currentLevel == null)
+            currentLevel = GameObject.FindObjectOfType<LevelBehavior>();
+        return currentLevel;
+    }
+
+    public void Load()
+    {
+        currentLevel.Load();
+    }
+    public void Load(LevelTags _level)
+    {
+        var lvl = Levels.Where(x => x.LevelTag == _level).First();
+        lvl.Level.Load();
     }
 }

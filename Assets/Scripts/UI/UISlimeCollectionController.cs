@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UISlimeCollectionController : MonoBehaviour
 {
@@ -11,6 +12,19 @@ public class UISlimeCollectionController : MonoBehaviour
     private GameObject SpawnedObject = null;
 
     private List<Slime> ActiveTeam_UI;
+
+    public Button RandomButton;
+    public Button AddToTeamButton;
+    public Button SaveTeamButton;
+    public Button BackButton;
+    public void Start()
+    {
+        RandomButton.onClick.AddListener(GenerateRandomSlime);
+        AddToTeamButton.onClick.AddListener(OnClickAddToTeam);
+        SaveTeamButton.onClick.AddListener(OnClickSaveTeam);
+        BackButton.onClick.AddListener(GameEntry.Instance.Button_OnClickToMenuIdle);
+        ActiveTeam_UI = new List<Slime>();
+    }
     public List<Slime> GetActiveTeam()
     {
         return ActiveTeam_UI;
@@ -25,23 +39,19 @@ public class UISlimeCollectionController : MonoBehaviour
     {
         _toBeAttached.SetParent(RandomSpawnRoot);
     }
-    private void Start()
-    {
-        ActiveTeam_UI = new List<Slime>();
-    }
     public void GenerateRandomSlime()
     {
         if (SpawnedObject != null)
             Destroy(SpawnedObject);
         SpawnedObject = ObjectManager.Instance.GenerateRandomSlime();
-        UIManager.Instance.teamSelectionManager.OnSpawnAttachment(SpawnedObject.transform);
+        MainMenuUI.Instance.teamSelectionManager.OnSpawnAttachment(SpawnedObject.transform);
     }
     public void OnClickAddToTeam()
     {
         if (SpawnedObject == null)
             return;
         ActiveTeam_UI.Add(SpawnedObject.GetComponent<Slime>());
-        UIManager.Instance.teamSelectionManager.AttachNewMember(SpawnedObject.transform);
+        MainMenuUI.Instance.teamSelectionManager.AttachNewMember(SpawnedObject.transform);
         SpawnedObject = null;
     }
     public void OnClickSaveTeam()

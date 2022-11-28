@@ -9,6 +9,8 @@ public class LevelBehavior : MonoBehaviour
     public List<SpawnPoints> spawnPoints = new List<SpawnPoints>();
     public InGameUIController inGameUIController;
     public List<NPC_Trainer> npc_Trainers = new List<NPC_Trainer>();
+    public Camera lvlCamera;
+
     public void GetPlayerSpawnPoint(GameObject _player)
     {
         SpawnPoints sp = spawnPoints.Where(x => x.GetObjectType() == ObjectType.Player).First();
@@ -32,5 +34,10 @@ public class LevelBehavior : MonoBehaviour
     public void DisableInGameIU()
     {
         inGameUIController.DisableInGameUI();
+    }
+    public void Load()
+    {
+        if (lvlCamera != null)
+            lvlCamera.enabled = true;
     }
 }

@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     private PlayerMovement playerMovement;
     private SpriteRenderer[] myRenderers;
     private Rigidbody2D myRigidbody;
+    [SerializeField]
+    private Camera myCamera;
+
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -39,12 +42,9 @@ public class PlayerController : MonoBehaviour
         foreach (var r in myRenderers)
             r.enabled = _isOn;
     }
-    public void ToggleRenderers()
+    public void ToggleCamera(bool _isOn)
     {
-        foreach (var r in myRenderers)
-        {
-            r.enabled = !r.enabled;
-        }
+        myCamera.enabled = _isOn;
     }
     public void TogglePlayerMovement(bool _isOn)
     {
@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
         //turn it off until we load a level
         ToggleRenderers(false);
         TogglePlayerMovement(false);
+        ToggleCamera(false);
         //load slimes
         var SaveSlot = GameEntry.Instance.GetSaveManager().GetSaveSlotOne();
         //on a clean load we wont have any team to load
@@ -77,19 +78,22 @@ public class PlayerController : MonoBehaviour
             slimeComp.ToggleRenderers();
             GameEntry.Instance.GetSaveManager().AddSlimeToTeam(slimeComp);
         }
+        DontDestroyOnLoad(gameObject);
     }
     public void OnClickOpenMenu()
     {
         LevelManager.Instance.GetCurrentLevelBehavior().ToggleInGameUI();
     }
-    public void EnablePlayerMovementAndRenderer()
+    public void EnablePlayerMovementRendererCamera()
     {
         TogglePlayerMovement(true);
         ToggleRenderers(true);
+        ToggleCamera(true);
     }
-    public void DisablePlayerMovementAndRenderer()
+    public void DisablePlayerMovementRendererCamera()
     {
         TogglePlayerMovement(false);
         ToggleRenderers(false);
+        ToggleCamera(false);
     }
 }
