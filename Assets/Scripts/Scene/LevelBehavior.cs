@@ -7,7 +7,7 @@ public class LevelBehavior : MonoBehaviour
 {
     //TODO:probably should do dictionary sorting or use some struct. but system.linq is nice 
     public List<SpawnPoints> spawnPoints = new List<SpawnPoints>();
-    public InGameUIController inGameUIController;
+    public UI_Base inGameUIController;
     public List<NPC_Trainer> npc_Trainers = new List<NPC_Trainer>();
     public Camera lvlCamera;
 

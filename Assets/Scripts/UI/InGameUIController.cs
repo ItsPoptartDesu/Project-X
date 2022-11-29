@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InGameUIController : MonoBehaviour
+public class InGameUIController : UI_Base
 {
     public static event System.Action OnClickGameToMainMenu;
     public Canvas UIRoot;
@@ -15,7 +15,7 @@ public class InGameUIController : MonoBehaviour
     {
         UIRoot.enabled = false;
     }
-    public void DisableInGameUI()
+    public override void DisableInGameUI()
     {
         UIRoot.enabled = false;
     }
@@ -24,7 +24,7 @@ public class InGameUIController : MonoBehaviour
     {
         
     }
-    public void ToggleSelf()
+    public override void ToggleSelf()
     {
         UIRoot.enabled = !UIRoot.enabled;
     }

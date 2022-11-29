@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UISlimeCollectionController : MonoBehaviour
+public class UISlimeCollectionController : UI_Base
 {
     [SerializeField]
     private Transform ActiveTeamRoot;
@@ -57,5 +57,13 @@ public class UISlimeCollectionController : MonoBehaviour
     public void OnClickSaveTeam()
     {
         GameEntry.Instance.GetSaveManager().SaveGame(ActiveTeam_UI);
+    }
+
+    public override void ToggleSelf()
+    {
+    }
+
+    public override void DisableInGameUI()
+    {
     }
 }

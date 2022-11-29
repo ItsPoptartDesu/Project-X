@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuUI : MonoBehaviour
+public class MainMenuUI : UI_Base
 {
     public static MainMenuUI Instance { get; private set; }
     public UISlimeCollectionController teamSelectionManager;
@@ -53,5 +53,11 @@ public class MainMenuUI : MonoBehaviour
 
     }
 
+    public override void ToggleSelf()
+    {
+    }
 
+    public override void DisableInGameUI()
+    {
+    }
 }
