@@ -146,7 +146,6 @@ public class GameEntry : MonoBehaviour
     private void LeaveLevel()
     {
         currentLevel = LevelTags.MainMenu;
-        ObjectManager.Instance.DeleteMarkedObjects();
         LevelManager.Instance.Load();
         //LevelManager.Instance.GetCurrentLevelBehavior().DisableInGameIU();
         //UIManager.Instance.ResetUI();

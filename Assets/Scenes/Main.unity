@@ -286,10 +286,10 @@ RectTransform:
   m_Father: {fileID: 70778862}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -270}
-  m_SizeDelta: {x: 500, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &84248721
 MonoBehaviour:
@@ -420,10 +420,10 @@ RectTransform:
   m_Father: {fileID: 1833005389}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -405.00006}
+  m_SizeDelta: {x: 160, y: 270.00003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &285077880
 MonoBehaviour:
@@ -565,7 +565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoints: []
-  inGameUIController: {fileID: 0}
+  inGameUIController: {fileID: 1881674979}
   npc_Trainers: []
   lvlCamera: {fileID: 519420031}
 --- !u!1 &339398513
@@ -603,10 +603,10 @@ RectTransform:
   m_Father: {fileID: 1833005389}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -675.00006}
+  m_SizeDelta: {x: 160, y: 270.00003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &339398515
 MonoBehaviour:
@@ -1120,10 +1120,10 @@ RectTransform:
   m_Father: {fileID: 70778862}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -810}
-  m_SizeDelta: {x: 500, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &873040719
 MonoBehaviour:
@@ -1502,7 +1502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1350276133
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1801,7 +1801,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -80, y: -0.000061035156}
+  m_AnchoredPosition: {x: -80, y: 0}
   m_SizeDelta: {x: 160, y: 0.00012207}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1833005390
@@ -1841,9 +1841,9 @@ GameObject:
   - component: {fileID: 1881674977}
   - component: {fileID: 1881674976}
   - component: {fileID: 1881674975}
+  - component: {fileID: 1881674979}
   - component: {fileID: 1881674974}
   - component: {fileID: 1881674978}
-  - component: {fileID: 1881674979}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2140,10 +2140,10 @@ RectTransform:
   m_Father: {fileID: 1833005389}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -945.0001}
+  m_SizeDelta: {x: 160, y: 270.00003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1915819297
 MonoBehaviour:
@@ -2575,7 +2575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2022015917
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2673,10 +2673,10 @@ RectTransform:
   m_Father: {fileID: 1833005389}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -135}
+  m_SizeDelta: {x: 160, y: 270.00003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2059560624
 MonoBehaviour:

@@ -45,6 +45,7 @@ public class LevelManager : MonoBehaviour
         {
             currentLevel.GetPlayerSpawnPoint(_player);
         }
+        LoadTrainerData(_lvlTag);
     }
 
     public void StartBattle(NPC_Trainer nPC_Trainer, PlayerController playerController)

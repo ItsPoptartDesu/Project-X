@@ -35,6 +35,7 @@ public class FSM_Play : FSM_State
     }
     public override void DoBeforeLeaving()
     {
+        ObjectManager.Instance.DeleteMarkedObjects();
         Debug.Log("FSM_Play DoBeforeLeaving()");
         InGameUIController.OnClickGameToMainMenu -= FSM_OnClickToMainMenu;
         GameEntry.PlayStateToBattleState -= FSM_PlayToBattleTransition;

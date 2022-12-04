@@ -42,6 +42,7 @@ public class SceneLoader : MonoBehaviour
         {
             yield return null;
         }
+        yield return new WaitForSeconds(0.5f);//todo dont call new each time save a ref
         OnAsyncLoadFinish?.Invoke();
     }
 }

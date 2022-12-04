@@ -1798,7 +1798,7 @@ PrefabInstance:
     - target: {fileID: 5628018141983903104, guid: 1a21ccbf6e5f32049bc66324e835081b,
         type: 3}
       propertyPath: m_Name
-      value: Poptart
+      value: Stubs
       objectReference: {fileID: 0}
     - target: {fileID: 5628018141983903106, guid: 1a21ccbf6e5f32049bc66324e835081b,
         type: 3}
@@ -24504,6 +24504,7 @@ MonoBehaviour:
   inGameUIController: {fileID: 957502861}
   npc_Trainers:
   - {fileID: 85577329}
+  lvlCamera: {fileID: 0}
 --- !u!1001 &2088751119
 PrefabInstance:
   m_ObjectHideFlags: 0

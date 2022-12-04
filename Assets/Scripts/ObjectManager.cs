@@ -53,6 +53,7 @@ public class ObjectManager : MonoBehaviour
 
     public void DeleteMarkedObjects()
     {
+        Debug.Log("Deleting Cache Items");
         foreach (GameObject o in toBeDeleted)
             Destroy(o);
     }
