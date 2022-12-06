@@ -7,7 +7,8 @@ using System;
 public enum ObjectType
 {
     Player,
-    Enemy,
+    NPC,
+    Slime,
     Collectible
 }
 

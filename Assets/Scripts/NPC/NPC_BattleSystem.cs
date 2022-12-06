@@ -12,7 +12,11 @@ public class NPC_BattleSystem : LevelBehavior
 {
     private PlayerController user;
     private NPC_Trainer npc;
-
+    [SerializeField]
+    private List<SpawnPoints> NPC_SpawnPoints;
+    [SerializeField]
+    private List<SpawnPoints> Player_SpawnPoints;
+    public Canvas mainCanvas;
     public BattleState state;
     // Start is called before the first frame update
     void Start()
@@ -24,13 +28,14 @@ public class NPC_BattleSystem : LevelBehavior
         user = _player;
         npc = _npc;
         Debug.Log("PreLoadForBattle");
-        _player.OnBattleStart(spawnPoints);
+        _player.OnBattleStart(Player_SpawnPoints);
         state = BattleState.START;
     }
     public override void PostLevelLoad()
     {
         user.DisablePlayerMovementAndRenderer();
         StartCoroutine(SetupBattle());
+        mainCanvas.worldCamera = user.GetCamera();
     }
     IEnumerator SetupBattle()
     {

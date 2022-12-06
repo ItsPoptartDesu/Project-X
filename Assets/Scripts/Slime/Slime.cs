@@ -5,7 +5,7 @@ using System.Linq;
 
 public enum BoardPos
 {
-    F1, F2,
+    F1=0, F2,
     M1, M2,
     B1, B2,
     NA,
@@ -24,6 +24,15 @@ public class Slime : MonoBehaviour
     private Dictionary<ESlimePart, SlimePiece> slimeParts = new Dictionary<ESlimePart, SlimePiece>();
     public string SlimeName { get; private set; }
     public BoardPos myBoardPos = BoardPos.NA;
+    public void AttachParent(Transform _parent)
+    {
+        transform.SetParent(_parent);
+        GetComponent<RectTransform>().position = _parent.position;
+    }
+    public void SetPosition(Vector2 _pos)
+    {
+        GetComponent<RectTransform>().position = _pos;
+    }
     // Start is called before the first frame update
     public Slime()
     {

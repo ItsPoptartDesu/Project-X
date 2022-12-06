@@ -8,16 +8,28 @@ public class PlayerController : MonoBehaviour
     private string UserName = "PeachRings";
     public string GetUsername() { return UserName; }
     public void SetUsername(string _name) { UserName = _name; }
-
+    public Camera GetCamera() { return myCamera; }
     private PlayerMovement playerMovement;
     private SpriteRenderer[] myRenderers;
     private Rigidbody2D myRigidbody;
     [SerializeField]
     private Camera myCamera;
-
-    public void OnBattleStart(List<SpawnPoints> spawnPoints)
+    private float BattleScale = 75f;
+    private List<Slime> ActiveTeamDuringBattle = new List<Slime>();
+    public void OnBattleStart(List<SpawnPoints> _spawnPoints)
     {
-        
+        ActiveTeamDuringBattle.Clear();
+        ActiveTeamDuringBattle = GameEntry.Instance.GetSaveManager().GetActiveTeam();
+        foreach (var slime in ActiveTeamDuringBattle)
+        {
+            slime.AttachParent(_spawnPoints[(int)slime.dna.TeamPos].transform);
+            slime.transform.localScale *= BattleScale;
+            //slime.transform.SetParent(_spawnPoints[(int)slime.dna.TeamPos].transform, false);
+            //slime.transform.position = Vector3.zero;
+            //slime.transform.SetLocalPositionAndRotation(_spawnPoints[(int)slime.dna.TeamPos - 1].position,Quaternion.identity);
+            slime.ToggleRenderers();
+        }
+
     }
     public void DisablePlayerMovementAndRenderer()
     {
