@@ -564,6 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6bcdb535e7679444877c07753b89d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myLevelTag: 0
   spawnPoints: []
   inGameUIController: {fileID: 1881674979}
   npc_Trainers: []
@@ -1763,6 +1764,8 @@ MonoBehaviour:
     LevelTag: 0
   - LevelName: Level1
     LevelTag: 1
+  - LevelName: NPC_Battle
+    LevelTag: 2
 --- !u!1 &1833005388
 GameObject:
   m_ObjectHideFlags: 0

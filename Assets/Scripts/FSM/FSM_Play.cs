@@ -31,7 +31,6 @@ public class FSM_Play : FSM_State
         Debug.Log("FSM_Play DoBeforeEntering()");
         InGameUIController.OnClickGameToMainMenu += FSM_OnClickToMainMenu;
         GameEntry.PlayStateToBattleState += FSM_PlayToBattleTransition;
-
     }
     public override void DoBeforeLeaving()
     {

@@ -77,27 +77,26 @@ public class GameEntry : MonoBehaviour
         //finally load the player
         ObjectManager.Instance.LoadPlayer();
     }
-
-    public void PlayToBattleTransition(NPC_Trainer nPC_Trainer, PlayerController playerController)
+    public void PlayToBattleTransition(NPC_Trainer _npc, PlayerController _player)
     {
+        _player.DisablePlayerMovementRendererCamera();
+        SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
         PlayStateToBattleState?.Invoke();
+        currentLevel = LevelTags.NPC_Battle;
+        sceneLoader.StartAsyncLoad(currentLevel);
     }
-
-
     // Start is called before the first frame update
     void Start()
     {
         saveManager.FirstLoad();
         LoadAssets();
     }
-
     // Update is called once per frame
     void Update()
     {
         gameloop.CurrentState.Act(null, gameloop);
         gameloop.CurrentState.Reason(null, gameloop);
     }
-
     public void Button_OnClickToCollectionClick()
     {
         OnClickCollectionMenu?.Invoke();//changes FSM menu
@@ -106,7 +105,7 @@ public class GameEntry : MonoBehaviour
         List<Slime> at = saveManager.GetActiveTeam();
         foreach (var s in at)
         {
-            GameObject Slime = ObjectManager.Instance.GenerateSlime(s.dna);
+            GameObject Slime = ObjectManager.Instance.GenerateSlime(s.dna);//TODO i think i should jsut toggle my preloaded team like battles this is problaby bad
             MainMenuUI.Instance.teamSelectionManager.AttachNewMember(Slime.transform);
         }
     }
@@ -135,6 +134,7 @@ public class GameEntry : MonoBehaviour
         //ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementAndRenderer();
         //InGameUIController.OnClickGameToMainMenu += LeaveLevel;
     }
+
     public void OnAsyncLevelLoadFinish()
     {
         Debug.Log("OnAsyncLevelLoadFinish");
@@ -142,6 +142,7 @@ public class GameEntry : MonoBehaviour
         ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
         InGameUIController.OnClickGameToMainMenu += LeaveLevel;
         SceneLoader.OnAsyncLoadFinish -= OnAsyncLevelLoadFinish;
+        LevelManager.Instance.currentLevel.PostLevelLoad();
     }
     private void LeaveLevel()
     {

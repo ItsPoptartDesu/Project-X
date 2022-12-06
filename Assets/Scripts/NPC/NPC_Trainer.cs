@@ -31,7 +31,7 @@ public class NPC_Trainer : MonoBehaviour
     {
         Debug.DrawRay(rayCastPoint.position, LookDir * LookDistance);
         var hit = Physics2D.Raycast(rayCastPoint.position, LookDir * LookDistance);
-        if (hit.collider != null && !hasBeenBattled)
+        if (hit.collider != null && !hasBeenBattled && !hasBeenBattled)
         {
             hasBeenBattled = true;
             Debug.Log($"Hit: {hit.transform.gameObject.name}");

@@ -9,6 +9,7 @@ public enum LevelTags
 {
     MainMenu,
     LEVEL_1,
+    NPC_Battle,
 }
 [System.Serializable]
 public struct LevelInfo
@@ -22,6 +23,7 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
     public LevelBehavior currentLevel;
+    private NPC_Trainer EnemyTrainer;
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -45,14 +47,21 @@ public class LevelManager : MonoBehaviour
         {
             currentLevel.GetPlayerSpawnPoint(_player);
         }
+        if (_lvlTag == LevelTags.NPC_Battle)
+        {
+            var Player = ObjectManager.Instance.GetActivePlayer();
+            ((NPC_BattleSystem)currentLevel).PreLoadForBattle(Player, BattleNPC);
+        }
         LoadTrainerData(_lvlTag);
     }
+    private NPC_Trainer BattleNPC;
 
-    public void StartBattle(NPC_Trainer nPC_Trainer, PlayerController playerController)
+    public void StartBattle(NPC_Trainer _npc, PlayerController _player)
     {
-        Debug.Log($"{nPC_Trainer.name} is in a battle with {playerController.GetUsername()}");
-        playerController.TogglePlayerMovement(false);
-        GameEntry.Instance.PlayToBattleTransition(nPC_Trainer, playerController);
+        BattleNPC = _npc;
+        Debug.Log($"{_npc.name} is in a battle with {_player.GetUsername()}");
+        _player.TogglePlayerMovement(false);
+        GameEntry.Instance.PlayToBattleTransition(_npc, _player);
     }
 
     private void DisableLevels()
@@ -65,8 +74,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadTrainerData(LevelTags _level)
     {
-        if (currentLevel == null)
-            currentLevel = GameObject.FindObjectOfType<LevelBehavior>();
+        currentLevel = GameObject.FindObjectOfType<LevelBehavior>();
+
         foreach (var t in currentLevel.npc_Trainers)
         {
             JSONTrainerInfo tInfo = GameEntry.Instance.GetSaveManager().LookUpTrainer(t.name);

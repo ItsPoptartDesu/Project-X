@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Camera myCamera;
 
+    public void OnBattleStart(List<SpawnPoints> spawnPoints)
+    {
+        
+    }
+    public void DisablePlayerMovementAndRenderer()
+    {
+        TogglePlayerMovement(false);
+        ToggleRenderers(false);
+    }
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -28,7 +38,7 @@ public class PlayerController : MonoBehaviour
                 slime.DebugStatement();
             }
         }
-        if(Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             TogglePlayerMovement(true);
         }
@@ -53,12 +63,9 @@ public class PlayerController : MonoBehaviour
     }
     public void FirstLoad()
     {
-        if (myRenderers == null)
-            myRenderers = GetComponents<SpriteRenderer>();
-        if (playerMovement == null)
-            playerMovement = GetComponent<PlayerMovement>();
-        if (myRigidbody == null)
-            myRigidbody = GetComponent<Rigidbody2D>();
+        myRenderers = GetComponents<SpriteRenderer>();
+        playerMovement = GetComponent<PlayerMovement>();
+        myRigidbody = GetComponent<Rigidbody2D>();
         //turn it off until we load a level
         ToggleRenderers(false);
         TogglePlayerMovement(false);
