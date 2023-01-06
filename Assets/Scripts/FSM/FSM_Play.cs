@@ -12,6 +12,11 @@ public class FSM_Play : FSM_State
     }
     public override void Act(Behaviour player, FSM_System npc)
     {
+ 
+    }
+
+    public override void Reason(Behaviour player, FSM_System npc)
+    {
         if (toMainMenu)
         {
             npc.PerformTransition(Transition.To_Idle);
@@ -20,10 +25,6 @@ public class FSM_Play : FSM_State
         {
             npc.PerformTransition(Transition.To_Battle);
         }
-    }
-
-    public override void Reason(Behaviour player, FSM_System npc)
-    {
     }
 
     public override void DoBeforeEntering()

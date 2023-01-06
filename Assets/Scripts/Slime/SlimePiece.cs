@@ -10,6 +10,9 @@ public class SlimePiece : MonoBehaviour
     private SO_SlimePart basePart;
     public float PowerModifier = 0;
     public int CostModifier = 0;
+    public int HealthModifier = 0;
+    [SerializeField]
+    private int StartingHealth = 100;
 
     public void Awake()
     {
@@ -28,6 +31,7 @@ public class SlimePiece : MonoBehaviour
     public Sprite GetSlimeSprite() { return basePart.ImgToDisplay; }
     public float GetPower() { return basePart.Power + PowerModifier; }
     public float GetCost() { return basePart.Cost + CostModifier; }
+    public int GetHealth() { return StartingHealth + HealthModifier; }
     public void UpdateSlimePart(SO_SlimePart _part)
     {
         basePart = _part;

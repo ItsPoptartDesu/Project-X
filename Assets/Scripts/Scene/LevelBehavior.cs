@@ -45,4 +45,9 @@ public class LevelBehavior : MonoBehaviour
         if (lvlCamera != null)
             lvlCamera.enabled = true;
     }
+
+    public void ToggleSettingsUI()
+    {
+        ObjectManager.Instance.GetActivePlayer().ToggleSettingsUI();
+    }
 }

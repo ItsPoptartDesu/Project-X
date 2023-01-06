@@ -97,5 +97,6 @@ public class LevelManager : MonoBehaviour
     {
         var lvl = Levels.Where(x => x.LevelTag == _level).First();
         lvl.Level.Load();
+        GetCurrentLevelBehavior();
     }
 }

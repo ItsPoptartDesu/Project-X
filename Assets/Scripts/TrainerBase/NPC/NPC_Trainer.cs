@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class NPC_Trainer : MonoBehaviour
 {
+    public BattleBehaviour battleBehaviour;
     [SerializeField]
     [Range(2f, 10f)]
     private float LookDistance = 2;
@@ -41,6 +42,22 @@ public class NPC_Trainer : MonoBehaviour
 
     public void LoadTrainerData(JSONTrainerInfo _trainerData)
     {
+        Debug.Log("LoadTrainerData");
         trainerInfo = _trainerData;
+        
+    }
+    public void OnBattleStart(List<SpawnPoints> _spawnPoints, NPC_BattleSystem _system)
+    {
+        var ActiveList = trainerInfo.teamInfo.SavedSlime;
+        foreach (var slime in ActiveList)
+        {
+            var NPC_Slime = ObjectManager.Instance.GenerateSlime(slime);
+            Slime slimeComp = NPC_Slime.GetComponent<Slime>();
+            int pos = (int)slimeComp.dna.TeamPos;
+            slimeComp.AttachParent(_spawnPoints[pos].transform);
+            slimeComp.transform.localScale *= ObjectManager.Instance.BattleScale;
+            //slimeComp.ToggleRenderers();
+            _system.CreateDecks(slimeComp, DECK_SLOTS.NPC);
+        }
     }
 }

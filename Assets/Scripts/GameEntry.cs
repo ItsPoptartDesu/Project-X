@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System;
 
 public class GameEntry : MonoBehaviour
 {
@@ -44,7 +43,9 @@ public class GameEntry : MonoBehaviour
     {
         return saveManager.GetActiveTeam();
     }
-
+    /// <summary>
+    /// Initial load, loading game assets
+    /// </summary>
     private void LoadAssets()
     {
         //build game loop
@@ -77,6 +78,11 @@ public class GameEntry : MonoBehaviour
         //finally load the player
         ObjectManager.Instance.LoadPlayer();
     }
+    /// <summary>
+    /// Called when the Player wants to battle a NPC Trainer
+    /// </summary>
+    /// <param name="_npc">trainer the user wants to fight</param>
+    /// <param name="_player">local user</param>
     public void PlayToBattleTransition(NPC_Trainer _npc, PlayerController _player)
     {
         _player.DisablePlayerMovementRendererCamera();
@@ -97,6 +103,9 @@ public class GameEntry : MonoBehaviour
         gameloop.CurrentState.Act(null, gameloop);
         gameloop.CurrentState.Reason(null, gameloop);
     }
+    /// <summary>
+    /// Main menu to collection scene
+    /// </summary>
     public void Button_OnClickToCollectionClick()
     {
         OnClickCollectionMenu?.Invoke();//changes FSM menu
@@ -109,6 +118,9 @@ public class GameEntry : MonoBehaviour
             MainMenuUI.Instance.teamSelectionManager.AttachNewMember(Slime.transform);
         }
     }
+    /// <summary>
+    /// return to the main menu
+    /// </summary>
     public void Button_OnClickToMenuIdle()
     {
         //change the FSM
@@ -117,6 +129,9 @@ public class GameEntry : MonoBehaviour
         MainMenuUI.Instance.ResetUI();
         ObjectManager.Instance.DeleteMarkedObjects();
     }
+    /// <summary>
+    /// Main Menu to Game Play
+    /// </summary>
     public void Button_OnClickToPlay()
     {
         OnClickToGame?.Invoke();
@@ -134,7 +149,9 @@ public class GameEntry : MonoBehaviour
         //ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementAndRenderer();
         //InGameUIController.OnClickGameToMainMenu += LeaveLevel;
     }
-
+    /// <summary>
+    /// Called everytime a new scene finishes loading
+    /// </summary>
     public void OnAsyncLevelLoadFinish()
     {
         Debug.Log("OnAsyncLevelLoadFinish");
@@ -144,6 +161,9 @@ public class GameEntry : MonoBehaviour
         SceneLoader.OnAsyncLoadFinish -= OnAsyncLevelLoadFinish;
         LevelManager.Instance.currentLevel.PostLevelLoad();
     }
+    /// <summary>
+    /// Called everytime you leave a scene
+    /// </summary>
     private void LeaveLevel()
     {
         currentLevel = LevelTags.MainMenu;

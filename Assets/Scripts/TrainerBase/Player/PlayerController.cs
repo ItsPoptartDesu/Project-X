@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public BattleBehaviour battleBehaviour;
     private string UserName = "PeachRings";
     public string GetUsername() { return UserName; }
     public void SetUsername(string _name) { UserName = _name; }
@@ -14,20 +15,19 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D myRigidbody;
     [SerializeField]
     private Camera myCamera;
-    private float BattleScale = 75f;
+    [SerializeField]
+    private UI_Base SettingsUI;
     private List<Slime> ActiveTeamDuringBattle = new List<Slime>();
-    public void OnBattleStart(List<SpawnPoints> _spawnPoints)
+    public void OnBattleStart(List<SpawnPoints> _spawnPoints, NPC_BattleSystem _system)
     {
         ActiveTeamDuringBattle.Clear();
         ActiveTeamDuringBattle = GameEntry.Instance.GetSaveManager().GetActiveTeam();
         foreach (var slime in ActiveTeamDuringBattle)
         {
             slime.AttachParent(_spawnPoints[(int)slime.dna.TeamPos].transform);
-            slime.transform.localScale *= BattleScale;
-            //slime.transform.SetParent(_spawnPoints[(int)slime.dna.TeamPos].transform, false);
-            //slime.transform.position = Vector3.zero;
-            //slime.transform.SetLocalPositionAndRotation(_spawnPoints[(int)slime.dna.TeamPos - 1].position,Quaternion.identity);
+            slime.transform.localScale *= ObjectManager.Instance.BattleScale;
             slime.ToggleRenderers();
+            _system.CreateDecks(slime, DECK_SLOTS.PLAYER);
         }
 
     }
@@ -40,7 +40,10 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            OnClickOpenMenu();
+            if (LevelManager.Instance.currentLevel == null)
+                Debug.Log("NO CURRENT LEVEL");
+            LevelManager.Instance.currentLevel.ToggleSettingsUI();
+            //OnClickOpenMenu();
         }
         if (Input.GetKeyDown(KeyCode.F12))
         {
@@ -114,5 +117,9 @@ public class PlayerController : MonoBehaviour
         TogglePlayerMovement(false);
         ToggleRenderers(false);
         ToggleCamera(false);
+    }
+    public void ToggleSettingsUI()
+    {
+        SettingsUI.ToggleSelf();
     }
 }

@@ -13,6 +13,10 @@ public enum BoardPos
 
 public class Slime : MonoBehaviour
 {
+    private int RawHealth = 100;
+    private int HealthModifier = 0;
+    public int GetHealth() { return HealthModifier + RawHealth; }
+
     [HideInInspector]
     public JsonSlimeInfo dna;
     [HideInInspector]
