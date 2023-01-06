@@ -7,7 +7,12 @@ public class CardInteraction : MonoBehaviour, IPointerEnterHandler, IPointerExit
 {
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("OnPointerClick");
+        GameObject clickedOn = eventData.pointerPress;
+        SlimeCard piece = clickedOn.GetComponent<SlimeCard>();
+        if (piece != null)
+        {
+            Debug.Log($"Clicked on {piece.CardName.text}");
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
