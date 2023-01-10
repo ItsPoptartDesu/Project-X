@@ -1731,6 +1731,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 87743d051d8d4cd4f836e32fe45c6798, type: 2}
   CardPrefab: {fileID: 1111378251754244028, guid: 44bd6532184386046924657da56ec654,
     type: 3}
+  BattleScale: 75
   SlimePrefab: {fileID: 7406302591809983975, guid: 30e0cc94deefd9641b1ea75e3addc1d3,
     type: 3}
 --- !u!114 &1385555363

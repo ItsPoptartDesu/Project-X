@@ -24,4 +24,9 @@ public class CardInteraction : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         Debug.Log("OnPointerExit");
     }
+
+    void FellStingerEnterBattleField()
+    {
+
+    }
 }
