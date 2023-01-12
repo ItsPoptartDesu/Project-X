@@ -23,7 +23,7 @@ public abstract class CardBase : MonoBehaviour
     public SlimePiece rawCardStats;
     public GameObject CardFrontRoot;
     public GameObject CardBackRoot;
-
+    public DECK_SLOTS myOwner = DECK_SLOTS.STARTING;
     public CardState myState = CardState.DECK;
     public virtual void OnDeckCreation()
     {
@@ -32,23 +32,18 @@ public abstract class CardBase : MonoBehaviour
     }
     public virtual void ToggleDisplayRoot(bool _on) { CardFrontRoot.SetActive(_on); }
     public virtual void ToggleCardBackRoot(bool _on) { CardBackRoot.SetActive(_on); }
-    public abstract void OnEnterBattleField();
-    public abstract void OnExitBattleField();
+
     public abstract void OnEnterGraveYard();
     public abstract void OnExitGraveYard();
     public abstract void OnEnterHand();
     public abstract void OnExitHand();
-    public abstract void OnAttack();
-    public abstract void OnDefend();
     public abstract void OnEnterDeck();
     public abstract void OnExitDeck();
-    public abstract void OnEnterBattlePhase();
-    public abstract void OnExitBattlePhase();
-    public abstract void OnEnterTurn();
-    public abstract void OnExitTurn();
-    public abstract void OnEnterIdle();
-    public abstract void OnExitIdle();
-    public virtual void AssignCardValues(SlimePiece _base) { }
+    public abstract void OnPlay();
+    public abstract void OnEnterDiscardPile();
+    public abstract void OnExitDiscardPile();
+
+    public virtual void AssignCardValues(SlimePiece _base, DECK_SLOTS _who) { }
     public virtual void AttachParent(Transform _parent)
     {
         transform.SetParent(_parent);

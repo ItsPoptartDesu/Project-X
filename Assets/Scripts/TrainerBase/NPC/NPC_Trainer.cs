@@ -44,7 +44,7 @@ public class NPC_Trainer : MonoBehaviour
     {
         Debug.Log("LoadTrainerData");
         trainerInfo = _trainerData;
-        
+
     }
     public void OnBattleStart(List<SpawnPoints> _spawnPoints, NPC_BattleSystem _system)
     {
@@ -55,7 +55,11 @@ public class NPC_Trainer : MonoBehaviour
             Slime slimeComp = NPC_Slime.GetComponent<Slime>();
             int pos = (int)slimeComp.dna.TeamPos;
             slimeComp.AttachParent(_spawnPoints[pos].transform);
-            slimeComp.transform.localScale *= ObjectManager.Instance.BattleScale;
+            //slimeComp.transform.localScale *= ObjectManager.Instance.BattleScale;
+            slimeComp.transform.localScale = new Vector3(
+                -ObjectManager.Instance.BattleScale,
+                ObjectManager.Instance.BattleScale,
+                ObjectManager.Instance.BattleScale);
             //slimeComp.ToggleRenderers();
             _system.CreateDecks(slimeComp, DECK_SLOTS.NPC);
         }

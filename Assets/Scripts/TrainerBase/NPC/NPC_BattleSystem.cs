@@ -33,9 +33,10 @@ public class NPC_BattleSystem : LevelBehavior
     public BattleState state;
     private Dictionary<DECK_SLOTS, Queue<SlimeCard>> Decks = new Dictionary<DECK_SLOTS, Queue<SlimeCard>>();
     private Dictionary<DECK_SLOTS, List<SlimeCard>> Hands = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
-    private Dictionary<DECK_SLOTS, List<SlimeCard>> Fields = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
     private int[] Mana = new int[2];
     private DECK_SLOTS currentTurn = DECK_SLOTS.STARTING;
+    private Queue<SlimeCard> ActionQueue = new Queue<SlimeCard>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,10 +64,6 @@ public class NPC_BattleSystem : LevelBehavior
             deckToHand.OnEnterHand();
             if (_who == DECK_SLOTS.NPC)
                 deckToHand.ToggleCardBackRoot(true);
-            else
-            {
-                deckToHand.gameObject.AddComponent<CardInteraction>();
-            }
             yield return wfs;
         }
     }
@@ -79,7 +76,7 @@ public class NPC_BattleSystem : LevelBehavior
         {
             if (piece.GetSlimePart() == ESlimePart.BODY)
                 continue;
-            SlimeCard Card = ObjectManager.Instance.CreateCard(piece);
+            SlimeCard Card = ObjectManager.Instance.CreateCard(piece, _who);
             Card.OnEnterDeck();
             toBeAdded.Add(Card);
             Card.AttachParent(who);
@@ -130,5 +127,16 @@ public class NPC_BattleSystem : LevelBehavior
             currentTurn = DECK_SLOTS.PLAYER;
         IncMana(currentTurn);
         PlayerTurn();
+    }
+    public void AddCardToActionQueue(SlimeCard _card)
+    {
+        int cost = (int)_card.rawCardStats.GetCost();
+        //if the card cost's too much mana
+        if (Mana[(int)_card.myOwner] < cost)
+        {
+            Debug.Log($"Can not play {_card.CardName}: {cost} cost");
+            return;
+        }
+        ActionQueue.Enqueue(_card);
     }
 }

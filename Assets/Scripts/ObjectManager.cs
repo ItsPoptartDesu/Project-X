@@ -65,11 +65,11 @@ public class ObjectManager : MonoBehaviour
     {
         toBeDeleted.Add(_go);
     }
-    public SlimeCard CreateCard(SlimePiece _base)
+    public SlimeCard CreateCard(SlimePiece _base, DECK_SLOTS _who)
     {
         GameObject card = Instantiate(CardPrefab);
         SlimeCard sCard = card.GetComponent<SlimeCard>();
-        sCard.AssignCardValues(_base);
+        sCard.AssignCardValues(_base,_who);
         //sCard.rawCardStats = _base;
         MarkObjectToBeDeleted(card);
         return sCard;

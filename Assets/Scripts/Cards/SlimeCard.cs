@@ -2,25 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class SlimeCard : CardBase
+public class SlimeCard : CardBase, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerClickHandler
 {
-
-    public override void OnAttack()
-    {
-    }
-
-    public override void OnDefend()
-    {
-    }
-
-    public override void OnEnterBattleField()
-    {
-    }
-
-    public override void OnEnterBattlePhase()
-    {
-    }
+    private bool CanDisplayInfo { get { return myOwner == DECK_SLOTS.PLAYER && myState != CardState.DECK; } }
 
     public override void OnEnterDeck()
     {
@@ -38,22 +24,6 @@ public class SlimeCard : CardBase
         myState = CardState.HAND;
     }
 
-    public override void OnEnterIdle()
-    {
-    }
-
-    public override void OnEnterTurn()
-    {
-    }
-
-    public override void OnExitBattleField()
-    {
-    }
-
-    public override void OnExitBattlePhase()
-    {
-    }
-
     public override void OnExitDeck()
     {
     }
@@ -66,20 +36,78 @@ public class SlimeCard : CardBase
     {
     }
 
-    public override void OnExitIdle()
-    {
-    }
-
-    public override void OnExitTurn()
-    {
-    }
-
-    public override void AssignCardValues(SlimePiece _base)
+    public override void AssignCardValues(SlimePiece _base, DECK_SLOTS _who)
     {
         CardName.text = _base.GetSlimePartName();
         CardDescription.text = "not filled out yet";
         CardAttack.text = _base.GetPower().ToString();
         CardCost.text = _base.GetCost().ToString();
         img.sprite = _base.GetSlimeSprite();
+        myOwner = _who;
+    }
+
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!CanDisplayInfo)
+            return;
+        Debug.Log("OnPointerEnter");
+
+    }
+
+    public virtual void OnPointerExit(PointerEventData eventData)
+    {
+        if (!CanDisplayInfo)
+            return;
+        Debug.Log("OnPointerExit");
+    }
+
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+        if (!CanDisplayInfo)
+            return;
+        Debug.Log("OnPointerClick");
+        GameObject clickedOn = eventData.pointerPress;
+        SlimeCard card = clickedOn.GetComponent<SlimeCard>();
+        ((NPC_BattleSystem)LevelManager.Instance.currentLevel).AddCardToActionQueue(card);
+        if (card != null)
+        {
+            Debug.Log($"Clicked on {card.CardName.text}");
+        }
+    }
+
+    public override void OnPlay()
+    {
+    }
+
+    public override void OnEnterDiscardPile()
+    {
+    }
+
+    public override void OnExitDiscardPile()
+    {
+    }
+    Vector2 startPos;
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Debug.Log("OnPointerDown");
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        Debug.Log("OnDrag");
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Debug.Log("OnPointerUp");
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        if (hit)
+        {
+            Slime enemy = hit.transform.gameObject.GetComponent<Slime>();
+            if (enemy != null)
+            {
+                Debug.Log($"Released On {enemy.SlimeName}");
+            }
+        }
     }
 }

@@ -88,7 +88,6 @@ public class LevelManager : MonoBehaviour
             currentLevel = GameObject.FindObjectOfType<LevelBehavior>();
         return currentLevel;
     }
-
     public void Load()
     {
         currentLevel.Load();
