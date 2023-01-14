@@ -4,18 +4,12 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-public enum BattleState
-{
-    START,
-    PLAYERTURN,
-    ENEMYTURN,
-}
 public enum DECK_SLOTS
 {
-    STARTING,
     PLAYER = 0,
     NPC = 1,
     MAX = 2,
+    STARTING,
 }
 public class NPC_BattleSystem : LevelBehavior
 {
@@ -30,7 +24,6 @@ public class NPC_BattleSystem : LevelBehavior
     [SerializeField]
     private List<SpawnPoints> Player_SpawnPoints;
     public Canvas mainCanvas;
-    public BattleState state;
     private Dictionary<DECK_SLOTS, Queue<SlimeCard>> Decks = new Dictionary<DECK_SLOTS, Queue<SlimeCard>>();
     private Dictionary<DECK_SLOTS, List<SlimeCard>> Hands = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
     private Dictionary<DECK_SLOTS, List<SlimeCard>> Discard = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
@@ -62,7 +55,6 @@ public class NPC_BattleSystem : LevelBehavior
         Mana[0] = Mana[1] = 0;
         _player.OnBattleStart(Player_SpawnPoints, this);
         _npc.OnBattleStart(NPC_SpawnPoints, this);
-        state = BattleState.START;
         StartCoroutine(Draw(DECK_SLOTS.PLAYER, StartDrawAmount));
         StartCoroutine(Draw(DECK_SLOTS.NPC, StartDrawAmount));
     }
@@ -125,8 +117,9 @@ public class NPC_BattleSystem : LevelBehavior
     IEnumerator SetupBattle()
     {
         yield return new WaitForSeconds(2f);
-        state = BattleState.PLAYERTURN;
-        IncTurn();
+        currentTurn = DECK_SLOTS.PLAYER;
+        PlayerTurn();
+        //IncTurn();
     }
     private void PlayerTurn()
     {
@@ -152,6 +145,7 @@ public class NPC_BattleSystem : LevelBehavior
             Debug.Log($"Can not play {_card.CardName}: {cost} cost");
             return;
         }
+        Debug.Log($"Playing {_card.CardName}");
         _card.myState = CardState.LIMBO;
         Hands[currentTurn].Remove(_card);
         ActionQueue.Enqueue(_card);
