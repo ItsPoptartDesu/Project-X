@@ -47,7 +47,7 @@ public class NPC_Trainer : MonoBehaviour
         trainerInfo = _trainerData;
 
     }
-    public void OnBattleStart(List<SpawnPoints> _spawnPoints, NPC_BattleSystem _system)
+    public void OnBattleStart(NPC_BattleSystem _system)
     {
         var ActiveList = trainerInfo.teamInfo.SavedSlime;
         foreach (var slime in ActiveList)
@@ -55,13 +55,16 @@ public class NPC_Trainer : MonoBehaviour
             var NPC_Slime = ObjectManager.Instance.GenerateSlime(slime);
             Slime slimeComp = NPC_Slime.GetComponent<Slime>();
 
-            int pos = (int)slimeComp.dna.TeamPos;
-            slimeComp.AttachParent(_spawnPoints[pos].transform);
+            BoardPos pos = slimeComp.dna.TeamPos;
+            SpawnPoints sp = _system.GetSpawnPoint(DECK_SLOTS.NPC, pos);
+            slimeComp.AttachParent(sp.transform);
             slimeComp.transform.localScale = new Vector3(
                 -ObjectManager.Instance.BattleScale,
                 ObjectManager.Instance.BattleScale,
                 ObjectManager.Instance.BattleScale);
             _system.CreateDecks(slimeComp, DECK_SLOTS.NPC);
+            HealthBar hb =_system.InitHealhBar(DECK_SLOTS.NPC, pos, slimeComp.GetHealth());
+            slimeComp.InitHealthBar(hb);
             ActiveTeam.Add(slimeComp);
         }
     }

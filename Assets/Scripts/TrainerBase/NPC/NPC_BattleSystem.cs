@@ -31,17 +31,24 @@ public class NPC_BattleSystem : LevelBehavior
     private int[] Mana = new int[2];
     private DECK_SLOTS currentTurn = DECK_SLOTS.STARTING;
     private Queue<SlimeCard> ActionQueue = new Queue<SlimeCard>();
+
+    public HealthBar InitHealhBar(DECK_SLOTS _who, BoardPos _pos, int _hp)
+    {
+        SpawnPoints sp = GetSpawnPoint(_who, _pos);
+        sp.myHealthBar.ToggleHealthBar(true);
+        sp.myHealthBar.SetHealth(_hp);
+        return sp.myHealthBar;
+    }
     public void UpdateHealthBars(DECK_SLOTS _who, BoardPos _pos, int _hp)
     {
-        SpawnPoints sp = _who == DECK_SLOTS.PLAYER ?
-            Player_SpawnPoints.First(x => x.Spot == _pos) :
-            NPC_SpawnPoints.First(x => x.Spot == _pos);
+        SpawnPoints sp = GetSpawnPoint(_who, _pos);
         sp.myHealthBar.SetHealth(_hp);
     }
-    // Start is called before the first frame update
-    void Start()
+    public SpawnPoints GetSpawnPoint(DECK_SLOTS _who, BoardPos _pos)
     {
-
+        return _who == DECK_SLOTS.PLAYER ?
+            Player_SpawnPoints.First(x => x.Spot == _pos) :
+            NPC_SpawnPoints.First(x => x.Spot == _pos);
     }
     public void Update()
     {
@@ -60,8 +67,8 @@ public class NPC_BattleSystem : LevelBehavior
         npc = _npc;
         Debug.Log("PreLoadForBattle");
         Mana[0] = Mana[1] = 0;
-        _player.OnBattleStart(Player_SpawnPoints, this);
-        _npc.OnBattleStart(NPC_SpawnPoints, this);
+        _player.OnBattleStart(this);
+        _npc.OnBattleStart(this);
         StartCoroutine(Draw(DECK_SLOTS.PLAYER, StartDrawAmount));
         StartCoroutine(Draw(DECK_SLOTS.NPC, StartDrawAmount));
     }

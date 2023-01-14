@@ -18,15 +18,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private UI_Base SettingsUI;
     private List<Slime> ActiveTeamDuringBattle = new List<Slime>();
-    public void OnBattleStart(List<SpawnPoints> _spawnPoints, NPC_BattleSystem _system)
+    public void OnBattleStart(NPC_BattleSystem _system)
     {
         ActiveTeamDuringBattle.Clear();
         ActiveTeamDuringBattle = GameEntry.Instance.GetSaveManager().GetActiveTeam();
         foreach (var slime in ActiveTeamDuringBattle)
         {
-            slime.AttachParent(_spawnPoints[(int)slime.dna.TeamPos].transform);
+            BoardPos pos = slime.dna.TeamPos;
+            SpawnPoints sp = _system.GetSpawnPoint(DECK_SLOTS.PLAYER, pos);
+            slime.AttachParent(sp.transform);
             slime.transform.localScale *= ObjectManager.Instance.BattleScale;
             slime.ToggleRenderers();
+            HealthBar hb = _system.InitHealhBar(DECK_SLOTS.PLAYER, pos, slime.GetHealth());
+            slime.InitHealthBar(hb);
             _system.CreateDecks(slime, DECK_SLOTS.PLAYER);
         }
 

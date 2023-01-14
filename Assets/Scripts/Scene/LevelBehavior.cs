@@ -18,7 +18,7 @@ public class LevelBehavior : MonoBehaviour
     }
     public void GetPlayerSpawnPoint(GameObject _player)
     {
-        SpawnPoints sp = spawnPoints.Where(x => x.GetObjectType() == ObjectType.Player).First();
+        SpawnPoints sp = spawnPoints.First(x => x.GetObjectType() == ObjectType.Player);
         _player.transform.position = sp.position;
     }
     public List<SpawnPoints> GetSpawnPointsByType(ObjectType _type)

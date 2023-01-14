@@ -27,6 +27,7 @@ public class Slime : MonoBehaviour
     private List<SlimePiece> _RenderParts = new List<SlimePiece>();
 
     private Dictionary<ESlimePart, SlimePiece> slimeParts = new Dictionary<ESlimePart, SlimePiece>();
+    private HealthBar HealthBarRef;
     public string SlimeName { get; private set; }
     public BoardPos myBoardPos = BoardPos.NA;
     public void AttachParent(Transform _parent)
@@ -42,6 +43,11 @@ public class Slime : MonoBehaviour
     public Slime()
     {
         //Init();
+    }
+    public void InitHealthBar(HealthBar _bar)
+    {
+        HealthBarRef = _bar;
+        HealthBarRef.SetMaxHealth(GetHealth());
     }
     public void Init(JsonSlimeInfo _copy)
     {
@@ -101,6 +107,7 @@ public class Slime : MonoBehaviour
     {
         int hp = GetHealth();
         hp -= _damage;
+        HealthBarRef.SetHealth(hp);
         if (hp < 0)
             Die();
         

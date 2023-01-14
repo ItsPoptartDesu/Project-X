@@ -18,8 +18,6 @@ public class SaveManager : MonoBehaviour
     [HideInInspector]
     Dictionary<string, JSONTrainerInfo> TrainerLookup = new Dictionary<string, JSONTrainerInfo>();
     public JsonSaveData GetLastSavedGame() { return saveSlotOne; }
-
-
     public JsonSaveData GetSaveSlotOne() { return gameData.GetLastSave(); }
     public List<Slime> GetActiveTeam() { return gameData.GetActiveTeam(); }
     public void AddSlimeToTeam(Slime _slime)
@@ -72,13 +70,11 @@ public class SaveManager : MonoBehaviour
     }
     public void SaveGame()
     {
-        HashSet<string> keys = new HashSet<string>();
-        foreach (var s in toBeSaved.SavedSlime)
-            keys.Add(s.secret);
+        HashSet<string> keys = new HashSet<string>(toBeSaved.SavedSlime.Select(x => x.secret));
         foreach (var slime in GetActiveTeam())
         {
             if (keys.Contains(slime.secret))
-                return;
+                continue;
             JsonSlimeInfo info = new JsonSlimeInfo(slime);
             toBeSaved.SavedSlime.Add(info);
         }
@@ -119,16 +115,15 @@ public class SaveManager : MonoBehaviour
     }
 
     private void WriteFile()
-    { 
+    {
         string jsonString = JsonUtility.ToJson(toBeSaved, true);
         Debug.Log($"Path: {savePath}. Size: {toBeSaved.SavedSlime.Count()}, Context: {jsonString}");
-        FileStream filestream = new FileStream(savePath, FileMode.Truncate);
-        StreamWriter streamwriter = new StreamWriter(filestream);
-        streamwriter.Write(jsonString);
-        streamwriter.Flush();
-        filestream.Flush();
-        streamwriter.Close();
-        filestream.Close();
+        using (FileStream filestream = new FileStream(savePath, FileMode.Truncate))
+        using (StreamWriter streamwriter = new StreamWriter(filestream))
+        {
+            streamwriter.Write(jsonString);
+            streamwriter.Flush();
+        }
     }
 }
 

@@ -5,8 +5,6 @@ using System.Linq;
 
 public class Spider_Web : SlimeCard
 {
-
-
     public override void OnPlay(List<Slime> ActiveTeam)
     {
         base.OnPlay(ActiveTeam);
