@@ -87,9 +87,9 @@ public class GameEntry : MonoBehaviour
     {
         _player.DisablePlayerMovementRendererCamera();
         SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
-        PlayStateToBattleState?.Invoke();
         currentLevel = LevelTags.NPC_Battle;
         sceneLoader.StartAsyncLoad(currentLevel);
+        PlayStateToBattleState?.Invoke();
     }
     // Start is called before the first frame update
     void Start()
