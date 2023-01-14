@@ -28,6 +28,7 @@ public class SO_SlimePart : ScriptableObject
 {
     public ESlimePart SlimePart;
     public ESlimeType SlimeType;
+    public CardComponentType CardComponentType;
     public string PartName;
     public Sprite ImgToDisplay;
     public float Power;

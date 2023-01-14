@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SlimeCard : CardBase, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerClickHandler
+public class SlimeCard : CardBase,
+    IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private bool CanDisplayInfo { get { return myOwner == DECK_SLOTS.PLAYER && myState != CardState.DECK; } }
 
@@ -44,6 +45,7 @@ public class SlimeCard : CardBase, IPointerEnterHandler, IPointerExitHandler, IP
         CardCost.text = _base.GetCost().ToString();
         img.sprite = _base.GetSlimeSprite();
         myOwner = _who;
+        rawCardStats = _base;
     }
 
     public virtual void OnPointerEnter(PointerEventData eventData)
@@ -74,40 +76,21 @@ public class SlimeCard : CardBase, IPointerEnterHandler, IPointerExitHandler, IP
             Debug.Log($"Clicked on {card.CardName.text}");
         }
     }
-
     public override void OnPlay()
     {
+        myState = CardState.IN_PLAY;
     }
 
     public override void OnEnterDiscardPile()
     {
+        myState = CardState.DISCARD;
     }
 
     public override void OnExitDiscardPile()
     {
     }
-    Vector2 startPos;
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void DEBUG_Message()
     {
-        Debug.Log("OnPointerDown");
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        Debug.Log("OnDrag");
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        Debug.Log("OnPointerUp");
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        if (hit)
-        {
-            Slime enemy = hit.transform.gameObject.GetComponent<Slime>();
-            if (enemy != null)
-            {
-                Debug.Log($"Released On {enemy.SlimeName}");
-            }
-        }
+        Debug.Log($"{rawCardStats.GetSlimePartName()} wants to deal {rawCardStats.GetPower()}");
     }
 }

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 3
   SlimeType: 12
+  CardComponentType: 37
   PartName: Feint Attack
   ImgToDisplay: {fileID: 21300000, guid: 4cad269a05824bb4587650db79267191, type: 3}
   Power: 60

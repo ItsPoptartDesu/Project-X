@@ -1,49 +1,30 @@
 {
-    "TrainerName": "Stubs",
-    "teamInfo": {
-        "SavedSlime": [
-            {
-                "PartNames": [
-                    "Dragon Breath",
-                    "SlimeBodyBase",
-                    "Taunt",
-                    "Tail Glow",
-                    "Quiver Dance",
-                    "Clangorous Soul",
-                    "Snarl"
-                ],
-                "SlimeName": "",
-                "secret": "576659ce-2c32-43b2-a3f7-1bb6b583212a",
-                "TeamPos": 0
-            },
-            {
-                "PartNames": [
-                    "Twister",
-                    "SlimeBodyBase",
-                    "X-Scissor",
-                    "Fake Tears",
-                    "Clanging Scales",
-                    "Fell Stinger",
-                    "Night Daze"
-                ],
-                "SlimeName": "",
-                "secret": "dbe36519-f2be-416a-9ad0-33eda672e56c",
-                "TeamPos": 1
-            },
-            {
-                "PartNames": [
-                    "Embargo",
-                    "SlimeBodyBase",
-                    "Bug Buzz",
-                    "Assurance",
-                    "Nasty Plot",
-                    "Bite",
-                    "Pollen Puff"
-                ],
-                "SlimeName": "",
-                "secret": "5cc1713b-8e9f-49ea-ab94-969c1ce3dbe8",
-                "TeamPos": 3
-            }
+  "TrainerName": "Stubs",
+  "teamInfo": {
+    "SavedSlime": [
+      {
+        "PartNames": [
+          "Spider Web",
+          "SlimeBodyBase",
+          "Torment",
+          "Megahorn",
+          "Switcheroo",
+          "Steamroller",
+          "Dragon Snot"
+        ],
+        "SlimeName": "",
+        "secret": "369ef834-171e-40c9-a427-2e84947df75a",
+        "TeamPos": 2,
+        "myCardType": [
+          76,
+          5,
+          86,
+          52,
+          82,
+          77,
+          30
         ]
-    }
+      }
+    ]
+  }
 }

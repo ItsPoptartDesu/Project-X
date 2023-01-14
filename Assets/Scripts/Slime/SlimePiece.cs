@@ -13,7 +13,7 @@ public class SlimePiece : MonoBehaviour
     public int HealthModifier = 0;
     [SerializeField]
     private int StartingHealth = 100;
-
+    public CardComponentType GetCardType() { return basePart.CardComponentType; }
     public void Awake()
     {
         myRenderer = GetComponent<SpriteRenderer>();

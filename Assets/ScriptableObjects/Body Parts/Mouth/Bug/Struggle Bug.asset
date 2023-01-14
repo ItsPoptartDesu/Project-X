@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 2
   SlimeType: 5
+  CardComponentType: 80
   PartName: Struggle Bug
   ImgToDisplay: {fileID: 21300000, guid: aacce7f8dc01bb745a0a3383d7851abf, type: 3}
   Power: 50

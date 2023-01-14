@@ -146,17 +146,13 @@ public class JsonSaveData
 [System.Serializable]
 public class JsonSlimeInfo
 {
-    //public override bool Equals(object obj)
-    //{
-    //    var other = obj as JsonSlimeInfo;
-    //}
-    [SerializeField]
-    public List<string> PartNames;
     public JsonSlimeInfo(Slime _slime)
     {
-        PartNames = new List<string>();
-        foreach (var p in _slime.GetActiveParts())
-            PartNames.Add(p.GetSlimePartName());
+        myCardType = new List<CardComponentType>();
+        foreach (SlimePiece p in _slime.GetActiveParts())
+        {
+            myCardType.Add(p.GetCardType());
+        }
         SlimeName = _slime.SlimeName;
         TeamPos = _slime.myBoardPos;
         secret = _slime.secret;
@@ -167,10 +163,13 @@ public class JsonSlimeInfo
     public string secret;
     [SerializeField]
     public BoardPos TeamPos;
+    [SerializeField]
+    public List<CardComponentType> myCardType;
+
     public void DebugStatement()
     {
         string statement = SlimeName + " Parts: ";
-        foreach (var p in PartNames)
+        foreach (var p in myCardType)
         {
             statement += p + " & ";
         }

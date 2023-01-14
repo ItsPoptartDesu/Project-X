@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 5
   SlimeType: 10
+  CardComponentType: 30
   PartName: Dragon Snot
   ImgToDisplay: {fileID: 21300000, guid: caa0a583fe72b79449860d3609c0f876, type: 3}
   Power: 35

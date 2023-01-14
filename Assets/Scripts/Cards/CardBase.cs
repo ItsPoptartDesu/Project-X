@@ -9,22 +9,27 @@ public enum CardState
     DECK,
     HAND,
     IN_PLAY,
+    DISCARD,
     GRAVE_YARD,
+    LIMBO,
 }
 
 public abstract class CardBase : MonoBehaviour
 {
+    [HideInInspector]
+    public SlimePiece rawCardStats;
     public TextMeshProUGUI CardName;
     public TextMeshProUGUI CardDescription;
     public TextMeshProUGUI CardAttack;
     public TextMeshProUGUI CardCost;
     public Image img;
-    [HideInInspector]
-    public SlimePiece rawCardStats;
     public GameObject CardFrontRoot;
     public GameObject CardBackRoot;
     public DECK_SLOTS myOwner = DECK_SLOTS.STARTING;
     public CardState myState = CardState.DECK;
+    [SerializeField]
+    private CardComponentType cardType; 
+    public CardComponentType GetCardType() { return cardType; }
     public virtual void OnDeckCreation()
     {
         ToggleDisplayRoot(false);

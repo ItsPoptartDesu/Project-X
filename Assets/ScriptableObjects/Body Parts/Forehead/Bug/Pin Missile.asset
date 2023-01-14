@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 6
   SlimeType: 5
+  CardComponentType: 60
   PartName: Pin Missile
   ImgToDisplay: {fileID: 21300000, guid: 1d9efcd1339430d44bc94c7173a479d8, type: 3}
   Power: 25

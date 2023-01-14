@@ -25,8 +25,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject GetActivePlayerObject() { return ActivePlayer.gameObject; }
     public PlayerController GetActivePlayer() { return ActivePlayer; }
 
-    private Dictionary<string, SO_SlimePart> LookupTable = new Dictionary<string, SO_SlimePart>();
-
+    [Header("Scriptable Objects")]
+    [Space(1)]
     [SerializeField]
     private List<SO_SlimePart> SO_ForeheadParts = new List<SO_SlimePart>();
 
@@ -48,9 +48,18 @@ public class ObjectManager : MonoBehaviour
     [SerializeField]
     private List<SO_SlimePart> SO_BodyParts = new List<SO_SlimePart>();
 
+    [Header("Card Prefabs")]
+    [Space(1)]
+    [SerializeField]
+    private List<SlimeCard> GameCardPrefabs = new List<SlimeCard>();
+    private Dictionary<CardComponentType, SlimeCard> CardLookup = new Dictionary<CardComponentType, SlimeCard>();
+    private Dictionary<CardComponentType, SO_SlimePart> So_Lookup = new Dictionary<CardComponentType, SO_SlimePart>();
+
+
     public static ObjectManager Instance { get; private set; }
 
     private List<GameObject> toBeDeleted = new List<GameObject>();
+    [Space(1)]
     [SerializeField]
     private GameObject CardPrefab;
     public float BattleScale = 75f;
@@ -69,7 +78,7 @@ public class ObjectManager : MonoBehaviour
     {
         GameObject card = Instantiate(CardPrefab);
         SlimeCard sCard = card.GetComponent<SlimeCard>();
-        sCard.AssignCardValues(_base,_who);
+        sCard.AssignCardValues(_base, _who);
         //sCard.rawCardStats = _base;
         MarkObjectToBeDeleted(card);
         return sCard;
@@ -134,10 +143,10 @@ public class ObjectManager : MonoBehaviour
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
         slimeComp.Init(_copy);
 
-        foreach (string partName in _copy.PartNames)
+        for(int i = 0; i < _copy.myCardType.Count; i++)
         {
-            SO_SlimePart part = LookupTable[partName];
-            slimeComp.UpdateSlimePart(part.SlimePart, part);
+            SO_SlimePart sp = So_Lookup[_copy.myCardType[i]];
+            slimeComp.UpdateSlimePart(sp.SlimePart, sp);
         }
         if (!_overrideDelete)
             MarkObjectToBeDeleted(slimePrefab);
@@ -145,24 +154,43 @@ public class ObjectManager : MonoBehaviour
     }
     public void LoadAssets()
     {
-        CreateLookUpTable();
+        CreatePart_LookupTable();
     }
-    private void CreateLookUpTable()
+    private void CreatePart_LookupTable()
     {
         foreach (var p in SO_ForeheadParts)
-            LookupTable.Add(p.PartName, p);
+        {
+            So_Lookup.Add(p.CardComponentType, p);
+        }
         foreach (var p in SO_EarParts)
-            LookupTable.Add(p.PartName, p);
+        {
+            So_Lookup.Add(p.CardComponentType, p);
+        }
         foreach (var p in SO_EyeParts)
-            LookupTable.Add(p.PartName, p);
+        {
+            So_Lookup.Add(p.CardComponentType, p);
+        }
         foreach (var p in SO_MouthParts)
-            LookupTable.Add(p.PartName, p);
+        {
+            So_Lookup.Add(p.CardComponentType, p);
+        }
         foreach (var p in SO_TailParts)
-            LookupTable.Add(p.PartName, p);
+        {
+            So_Lookup.Add(p.CardComponentType, p);
+        }
         foreach (var p in SO_BackParts)
-            LookupTable.Add(p.PartName, p);
+        {
+            So_Lookup.Add(p.CardComponentType, p);
+        }
         foreach (var p in SO_BodyParts)
-            LookupTable.Add(p.PartName, p);
+        {
+            So_Lookup.Add(p.CardComponentType, p);
+        }
+
+        foreach (var p in GameCardPrefabs)
+        {
+            CardLookup.Add(p.GetCardType(), p);
+        }
     }
     public GameObject GeneratePlayer(/*probly need player save data outside of slime*/)
     {

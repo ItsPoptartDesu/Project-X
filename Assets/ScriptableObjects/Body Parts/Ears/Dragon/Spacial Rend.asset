@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 0
   SlimeType: 10
+  CardComponentType: 75
   PartName: Spacial Rend
   ImgToDisplay: {fileID: 21300000, guid: 916daff491e5b1245a232e997fd02ca8, type: 3}
   Power: 100

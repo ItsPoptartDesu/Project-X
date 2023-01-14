@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 6
   SlimeType: 10
+  CardComponentType: 88
   PartName: Twister
   ImgToDisplay: {fileID: 21300000, guid: aea751a727cad1c49bc599975fb0b747, type: 3}
   Power: 40

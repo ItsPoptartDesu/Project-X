@@ -1729,6 +1729,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 610af16f268275d48a0f3e94cc7b55f9, type: 2}
   SO_BodyParts:
   - {fileID: 11400000, guid: 87743d051d8d4cd4f836e32fe45c6798, type: 2}
+  GameCardPrefabs:
+  - {fileID: 2726144140892189901, guid: fd342a71b73080f40a0604fc8d36d7e6, type: 3}
+  - {fileID: 5280655058908278023, guid: 94ae88d0f5e4149409b0221fb53a5420, type: 3}
+  - {fileID: 1884209331866242498, guid: 450c3140c154c5f4aa536853f1e200c6, type: 3}
+  - {fileID: 5765432173324782569, guid: 0bcb439600a42674788e47e7ef134850, type: 3}
+  - {fileID: -6083052874316486968, guid: 77510dbc68550354d832c022db14cd4d, type: 3}
+  - {fileID: 1324582098956276758, guid: e97ba5f0968353749900c525ada4419b, type: 3}
   CardPrefab: {fileID: 1111378251754244028, guid: 44bd6532184386046924657da56ec654,
     type: 3}
   BattleScale: 75

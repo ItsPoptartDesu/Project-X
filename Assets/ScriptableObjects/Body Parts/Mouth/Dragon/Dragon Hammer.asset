@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 2
   SlimeType: 10
+  CardComponentType: 18
   PartName: Dragon Hammer
   ImgToDisplay: {fileID: 21300000, guid: 1b9e87c97984206409fcead5608a365f, type: 3}
   Power: 90

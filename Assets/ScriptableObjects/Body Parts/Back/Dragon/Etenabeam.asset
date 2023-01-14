@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 3
   SlimeType: 10
+  CardComponentType: 35
   PartName: Eternabeam
   ImgToDisplay: {fileID: 21300000, guid: 3365ff3d34c6d4c428a6199ca129bfce, type: 3}
   Power: 160

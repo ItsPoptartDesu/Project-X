@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 1
   SlimeType: 10
+  CardComponentType: 68
   PartName: Roar of Time
   ImgToDisplay: {fileID: 21300000, guid: 891175226dc71734993b69054e90f40f, type: 3}
   Power: 150

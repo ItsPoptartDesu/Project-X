@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 0
   SlimeType: 12
+  CardComponentType: 53
   PartName: Memento
   ImgToDisplay: {fileID: 21300000, guid: dd6fa3a5930ffc24d9a14f4eb4ff8174, type: 3}
   Power: 0

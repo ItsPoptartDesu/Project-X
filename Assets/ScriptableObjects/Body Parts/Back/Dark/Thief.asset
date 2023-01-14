@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 3
   SlimeType: 12
+  CardComponentType: 85
   PartName: Theif
   ImgToDisplay: {fileID: 21300000, guid: d8671ca14793145408ac91e5f5363c2b, type: 3}
   Power: 60

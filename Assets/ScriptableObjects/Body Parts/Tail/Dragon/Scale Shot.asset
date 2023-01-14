@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 5
   SlimeType: 10
+  CardComponentType: 70
   PartName: Scale Shot
   ImgToDisplay: {fileID: 21300000, guid: bc952f1c175f342479feb39bc2b1e3ec, type: 3}
   Power: 25

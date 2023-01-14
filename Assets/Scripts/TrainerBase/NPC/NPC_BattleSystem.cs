@@ -33,6 +33,7 @@ public class NPC_BattleSystem : LevelBehavior
     public BattleState state;
     private Dictionary<DECK_SLOTS, Queue<SlimeCard>> Decks = new Dictionary<DECK_SLOTS, Queue<SlimeCard>>();
     private Dictionary<DECK_SLOTS, List<SlimeCard>> Hands = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
+    private Dictionary<DECK_SLOTS, List<SlimeCard>> Discard = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
     private int[] Mana = new int[2];
     private DECK_SLOTS currentTurn = DECK_SLOTS.STARTING;
     private Queue<SlimeCard> ActionQueue = new Queue<SlimeCard>();
@@ -41,6 +42,17 @@ public class NPC_BattleSystem : LevelBehavior
     void Start()
     {
 
+    }
+    public void Update()
+    {
+        while (ActionQueue.Count > 0)
+        {
+            SlimeCard card = ActionQueue.Dequeue();
+            card.OnPlay();
+
+            card.OnEnterDiscardPile();
+            Discard[currentTurn].Add(card);
+        }
     }
     public void PreLoadForBattle(PlayerController _player, NPC_Trainer _npc)
     {
@@ -57,6 +69,7 @@ public class NPC_BattleSystem : LevelBehavior
     private IEnumerator Draw(DECK_SLOTS _who, int _numCards)
     {
         WaitForSeconds wfs = new WaitForSeconds(0.1f);
+        Hands[_who] = new List<SlimeCard>();
         for (int i = 0; i < _numCards; i++)
         {
             SlimeCard deckToHand = Decks[_who].Dequeue();
@@ -64,12 +77,14 @@ public class NPC_BattleSystem : LevelBehavior
             deckToHand.OnEnterHand();
             if (_who == DECK_SLOTS.NPC)
                 deckToHand.ToggleCardBackRoot(true);
+            Hands[_who].Add(deckToHand);
             yield return wfs;
         }
     }
     public void CreateDecks(Slime _slime, DECK_SLOTS _who)
     {
         Decks[_who] = new Queue<SlimeCard>();
+        Discard[_who] = new List<SlimeCard>();
         Transform who = _who == DECK_SLOTS.PLAYER ? DeckAttachmentPoints[(int)DECK_SLOTS.PLAYER] : DeckAttachmentPoints[(int)DECK_SLOTS.NPC];
         List<SlimeCard> toBeAdded = new List<SlimeCard>();
         foreach (var piece in _slime.GetActiveParts())
@@ -137,6 +152,8 @@ public class NPC_BattleSystem : LevelBehavior
             Debug.Log($"Can not play {_card.CardName}: {cost} cost");
             return;
         }
+        _card.myState = CardState.LIMBO;
+        Hands[currentTurn].Remove(_card);
         ActionQueue.Enqueue(_card);
     }
 }

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 1
   SlimeType: 12
+  CardComponentType: 36
   PartName: Fake Tears
   ImgToDisplay: {fileID: 21300000, guid: b6fdc06b31392054ea862aee1deb5e66, type: 3}
   Power: 0
