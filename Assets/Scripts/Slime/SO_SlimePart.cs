@@ -31,6 +31,6 @@ public class SO_SlimePart : ScriptableObject
     public CardComponentType CardComponentType;
     public string PartName;
     public Sprite ImgToDisplay;
-    public float Power;
+    public int Power;
     public int Cost;
 }

@@ -13,7 +13,8 @@ public enum BoardPos
 
 public class Slime : MonoBehaviour
 {
-    private int RawHealth = 100;
+    private int BaseHP = 100;
+    private int RawHealth;
     private int HealthModifier = 0;
     public int GetHealth() { return HealthModifier + RawHealth; }
 
@@ -46,6 +47,7 @@ public class Slime : MonoBehaviour
     {
         dna = _copy;
         secret = _copy == null ? System.Guid.NewGuid().ToString() : _copy.secret;
+        RawHealth = BaseHP;
         foreach (var p in _RenderParts)
         {
             if (slimeParts.ContainsKey(p.GetESlimePart()))
@@ -93,5 +95,18 @@ public class Slime : MonoBehaviour
         }
         statement += "attached to it";
         Debug.Log(statement);
+    }
+
+    public void ApplyDamage(int _damage)
+    {
+        int hp = GetHealth();
+        hp -= _damage;
+        if (hp < 0)
+            Die();
+        
+    }
+    private void Die()
+    {
+
     }
 }

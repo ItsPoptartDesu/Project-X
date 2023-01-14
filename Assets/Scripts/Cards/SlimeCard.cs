@@ -76,9 +76,10 @@ public class SlimeCard : CardBase,
             Debug.Log($"Clicked on {card.CardName.text}");
         }
     }
-    public override void OnPlay()
+    public override void OnPlay(List<Slime> _NPCActiveTeam)
     {
         myState = CardState.IN_PLAY;
+        DEBUG_Message();
     }
 
     public override void OnEnterDiscardPile()

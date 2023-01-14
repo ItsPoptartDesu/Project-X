@@ -23,6 +23,7 @@ public class NPC_BattleSystem : LevelBehavior
     private List<SpawnPoints> NPC_SpawnPoints;
     [SerializeField]
     private List<SpawnPoints> Player_SpawnPoints;
+
     public Canvas mainCanvas;
     private Dictionary<DECK_SLOTS, Queue<SlimeCard>> Decks = new Dictionary<DECK_SLOTS, Queue<SlimeCard>>();
     private Dictionary<DECK_SLOTS, List<SlimeCard>> Hands = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
@@ -30,7 +31,13 @@ public class NPC_BattleSystem : LevelBehavior
     private int[] Mana = new int[2];
     private DECK_SLOTS currentTurn = DECK_SLOTS.STARTING;
     private Queue<SlimeCard> ActionQueue = new Queue<SlimeCard>();
-
+    public void UpdateHealthBars(DECK_SLOTS _who, BoardPos _pos, int _hp)
+    {
+        SpawnPoints sp = _who == DECK_SLOTS.PLAYER ?
+            Player_SpawnPoints.First(x => x.Spot == _pos) :
+            NPC_SpawnPoints.First(x => x.Spot == _pos);
+        sp.myHealthBar.SetHealth(_hp);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +48,7 @@ public class NPC_BattleSystem : LevelBehavior
         while (ActionQueue.Count > 0)
         {
             SlimeCard card = ActionQueue.Dequeue();
-            card.OnPlay();
+            card.OnPlay(npc.ActiveTeam);
 
             card.OnEnterDiscardPile();
             Discard[currentTurn].Add(card);
@@ -75,39 +82,52 @@ public class NPC_BattleSystem : LevelBehavior
     }
     public void CreateDecks(Slime _slime, DECK_SLOTS _who)
     {
-        Decks[_who] = new Queue<SlimeCard>();
+        var l = ShuffleDeck(_slime.GetActiveParts()
+                    .Where(part => part.GetSlimePart() != ESlimePart.BODY)
+                    .Select(part =>
+                    {
+                        SlimeCard card = ObjectManager.Instance.CreateCard(part, _who);
+                        card.OnEnterDeck();
+                        card.AttachParent(_who == DECK_SLOTS.PLAYER ?
+                            DeckAttachmentPoints[(int)DECK_SLOTS.PLAYER] :
+                            DeckAttachmentPoints[(int)DECK_SLOTS.NPC]);
+                        return card;
+                    }).ToList());
+        Decks[_who] = new Queue<SlimeCard>(l);
         Discard[_who] = new List<SlimeCard>();
-        Transform who = _who == DECK_SLOTS.PLAYER ? DeckAttachmentPoints[(int)DECK_SLOTS.PLAYER] : DeckAttachmentPoints[(int)DECK_SLOTS.NPC];
-        List<SlimeCard> toBeAdded = new List<SlimeCard>();
-        foreach (var piece in _slime.GetActiveParts())
-        {
-            if (piece.GetSlimePart() == ESlimePart.BODY)
-                continue;
-            SlimeCard Card = ObjectManager.Instance.CreateCard(piece, _who);
-            Card.OnEnterDeck();
-            toBeAdded.Add(Card);
-            Card.AttachParent(who);
-        }
-        toBeAdded = ShuffleDeck(toBeAdded);
-        for (int i = 0; i < toBeAdded.Count; i++)
-        {
-            Decks[_who].Enqueue(toBeAdded[i]);
-        }
     }
+    #region Old Create Deck Open AI scares me, just in case XD 
+    //Decks[_who] = new Queue<SlimeCard>();
+    //Discard[_who] = new List<SlimeCard>();
+    //Transform who = _who == DECK_SLOTS.PLAYER ? DeckAttachmentPoints[(int)DECK_SLOTS.PLAYER] : DeckAttachmentPoints[(int)DECK_SLOTS.NPC];
+    //List<SlimeCard> toBeAdded = new List<SlimeCard>();
+    //foreach (var piece in _slime.GetActiveParts())
+    //{
+    //    if (piece.GetSlimePart() == ESlimePart.BODY)
+    //        continue;
+    //    SlimeCard Card = ObjectManager.Instance.CreateCard(piece, _who);
+    //    Card.OnEnterDeck();
+    //    toBeAdded.Add(Card);
+    //    Card.AttachParent(who);
+    //}
+    //toBeAdded = ShuffleDeck(toBeAdded);
+    //for (int i = 0; i < toBeAdded.Count; i++)
+    //{
+    //    Decks[_who].Enqueue(toBeAdded[i]);
+    //}
+    #endregion
     public List<SlimeCard> ShuffleDeck(List<SlimeCard> _toBeShuffled)
     {
-        return _toBeShuffled.OrderBy(x => Guid.NewGuid()).ToList();
+        System.Random rnd = new System.Random();
+        for (int i = _toBeShuffled.Count - 1; i > 0; i--)
+        {
+            int k = rnd.Next(i + 1);
+            SlimeCard value = _toBeShuffled[k];
+            _toBeShuffled[k] = _toBeShuffled[i];
+            _toBeShuffled[i] = value;
+        }
+        return _toBeShuffled;
     }
-    //public void ShuffleDecks(DECK_SLOTS _who)
-    //{
-    //    System.Random rnd = new System.Random();
-    //    for (int i = Decks[_who].Count - 1; i >= 0; i--)
-    //    {
-    //        int index = rnd.Next(i + 1);
-    //        var temp = Decks[_who][i];
-    //        Decks[_who][index] = temp;
-    //    }
-    //}
     public override void PostLevelLoad()
     {
         user.DisablePlayerMovementAndRenderer();
@@ -145,7 +165,7 @@ public class NPC_BattleSystem : LevelBehavior
             Debug.Log($"Can not play {_card.CardName}: {cost} cost");
             return;
         }
-        Debug.Log($"Playing {_card.CardName}");
+        Debug.Log($"Playing {_card.CardName.text}");
         _card.myState = CardState.LIMBO;
         Hands[currentTurn].Remove(_card);
         ActionQueue.Enqueue(_card);

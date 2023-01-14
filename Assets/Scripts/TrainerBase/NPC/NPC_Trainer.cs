@@ -19,6 +19,7 @@ public class NPC_Trainer : MonoBehaviour
     [SerializeField]
     JSONTrainerInfo trainerInfo;
     bool hasBeenBattled = false;
+    public List<Slime> ActiveTeam = new List<Slime>();
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +54,7 @@ public class NPC_Trainer : MonoBehaviour
         {
             var NPC_Slime = ObjectManager.Instance.GenerateSlime(slime);
             Slime slimeComp = NPC_Slime.GetComponent<Slime>();
+
             int pos = (int)slimeComp.dna.TeamPos;
             slimeComp.AttachParent(_spawnPoints[pos].transform);
             slimeComp.transform.localScale = new Vector3(
@@ -60,6 +62,7 @@ public class NPC_Trainer : MonoBehaviour
                 ObjectManager.Instance.BattleScale,
                 ObjectManager.Instance.BattleScale);
             _system.CreateDecks(slimeComp, DECK_SLOTS.NPC);
+            ActiveTeam.Add(slimeComp);
         }
     }
 }

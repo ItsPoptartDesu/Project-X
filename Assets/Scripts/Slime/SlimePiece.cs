@@ -8,7 +8,7 @@ public class SlimePiece : MonoBehaviour
     private ESlimePart eSlimePart;
     protected SpriteRenderer myRenderer;
     private SO_SlimePart basePart;
-    public float PowerModifier = 0;
+    public int PowerModifier = 0;
     public int CostModifier = 0;
     public int HealthModifier = 0;
     [SerializeField]
@@ -29,8 +29,8 @@ public class SlimePiece : MonoBehaviour
     public ESlimeType GetSlimeType() { return basePart.SlimeType; }
     public string GetSlimePartName() { return basePart.PartName; }
     public Sprite GetSlimeSprite() { return basePart.ImgToDisplay; }
-    public float GetPower() { return basePart.Power + PowerModifier; }
-    public float GetCost() { return basePart.Cost + CostModifier; }
+    public int GetPower() { return basePart.Power + PowerModifier; }
+    public int GetCost() { return basePart.Cost + CostModifier; }
     public int GetHealth() { return StartingHealth + HealthModifier; }
     public void UpdateSlimePart(SO_SlimePart _part)
     {

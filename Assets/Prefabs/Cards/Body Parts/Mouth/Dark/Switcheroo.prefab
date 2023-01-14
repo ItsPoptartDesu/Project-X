@@ -136,17 +136,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5fc633620c9f641878b3a2785d6f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rawCardStats: {fileID: 0}
   CardName: {fileID: 3733555412242412194}
   CardDescription: {fileID: 8066987306581407956}
   CardAttack: {fileID: 6872660084411793347}
   CardCost: {fileID: 1041494376615176885}
   img: {fileID: 1644063832947300592}
-  rawCardStats: {fileID: 0}
   CardFrontRoot: {fileID: 1247021899283560808}
   CardBackRoot: {fileID: 6735711975502314650}
   myOwner: 0
   myState: 0
-  cardType: 81
+  cardType: 82
 --- !u!1 &1247021899283560808
 GameObject:
   m_ObjectHideFlags: 0

@@ -100,6 +100,8 @@ MonoBehaviour:
   eSlimePart: 3
   PowerModifier: 0
   CostModifier: 0
+  HealthModifier: 0
+  StartingHealth: 100
 --- !u!1 &5783604936331607395
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +202,8 @@ MonoBehaviour:
   eSlimePart: 1
   PowerModifier: 0
   CostModifier: 0
+  HealthModifier: 0
+  StartingHealth: 100
 --- !u!1 &6553135368856808518
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,6 +304,8 @@ MonoBehaviour:
   eSlimePart: 5
   PowerModifier: 0
   CostModifier: 0
+  HealthModifier: 0
+  StartingHealth: 100
 --- !u!1 &6823317311711805380
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,6 +406,8 @@ MonoBehaviour:
   eSlimePart: 0
   PowerModifier: 0
   CostModifier: 0
+  HealthModifier: 0
+  StartingHealth: 100
 --- !u!1 &7406302591809983975
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,9 +466,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dna:
-    PartNames: []
     SlimeName: 
+    secret: 
     TeamPos: 0
+    myCardType: 
+  secret: 
   _RenderParts:
   - {fileID: 3074912535185798926}
   - {fileID: 7989483929756840640}
@@ -590,6 +600,8 @@ MonoBehaviour:
   eSlimePart: 6
   PowerModifier: 0
   CostModifier: 0
+  HealthModifier: 0
+  StartingHealth: 100
 --- !u!1 &7406302593585736704
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +702,8 @@ MonoBehaviour:
   eSlimePart: 4
   PowerModifier: 0
   CostModifier: 0
+  HealthModifier: 0
+  StartingHealth: 100
 --- !u!1 &9087500783884170247
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,3 +804,5 @@ MonoBehaviour:
   eSlimePart: 2
   PowerModifier: 0
   CostModifier: 0
+  HealthModifier: 0
+  StartingHealth: 100
