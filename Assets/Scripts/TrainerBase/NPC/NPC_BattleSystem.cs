@@ -59,6 +59,7 @@ public class NPC_BattleSystem : LevelBehavior
 
             card.OnEnterDiscardPile();
             Discard[currentTurn].Add(card);
+            ((UI_NPCBattle)LevelManager.Instance.currentLevel.inGameUIController).AddCardToDiscardPile(card);
         }
     }
     public void PreLoadForBattle(PlayerController _player, NPC_Trainer _npc)

@@ -28,7 +28,13 @@ public class UI_NPCBattle : UI_Base
     public Transform Trainer_Hand_Root;
 
     public static event System.Action OnClickLeaveBattle;
-
+    public void AddCardToDiscardPile(SlimeCard _ToBeAdded)
+    {
+        _ToBeAdded.transform.SetParent(Player_text_discardPile.transform);
+        int amount = System.Int32.Parse(Player_text_discardPile.text);
+        amount++;
+        Player_text_discardPile.text = amount.ToString();
+    }
     public override void DisableInGameUI()
     {
         UIRoot.enabled = false;

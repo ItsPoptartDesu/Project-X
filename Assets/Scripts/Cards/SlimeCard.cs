@@ -85,6 +85,8 @@ public class SlimeCard : CardBase,
     public override void OnEnterDiscardPile()
     {
         myState = CardState.DISCARD;
+        ToggleCardBackRoot(false);
+        ToggleDisplayRoot(false);
     }
 
     public override void OnExitDiscardPile()
