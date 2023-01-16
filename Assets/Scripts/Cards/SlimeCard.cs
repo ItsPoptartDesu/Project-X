@@ -8,6 +8,7 @@ public class SlimeCard : CardBase,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private bool CanDisplayInfo { get { return myOwner == DECK_SLOTS.PLAYER && myState != CardState.DECK; } }
+    private bool CanPlayCard { get { return ((NPC_BattleSystem)LevelManager.Instance.currentLevel).GetCurrentTurn() == DECK_SLOTS.PLAYER; } }
 
     public override void OnEnterDeck()
     {
@@ -52,20 +53,17 @@ public class SlimeCard : CardBase,
     {
         if (!CanDisplayInfo)
             return;
-        Debug.Log("OnPointerEnter");
-
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
         if (!CanDisplayInfo)
             return;
-        Debug.Log("OnPointerExit");
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (!CanDisplayInfo)
+        if (!CanPlayCard)
             return;
         Debug.Log("OnPointerClick");
         GameObject clickedOn = eventData.pointerPress;

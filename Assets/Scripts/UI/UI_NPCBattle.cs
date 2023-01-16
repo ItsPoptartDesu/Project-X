@@ -8,32 +8,34 @@ public class UI_NPCBattle : UI_Base
     public GameObject CardPrefabRoot;
     public Canvas UIRoot;
     public GameObject EscapeMenuRoot;
+    [Header("UI")]
+    public TextMeshProUGUI[] DiscardText = new TextMeshProUGUI[2];
+    public TextMeshProUGUI[] DrawPileText = new TextMeshProUGUI[2];
+    public TextMeshProUGUI[] InkedPileText = new TextMeshProUGUI[2];
+    public TextMeshProUGUI[] NameTagText = new TextMeshProUGUI[2];
+    [Space(2)]
     [Header("Game Timer")]
     public TextMeshProUGUI Text_TurnCounter;
     public TextMeshProUGUI Text_Timer;
     public TextMeshProUGUI Text_PlayerTurnIndicator;
     [Space(2f)]
     [Header("Player")]
-    public TextMeshProUGUI Player_text_discardPile;
-    public TextMeshProUGUI Player_text_drawPile;
-    public TextMeshProUGUI Player_text_inkedPile;
     public List<Transform> Player_Team;
     public Transform Player_Hand_Root;
+
+
     [Space(2f)]
     [Header("Trainer")]
-    public TextMeshProUGUI Trainer_text_discardPile;
-    public TextMeshProUGUI Trainer_text_drawPile;
-    public TextMeshProUGUI Trainer_text_inkedPile;
     public List<Transform> Trainer_Team;
     public Transform Trainer_Hand_Root;
 
     public static event System.Action OnClickLeaveBattle;
     public void AddCardToDiscardPile(SlimeCard _ToBeAdded)
     {
-        _ToBeAdded.transform.SetParent(Player_text_discardPile.transform);
-        int amount = System.Int32.Parse(Player_text_discardPile.text);
+        _ToBeAdded.transform.SetParent(DiscardText[(int)_ToBeAdded.myOwner].transform);
+        int amount = System.Int32.Parse(DiscardText[(int)_ToBeAdded.myOwner].text);
         amount++;
-        Player_text_discardPile.text = amount.ToString();
+        DiscardText[(int)_ToBeAdded.myOwner].text = amount.ToString();
     }
     public override void DisableInGameUI()
     {
@@ -45,16 +47,11 @@ public class UI_NPCBattle : UI_Base
         UIRoot.enabled = !UIRoot.enabled;
         EscapeMenuRoot.SetActive(!EscapeMenuRoot.activeSelf);
     }
-
-    // Start is called before the first frame update
-    void Start()
+    public void UpdateUIObject(DECK_SLOTS _who, int _deckSize, string _name)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        DiscardText[(int)_who].text = "0";
+        InkedPileText[(int)_who].text = "0";
+        NameTagText[(int)_who].text = _name;
+        DrawPileText[(int)_who].text = _deckSize.ToString();
     }
 }

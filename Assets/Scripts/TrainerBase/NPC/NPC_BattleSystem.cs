@@ -31,7 +31,7 @@ public class NPC_BattleSystem : LevelBehavior
     private int[] Mana = new int[2];
     private DECK_SLOTS currentTurn = DECK_SLOTS.STARTING;
     private Queue<SlimeCard> ActionQueue = new Queue<SlimeCard>();
-
+    public DECK_SLOTS GetCurrentTurn() { return currentTurn; }
     public HealthBar InitHealhBar(DECK_SLOTS _who, BoardPos _pos, int _hp)
     {
         SpawnPoints sp = GetSpawnPoint(_who, _pos);
@@ -146,23 +146,51 @@ public class NPC_BattleSystem : LevelBehavior
     {
         yield return new WaitForSeconds(2f);
         currentTurn = DECK_SLOTS.PLAYER;
-        PlayerTurn();
+        TurnPicker();
         //IncTurn();
+    }
+    private void TurnPicker()
+    {
+        switch (currentTurn)
+        {
+            case DECK_SLOTS.PLAYER:
+                PlayerTurn();
+                break;
+            case DECK_SLOTS.NPC:
+                NPCTurn();
+                break;
+            case DECK_SLOTS.STARTING:
+                break;
+            default:
+                break;
+        }
     }
     private void PlayerTurn()
     {
+
+    }
+    private void NPCTurn()
+    {
+        Debug.Log($"{currentTurn} - NPC Turn");
     }
     private void IncMana(DECK_SLOTS _who)
     {
         Mana[(int)_who]++;
     }
-    private void IncTurn()
+    /// <summary>
+    /// OnClick button function for End Turn
+    /// </summary>
+    public void IncTurn()
     {
+        foreach(var c in Hands[currentTurn])
+        {
+            c.OnEnterDiscardPile();
+        }
         currentTurn++;
         if (currentTurn >= DECK_SLOTS.MAX)
             currentTurn = DECK_SLOTS.PLAYER;
         IncMana(currentTurn);
-        PlayerTurn();
+        TurnPicker();
     }
     public void AddCardToActionQueue(SlimeCard _card)
     {
