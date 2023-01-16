@@ -72,7 +72,6 @@ public class Slime : MonoBehaviour
         System.Random random = new System.Random();
         myBoardPos = (BoardPos)values.GetValue(random.Next(values.Length));
     }
-
     public void UpdateSlimePart(ESlimePart _piece, SO_SlimePart _part)
     {
         SlimePiece sp = slimeParts[_piece];
@@ -102,7 +101,6 @@ public class Slime : MonoBehaviour
         statement += "attached to it";
         Debug.Log(statement);
     }
-
     public void ApplyDamage(int _damage)
     {
         int hp = GetHealth();
@@ -111,8 +109,6 @@ public class Slime : MonoBehaviour
             Die();
         else
             HealthBarRef.SetHealth(hp);
-
-
     }
     private void Die()
     {

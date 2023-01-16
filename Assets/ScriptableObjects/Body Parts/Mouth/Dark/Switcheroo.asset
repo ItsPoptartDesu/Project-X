@@ -17,5 +17,5 @@ MonoBehaviour:
   CardComponentType: 82
   PartName: Switcheroo
   ImgToDisplay: {fileID: 21300000, guid: 616e9f913f123dd45a6359f41789c3b3, type: 3}
-  Power: 0
+  Power: 50
   Cost: 1

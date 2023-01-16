@@ -23,7 +23,7 @@ public class NPC_BattleSystem : LevelBehavior
     private List<SpawnPoints> NPC_SpawnPoints;
     [SerializeField]
     private List<SpawnPoints> Player_SpawnPoints;
-
+    bool isNPCTurn = false;
     public Canvas mainCanvas;
     private Dictionary<DECK_SLOTS, Queue<SlimeCard>> Decks = new Dictionary<DECK_SLOTS, Queue<SlimeCard>>();
     private Dictionary<DECK_SLOTS, List<SlimeCard>> Hands = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
@@ -52,16 +52,24 @@ public class NPC_BattleSystem : LevelBehavior
     }
     public void Update()
     {
+
         while (ActionQueue.Count > 0)
         {
             SlimeCard card = ActionQueue.Dequeue();
-            var TeamToBeHit = currentTurn == DECK_SLOTS.PLAYER ? npc.ActiveTeam : user.GetActiveTeam();
+            //if the palyer is playing a card get the NPC team and vise versa
+            List<Slime> TeamToBeHit = currentTurn == DECK_SLOTS.PLAYER ? npc.ActiveTeam : user.GetActiveTeam();
             card.OnPlay(TeamToBeHit);
             ManaDisplay[(int)currentTurn].OnPlay(card.rawCardStats.GetCost());
             card.OnEnterDiscardPile();
             Discard[currentTurn].Add(card);
             ((UI_NPCBattle)LevelManager.Instance.currentLevel.inGameUIController).AddCardToDiscardPile(card);
             AddCardToDiscardPile(card);
+            if (currentTurn == DECK_SLOTS.NPC && ActionQueue.Count == 0)
+                isNPCTurn = false;
+            if (!isNPCTurn && currentTurn == DECK_SLOTS.NPC)
+            {
+                IncTurn();
+            }
         }
     }
 
@@ -191,11 +199,6 @@ public class NPC_BattleSystem : LevelBehavior
     {
         StartCoroutine(Draw(currentTurn, StartDrawAmount));
         Debug.Log($"{currentTurn} - NPC Turn");
-        NPC_Turn();
-        IncTurn();
-    }
-    private void NPC_Turn()
-    {
         List<SlimeCard> cards = Hands[currentTurn];
         SlimeCard CardToPlay = cards.Where(x => x.rawCardStats.GetCost() <= ManaDisplay[(int)currentTurn].GetCurrentMana()).First();
         AddCardToActionQueue(CardToPlay);

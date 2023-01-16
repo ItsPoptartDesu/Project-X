@@ -5,21 +5,16 @@ using System;
 
 public enum CardComponentType
 {
-    Assurance, Attack_Order, Beat_Up, Bug_Bite, Bite, BODY, Breaking_Swipe, Bug_Buzz,
-    Clanging_Scales, Clangorous_Soul, Clangorous_Soulblaze, Core_Enforcer, Crunch,
-    Dark_Pulse, Dark_Void, Defend_Order, Devastating_Drake, Draco_Meteor,
-    DragonHammer, Dragon_Berries, Dragon_Breath, Dragon_Claw, Dragon_Dance,
-    Dragon_Darts, Dragon_Dive, Dragon_Energy, Dragon_Pride, Dragon_Pulse,
-    Dragon_Rage, Dragon_Rush, Dragon_Snot, Dragon_Tail, Dual_Chop, Dynamax_Cannon,
-    Embargo, Etenabeam, Fake_Tears, Feint_Attack, Fell_Stinger, First_Impression,
-    Flatter, Fling, Foul_Play, Fury_Cutter, Heal_Order, Hone_Claws, Infestation,
-    Knock_off, Leech_Life, Lunge, Max_Flutterby, Max_Wyrmwind, Megahorn, Memento,
-    NastyPlot, NightSlash, Night_Daze, Outrage, Parting_Shot, Payback, Pin_Missile,
-    Pollen_Puff, Powder, Punishment, Pursuit, Quash, Quiver_Dance, Rage_Powder,
-    Roar_Of_Time, Savage_Spin_Out, Scale_Shot, Signal_Beam, Silver_Wind, Snarl,
-    Snatch, Spacial_Rend, Spider_Web, Steamroller, Sticky_Web, String_Shot,
-    Struggle_Bug, Sucker_Punch, Switcheroo, Tail_Glow, Taunt, Thief, Torment,
-    Twineedle, Twister, U_Turn, X_Scissors
+    Assurance, Attack_Order, Beat_Up, Bug_Bite, Bite, BODY, Breaking_Swipe, Bug_Buzz, Clanging_Scales, Clangorous_Soul,
+    Clangorous_Soulblaze, Core_Enforcer, Crunch, Dark_Pulse, Dark_Void, Defend_Order, Devastating_Drake, Draco_Meteor,DragonHammer, Dragon_Berries, 
+    Dragon_Breath, Dragon_Claw, Dragon_Dance,Dragon_Darts, Dragon_Dive, Dragon_Energy, Dragon_Pride, Dragon_Pulse, Dragon_Rage, Dragon_Rush,
+    Dragon_Snot, Dragon_Tail, Dual_Chop, Dynamax_Cannon, Embargo, Etenabeam, Fake_Tears, Feint_Attack, Fell_Stinger, First_Impression, 
+    Flatter, Fling, Foul_Play, Fury_Cutter, Heal_Order, Hone_Claws, Infestation,Knock_off, Leech_Life,Lunge,
+    Max_Flutterby, Max_Wyrmwind, Megahorn, Memento, NastyPlot, NightSlash, Night_Daze, Outrage, Parting_Shot,
+    Payback, Pin_Missile, Pollen_Puff, Powder, Punishment, Pursuit, Quash, Quiver_Dance, Rage_Powder,Roar_Of_Time, 
+    Savage_Spin_Out, Scale_Shot, Signal_Beam, Silver_Wind, Snarl, Snatch, Spacial_Rend, Spider_Web, Steamroller, Sticky_Web,
+    String_Shot, Struggle_Bug, Sucker_Punch, Switcheroo, Tail_Glow, Taunt, Thief, Torment, Twineedle, Twister, 
+    U_Turn, X_Scissors
 }
 
 public static class ComponentMapper
@@ -143,4 +138,3 @@ public static class ComponentMapper
             #endregion
         };
 }
-
