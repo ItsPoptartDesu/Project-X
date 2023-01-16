@@ -54,4 +54,8 @@ public class UI_NPCBattle : UI_Base
         NameTagText[(int)_who].text = _name;
         DrawPileText[(int)_who].text = _deckSize.ToString();
     }
+    public void UpdateTurnDisplay(DECK_SLOTS _who)
+    {
+        Text_PlayerTurnIndicator.text = _who == DECK_SLOTS.PLAYER ? "Player Turn" : "NPC Turn";
+    }
 }

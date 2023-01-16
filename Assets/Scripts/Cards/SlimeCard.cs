@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class SlimeCard : CardBase,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -74,10 +75,12 @@ public class SlimeCard : CardBase,
             Debug.Log($"Clicked on {card.CardName.text}");
         }
     }
-    public override void OnPlay(List<Slime> _NPCActiveTeam)
+    public override void OnPlay(List<Slime> _activeTeam)
     {
         myState = CardState.IN_PLAY;
         DEBUG_Message();
+        Slime hit = _activeTeam.OrderBy(x => x.dna.TeamPos).First();
+        hit.ApplyDamage(rawCardStats.GetPower());
     }
 
     public override void OnEnterDiscardPile()
@@ -92,6 +95,6 @@ public class SlimeCard : CardBase,
     }
     public virtual void DEBUG_Message()
     {
-        Debug.Log($"{rawCardStats.GetSlimePartName()} wants to deal {rawCardStats.GetPower()}");
+        Debug.Log($"{myOwner} casts {rawCardStats.GetSlimePartName()} wants to deal {rawCardStats.GetPower()}");
     }
 }

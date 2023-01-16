@@ -28,10 +28,10 @@ public class NPC_BattleSystem : LevelBehavior
     private Dictionary<DECK_SLOTS, Queue<SlimeCard>> Decks = new Dictionary<DECK_SLOTS, Queue<SlimeCard>>();
     private Dictionary<DECK_SLOTS, List<SlimeCard>> Hands = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
     private Dictionary<DECK_SLOTS, List<SlimeCard>> Discard = new Dictionary<DECK_SLOTS, List<SlimeCard>>();
-    private int[] Mana = new int[2];
     private DECK_SLOTS currentTurn = DECK_SLOTS.STARTING;
     private Queue<SlimeCard> ActionQueue = new Queue<SlimeCard>();
     public DECK_SLOTS GetCurrentTurn() { return currentTurn; }
+    public UI_ManaDisplay[] ManaDisplay = new UI_ManaDisplay[2];
     public HealthBar InitHealhBar(DECK_SLOTS _who, BoardPos _pos, int _hp)
     {
         SpawnPoints sp = GetSpawnPoint(_who, _pos);
@@ -55,30 +55,47 @@ public class NPC_BattleSystem : LevelBehavior
         while (ActionQueue.Count > 0)
         {
             SlimeCard card = ActionQueue.Dequeue();
-            card.OnPlay(npc.ActiveTeam);
-
+            var TeamToBeHit = currentTurn == DECK_SLOTS.PLAYER ? npc.ActiveTeam : user.GetActiveTeam();
+            card.OnPlay(TeamToBeHit);
+            ManaDisplay[(int)currentTurn].OnPlay(card.rawCardStats.GetCost());
             card.OnEnterDiscardPile();
             Discard[currentTurn].Add(card);
             ((UI_NPCBattle)LevelManager.Instance.currentLevel.inGameUIController).AddCardToDiscardPile(card);
+            AddCardToDiscardPile(card);
         }
+    }
+
+    private void AddCardToDiscardPile(SlimeCard _card)
+    {
+        Discard[currentTurn].Add(_card);
+        ((UI_NPCBattle)LevelManager.Instance.currentLevel.inGameUIController).AddCardToDiscardPile(_card);
     }
     public void PreLoadForBattle(PlayerController _player, NPC_Trainer _npc)
     {
         user = _player;
         npc = _npc;
         Debug.Log("PreLoadForBattle");
-        Mana[0] = Mana[1] = 0;
         _player.OnBattleStart(this);
         _npc.OnBattleStart(this);
-        StartCoroutine(Draw(DECK_SLOTS.PLAYER, StartDrawAmount));
-        StartCoroutine(Draw(DECK_SLOTS.NPC, StartDrawAmount));
+        //StartCoroutine(Draw(DECK_SLOTS.PLAYER, StartDrawAmount));
+        //StartCoroutine(Draw(DECK_SLOTS.NPC, StartDrawAmount));
     }
     private IEnumerator Draw(DECK_SLOTS _who, int _numCards)
     {
         WaitForSeconds wfs = new WaitForSeconds(0.1f);
         Hands[_who] = new List<SlimeCard>();
+        ManaDisplay[(int)_who].TurnStart();
         for (int i = 0; i < _numCards; i++)
         {
+            if (Decks[_who].Count == 0)
+            {
+                List<SlimeCard> shuffled = ShuffleDeck(Discard[currentTurn]);
+                foreach (var card in shuffled)
+                {
+                    Decks[currentTurn].Enqueue(card);
+                }
+                Discard[currentTurn].Clear();
+            }
             SlimeCard deckToHand = Decks[_who].Dequeue();
             deckToHand.AttachParent(HandAttachmentPoints[(int)_who]);
             deckToHand.OnEnterHand();
@@ -164,39 +181,47 @@ public class NPC_BattleSystem : LevelBehavior
             default:
                 break;
         }
+        ((UI_NPCBattle)LevelManager.Instance.currentLevel.inGameUIController).UpdateTurnDisplay(currentTurn);
     }
     private void PlayerTurn()
     {
-
+        StartCoroutine(Draw(currentTurn, StartDrawAmount));
     }
     private void NPCTurn()
     {
+        StartCoroutine(Draw(currentTurn, StartDrawAmount));
         Debug.Log($"{currentTurn} - NPC Turn");
+        NPC_Turn();
+        IncTurn();
     }
-    private void IncMana(DECK_SLOTS _who)
+    private void NPC_Turn()
     {
-        Mana[(int)_who]++;
+        List<SlimeCard> cards = Hands[currentTurn];
+        SlimeCard CardToPlay = cards.Where(x => x.rawCardStats.GetCost() <= ManaDisplay[(int)currentTurn].GetCurrentMana()).First();
+        AddCardToActionQueue(CardToPlay);
     }
     /// <summary>
     /// OnClick button function for End Turn
     /// </summary>
     public void IncTurn()
     {
-        foreach(var c in Hands[currentTurn])
+        foreach (SlimeCard card in Hands[currentTurn])
         {
-            c.OnEnterDiscardPile();
+            card.OnEnterDiscardPile();
+            AddCardToDiscardPile(card);
         }
+        ManaDisplay[(int)currentTurn].TurnEnd();
         currentTurn++;
         if (currentTurn >= DECK_SLOTS.MAX)
             currentTurn = DECK_SLOTS.PLAYER;
-        IncMana(currentTurn);
+        ManaDisplay[(int)currentTurn].TurnStart();
         TurnPicker();
     }
     public void AddCardToActionQueue(SlimeCard _card)
     {
         int cost = (int)_card.rawCardStats.GetCost();
         //if the card cost's too much mana
-        if (Mana[(int)_card.myOwner] < cost)
+        if (ManaDisplay[(int)currentTurn].GetCurrentMana() < cost)
         {
             Debug.Log($"Can not play {_card.CardName}: {cost} cost");
             return;

@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private UI_Base SettingsUI;
     private List<Slime> ActiveTeamDuringBattle = new List<Slime>();
+    public List<Slime> GetActiveTeam() { return ActiveTeamDuringBattle; }
     public void OnBattleStart(NPC_BattleSystem _system)
     {
         ActiveTeamDuringBattle.Clear();

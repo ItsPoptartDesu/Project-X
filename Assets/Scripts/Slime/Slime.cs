@@ -5,7 +5,7 @@ using System.Linq;
 
 public enum BoardPos
 {
-    F1=0, F2,
+    F1 = 0, F2,
     M1, M2,
     B1, B2,
     NA,
@@ -107,13 +107,16 @@ public class Slime : MonoBehaviour
     {
         int hp = GetHealth();
         hp -= _damage;
-        HealthBarRef.SetHealth(hp);
         if (hp < 0)
             Die();
-        
+        else
+            HealthBarRef.SetHealth(hp);
+
+
     }
     private void Die()
     {
-
+        HealthBarRef.SetHealth(0);
+        Debug.Log($"{dna.SlimeName} has died");
     }
 }
