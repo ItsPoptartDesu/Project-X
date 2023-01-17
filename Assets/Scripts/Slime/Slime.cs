@@ -17,7 +17,8 @@ public class Slime : MonoBehaviour
     private int RawHealth;
     private int HealthModifier = 0;
     public int GetHealth() { return HealthModifier + RawHealth; }
-
+    private bool isDead = false;
+    public bool IsDead() { return isDead; }
     [HideInInspector]
     public JsonSlimeInfo dna;
     [HideInInspector]
@@ -38,11 +39,6 @@ public class Slime : MonoBehaviour
     public void SetPosition(Vector2 _pos)
     {
         GetComponent<RectTransform>().position = _pos;
-    }
-    // Start is called before the first frame update
-    public Slime()
-    {
-        //Init();
     }
     public void InitHealthBar(HealthBar _bar)
     {
@@ -71,6 +67,7 @@ public class Slime : MonoBehaviour
         System.Array values = System.Enum.GetValues(typeof(BoardPos));
         System.Random random = new System.Random();
         myBoardPos = (BoardPos)values.GetValue(random.Next(values.Length));
+        isDead = false;
     }
     public void UpdateSlimePart(ESlimePart _piece, SO_SlimePart _part)
     {
@@ -113,6 +110,7 @@ public class Slime : MonoBehaviour
     private void Die()
     {
         HealthBarRef.SetHealth(0);
+        isDead = true;
         Debug.Log($"{dna.SlimeName} has died");
     }
 }

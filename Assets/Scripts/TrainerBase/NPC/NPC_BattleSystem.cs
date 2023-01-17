@@ -52,7 +52,6 @@ public class NPC_BattleSystem : LevelBehavior
     }
     public void Update()
     {
-
         while (ActionQueue.Count > 0)
         {
             SlimeCard card = ActionQueue.Dequeue();
@@ -70,9 +69,28 @@ public class NPC_BattleSystem : LevelBehavior
             {
                 IncTurn();
             }
+            IsGameOver();
         }
     }
-
+    private bool IsGameOver()
+    {
+        int deadCount = npc.ActiveTeam.Count(s => s.IsDead());
+        if (deadCount == npc.ActiveTeam.Count)
+        {
+            Debug.Log("Player Wins");
+            return true;
+        }
+        else
+        {
+            deadCount = user.GetActiveTeam().Count(s => s.IsDead());
+            if (deadCount == user.GetActiveTeam().Count)
+            {
+                Debug.Log("NPC Wins");
+                return true;
+            }
+        }
+        return false;
+    }
     private void AddCardToDiscardPile(SlimeCard _card)
     {
         Discard[currentTurn].Add(_card);
