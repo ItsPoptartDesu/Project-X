@@ -19,6 +19,11 @@ public class PlayerController : MonoBehaviour
     private UI_Base SettingsUI;
     private List<Slime> ActiveTeamDuringBattle = new List<Slime>();
     public List<Slime> GetActiveTeam() { return ActiveTeamDuringBattle; }
+    private LevelTags previousLevel;
+    private Vector3 previousPosition;
+    public LevelTags GetPreviousLevel() { return previousLevel; }
+    public Vector3 GetPreviousPosition() { return previousPosition; }
+    public void SetPreviousLevel(LevelTags _returnTo, Vector3 _pos) { previousLevel = _returnTo; previousPosition = _pos; }
     public void OnBattleStart(NPC_BattleSystem _system)
     {
         ActiveTeamDuringBattle.Clear();
@@ -34,12 +39,17 @@ public class PlayerController : MonoBehaviour
             slime.InitHealthBar(hb);
             _system.CreateDecks(slime, DECK_SLOTS.PLAYER);
         }
-
     }
-    public void DisablePlayerMovementAndRenderer()
+
+    public void Start()
     {
-        TogglePlayerMovement(false);
-        ToggleRenderers(false);
+        ((SettingsMenu)SettingsUI).OnClick.onClick.AddListener(OnClickQuitButton);
+    }
+    private void OnClickQuitButton()
+    {
+        transform.position = previousPosition;
+        GameEntry.Instance.LeaveBattle(previousLevel);
+        SettingsUI.DisableInGameUI();
     }
     public void Update()
     {
@@ -61,6 +71,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F1))
         {
             TogglePlayerMovement(true);
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            Debug.Log($"Previous Level - {previousLevel}");
         }
     }
     public void AttachToSelf(Transform _toBeAttached)
@@ -122,6 +136,11 @@ public class PlayerController : MonoBehaviour
         TogglePlayerMovement(false);
         ToggleRenderers(false);
         ToggleCamera(false);
+    }
+    public void DisablePlayerMovementAndRenderer()
+    {
+        TogglePlayerMovement(false);
+        ToggleRenderers(false);
     }
     public void ToggleSettingsUI()
     {

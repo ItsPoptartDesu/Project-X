@@ -58,6 +58,7 @@ public class LevelManager : MonoBehaviour
 
     public void StartBattle(NPC_Trainer _npc, PlayerController _player)
     {
+        _player.SetPreviousLevel(GameEntry.Instance.GetCurrentLevel(),_player.transform.position);
         BattleNPC = _npc;
         Debug.Log($"{_npc.name} is in a battle with {_player.GetUsername()}");
         _player.TogglePlayerMovement(false);

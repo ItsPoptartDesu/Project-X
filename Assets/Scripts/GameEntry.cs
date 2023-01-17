@@ -174,5 +174,23 @@ public class GameEntry : MonoBehaviour
         InGameUIController.OnClickGameToMainMenu -= LeaveLevel;
         sceneLoader.StartAsyncLoad(LevelTags.MainMenu);
     }
+    public void LeaveBattle(LevelTags _returnTo)
+    {
+        currentLevel = _returnTo;
+        LevelManager.Instance.Load(currentLevel);
+        switch (currentLevel)
+        {
+            case LevelTags.MainMenu:
+            case LevelTags.NPC_Battle:
+                ObjectManager.Instance.GetActivePlayer().DisablePlayerMovementRendererCamera();
+                break;
+            case LevelTags.LEVEL_1:
+                ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
+                break;
+            default:
+                break;
+        }
+        sceneLoader.StartAsyncLoad(_returnTo);
+    }
 
 }
