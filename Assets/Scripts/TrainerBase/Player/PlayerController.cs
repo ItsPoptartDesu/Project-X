@@ -45,19 +45,23 @@ public class PlayerController : MonoBehaviour
     {
         ((SettingsMenu)SettingsUI).OnClick.onClick.AddListener(OnClickQuitButton);
     }
+    /// <summary>
+    /// Settings UI Quit button
+    /// </summary>
     private void OnClickQuitButton()
     {
-        transform.position = previousPosition;
-        GameEntry.Instance.LeaveBattle(previousLevel);
+        //transform.position = previousPosition;
+        //GameEntry.Instance.LeaveBattle(previousLevel);
+        GameEntry.Instance.QuitToMainMenu();
         SettingsUI.DisableInGameUI();
     }
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (LevelManager.Instance.currentLevel == null)
+            if (LevelManager.Instance.currentLevelBehaviour == null)
                 Debug.Log("NO CURRENT LEVEL");
-            LevelManager.Instance.currentLevel.ToggleSettingsUI();
+            LevelManager.Instance.currentLevelBehaviour.ToggleSettingsUI();
             //OnClickOpenMenu();
         }
         if (Input.GetKeyDown(KeyCode.F12))
@@ -74,7 +78,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            Debug.Log($"Previous Level - {previousLevel}");
+            Debug.Log($"Previous Level - {previousLevel} || Current Level - {GameEntry.Instance.GetCurrentLevel()}");
         }
     }
     public void AttachToSelf(Transform _toBeAttached)

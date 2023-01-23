@@ -1611,10 +1611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e64d8bf0472f8409366fe7ce0da7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toBeSaved:
-    SavedSlime: []
-  saveSlotOne:
-    SavedSlime: []
+  TrainersToLoad: []
 --- !u!114 &1385555360
 MonoBehaviour:
   m_ObjectHideFlags: 0

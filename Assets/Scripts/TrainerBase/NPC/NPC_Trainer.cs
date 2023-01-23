@@ -18,7 +18,6 @@ public class NPC_Trainer : MonoBehaviour
     Vector2 LookDir = Vector2.left;
     [SerializeField]
     JSONTrainerInfo trainerInfo;
-    bool hasBeenBattled = false;
     public List<Slime> ActiveTeam = new List<Slime>();
     // Start is called before the first frame update
     void Start()
@@ -27,25 +26,27 @@ public class NPC_Trainer : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         LookDistance = 2;
     }
-
     // Update is called once per frame
     void FixedUpdate()
     {
+        string trainerName = trainerInfo.TrainerName;
+        if (trainerName == null || trainerName == string.Empty)
+            return;
         Debug.DrawRay(rayCastPoint.position, LookDir * LookDistance);
         var hit = Physics2D.Raycast(rayCastPoint.position, LookDir * LookDistance);
-        if (hit.collider != null && !hasBeenBattled && !hasBeenBattled)
+        SaveManager localSave = GameEntry.Instance.GetSaveManager();
+        if (hit.collider != null && !localSave.GetTrainerState(trainerName))
         {
-            hasBeenBattled = true;
+            localSave.UpdateTrainerState(trainerName);
+            trainerInfo.HasBeenBattled = true;
             Debug.Log($"Hit: {hit.transform.gameObject.name}");
             LevelManager.Instance.StartBattle(this, hit.transform.gameObject.GetComponent<PlayerController>());
         }
     }
-
     public void LoadTrainerData(JSONTrainerInfo _trainerData)
     {
         Debug.Log("LoadTrainerData");
         trainerInfo = _trainerData;
-
     }
     public void OnBattleStart(NPC_BattleSystem _system)
     {
@@ -63,7 +64,7 @@ public class NPC_Trainer : MonoBehaviour
                 ObjectManager.Instance.BattleScale,
                 ObjectManager.Instance.BattleScale);
             _system.CreateDecks(slimeComp, DECK_SLOTS.NPC);
-            HealthBar hb =_system.InitHealhBar(DECK_SLOTS.NPC, pos, slimeComp.GetHealth());
+            HealthBar hb = _system.InitHealhBar(DECK_SLOTS.NPC, pos, slimeComp.GetHealth());
             slimeComp.InitHealthBar(hb);
             ActiveTeam.Add(slimeComp);
         }

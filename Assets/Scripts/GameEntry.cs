@@ -14,9 +14,9 @@ public class GameEntry : MonoBehaviour
     public bool isDEBUG = false;
 
     public static event System.Action OnClickCollectionMenu;
-    public static event System.Action OnClickToGame;
     public static event System.Action OnClickUIToMainMenu;
     public static event System.Action PlayStateToBattleState;
+    public static event System.Action BattleStateToPlayState;
     public static GameEntry Instance { get; private set; }
 
     private FSM_System gameloop;
@@ -24,6 +24,7 @@ public class GameEntry : MonoBehaviour
     [SerializeField]
     LevelTags currentLevel = LevelTags.LEVEL_1;
     public LevelTags GetCurrentLevel() { return currentLevel; }
+    public void SetCurrentLevel(LevelTags _level) { currentLevel = _level; }
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -85,9 +86,7 @@ public class GameEntry : MonoBehaviour
     /// <param name="_player">local user</param>
     public void PlayToBattleTransition(NPC_Trainer _npc, PlayerController _player)
     {
-        _player.DisablePlayerMovementRendererCamera();
-        SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
-        currentLevel = LevelTags.NPC_Battle;
+        //SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
         sceneLoader.StartAsyncLoad(currentLevel);
         PlayStateToBattleState?.Invoke();
     }
@@ -97,9 +96,12 @@ public class GameEntry : MonoBehaviour
         saveManager.FirstLoad();
         LoadAssets();
     }
+    public bool LoadingPause = false;
     // Update is called once per frame
     void Update()
     {
+        if (LoadingPause)
+            return;
         gameloop.CurrentState.Act(null, gameloop);
         gameloop.CurrentState.Reason(null, gameloop);
     }
@@ -134,20 +136,15 @@ public class GameEntry : MonoBehaviour
     /// </summary>
     public void Button_OnClickToPlay()
     {
-        OnClickToGame?.Invoke();
-        //remove any objects that need to be
-        ObjectManager.Instance.DeleteMarkedObjects();
-        //set camera
-        SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
-        currentLevel = LevelTags.LEVEL_1;
-        sceneLoader.StartAsyncLoad(currentLevel);
-        //LevelManager.Instance.LoadTrainerData(currentLevel);
-        //set correct UI
-        //UIManager.Instance.ToGameUI();
-        //CameraManager.Instance.AttachPlayerCamera(ObjectManager.Instance.GetActivePlayerObject());
-        //LevelManager.Instance.MovePlayerToLevelInfo(ObjectManager.Instance.GetActivePlayerObject(), currentLevel);
-        //ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementAndRenderer();
-        //InGameUIController.OnClickGameToMainMenu += LeaveLevel;
+        Debug.Log("A - Button_OnClickToPlay");
+        GameEntry.Instance.StartLoadLevel(LevelTags.LEVEL_1);
+        Debug.Log("B - Button_OnClickToPlay");
+
+        //SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
+    }
+    public void StartLoadLevel(LevelTags _level)
+    {
+        sceneLoader.StartAsyncLoad(_level);
     }
     /// <summary>
     /// Called everytime a new scene finishes loading
@@ -155,29 +152,17 @@ public class GameEntry : MonoBehaviour
     public void OnAsyncLevelLoadFinish()
     {
         Debug.Log("OnAsyncLevelLoadFinish");
-        LevelManager.Instance.OnPlayerEnterClean(ObjectManager.Instance.GetActivePlayerObject(), currentLevel);
-        ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
-        InGameUIController.OnClickGameToMainMenu += LeaveLevel;
-        SceneLoader.OnAsyncLoadFinish -= OnAsyncLevelLoadFinish;
-        LevelManager.Instance.currentLevel.PostLevelLoad();
+
+        //InGameUIController.OnClickGameToMainMenu += LeaveLevel;
+        //SceneLoader.OnAsyncLoadFinish -= OnAsyncLevelLoadFinish;
     }
-    /// <summary>
-    /// Called everytime you leave a scene
-    /// </summary>
-    private void LeaveLevel()
+    public void QuitToMainMenu()
     {
-        currentLevel = LevelTags.MainMenu;
-        LevelManager.Instance.Load();
-        //LevelManager.Instance.GetCurrentLevelBehavior().DisableInGameIU();
-        //UIManager.Instance.ResetUI();
-        ObjectManager.Instance.GetActivePlayer().DisablePlayerMovementRendererCamera();
-        InGameUIController.OnClickGameToMainMenu -= LeaveLevel;
-        sceneLoader.StartAsyncLoad(LevelTags.MainMenu);
+        gameloop.PerformTransition(Transition.To_Idle);
     }
     public void LeaveBattle(LevelTags _returnTo)
     {
         currentLevel = _returnTo;
-        LevelManager.Instance.Load(currentLevel);
         switch (currentLevel)
         {
             case LevelTags.MainMenu:
@@ -186,11 +171,13 @@ public class GameEntry : MonoBehaviour
                 break;
             case LevelTags.LEVEL_1:
                 ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
+                LevelManager.Instance.LoadTrainerData(currentLevel);
                 break;
             default:
                 break;
         }
         sceneLoader.StartAsyncLoad(_returnTo);
+        //LevelManager.Instance.Load(currentLevel);
+        BattleStateToPlayState?.Invoke();
     }
-
 }

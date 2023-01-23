@@ -12,9 +12,9 @@ public struct SceneLoaderInfo
 
 public class SceneLoader : MonoBehaviour
 {
+    public static event System.Action OnClickToGame;
     public Dictionary<LevelTags, SceneLoaderInfo> SceneHash = new Dictionary<LevelTags, SceneLoaderInfo>();
     public List<SceneLoaderInfo> SceneName = new List<SceneLoaderInfo>();
-    public static System.Action OnAsyncLoadFinish;
     public void Start()
     {
         foreach (var n in SceneName)
@@ -30,9 +30,22 @@ public class SceneLoader : MonoBehaviour
 
     public void StartAsyncLoad(LevelTags _level)
     {
+        GameEntry.Instance.LoadingPause = true;
         if (GameEntry.Instance.isDEBUG)
             Debug.Log($"{SceneHash[_level].LevelName} & {_level}");
         StartCoroutine(LoadSceneAsync(SceneHash[_level].LevelName, _level));
+        switch (_level)
+        {
+            case LevelTags.MainMenu:
+                break;
+            case LevelTags.LEVEL_1:
+                OnClickToGame?.Invoke();
+                break;
+            case LevelTags.NPC_Battle:
+                break;
+            default:
+                break;
+        }
     }
     IEnumerator LoadSceneAsync(string _lvlName, LevelTags _level)
     {
@@ -43,6 +56,6 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.5f);//todo dont call new each time save a ref
-        OnAsyncLoadFinish?.Invoke();
+        GameEntry.Instance.LoadingPause = false;
     }
 }

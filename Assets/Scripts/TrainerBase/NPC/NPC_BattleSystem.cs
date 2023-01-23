@@ -61,7 +61,7 @@ public class NPC_BattleSystem : LevelBehavior
             ManaDisplay[(int)currentTurn].OnPlay(card.rawCardStats.GetCost());
             card.OnEnterDiscardPile();
             Discard[currentTurn].Add(card);
-            ((UI_NPCBattle)LevelManager.Instance.currentLevel.inGameUIController).AddCardToDiscardPile(card);
+            ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).AddCardToDiscardPile(card);
             AddCardToDiscardPile(card);
             if (currentTurn == DECK_SLOTS.NPC && ActionQueue.Count == 0)
                 isNPCTurn = false;
@@ -94,7 +94,7 @@ public class NPC_BattleSystem : LevelBehavior
     private void AddCardToDiscardPile(SlimeCard _card)
     {
         Discard[currentTurn].Add(_card);
-        ((UI_NPCBattle)LevelManager.Instance.currentLevel.inGameUIController).AddCardToDiscardPile(_card);
+        ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).AddCardToDiscardPile(_card);
     }
     public void PreLoadForBattle(PlayerController _player, NPC_Trainer _npc)
     {
@@ -207,7 +207,7 @@ public class NPC_BattleSystem : LevelBehavior
             default:
                 break;
         }
-        ((UI_NPCBattle)LevelManager.Instance.currentLevel.inGameUIController).UpdateTurnDisplay(currentTurn);
+        ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).UpdateTurnDisplay(currentTurn);
     }
     private void PlayerTurn()
     {

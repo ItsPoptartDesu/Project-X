@@ -9,14 +9,14 @@ public class SaveManager : MonoBehaviour
     private GameData gameData;
 
     string FileName = "/GameData.json";
+    string TrainerFileName = "/ActiveTrainerList.json";
     private string savePath;
 
-    [SerializeField]
     private JsonSaveData toBeSaved;
-    [SerializeField]
     private JsonSaveData saveSlotOne;
-    [HideInInspector]
-    Dictionary<string, JSONTrainerInfo> TrainerLookup = new Dictionary<string, JSONTrainerInfo>();
+    private JSONTrainerList activeTrainerList;
+    private Dictionary<string, JSONTrainerInfo> TrainerLookup = new Dictionary<string, JSONTrainerInfo>();
+    public List<string> TrainersToLoad = new List<string>();
     public JsonSaveData GetLastSavedGame() { return saveSlotOne; }
     public JsonSaveData GetSaveSlotOne() { return gameData.GetLastSave(); }
     public List<Slime> GetActiveTeam() { return gameData.GetActiveTeam(); }
@@ -45,6 +45,7 @@ public class SaveManager : MonoBehaviour
         }
         if (!LoadTrainers())
             Debug.LogError("Failed to Load Trainers");
+
     }
     //used to save from mainUI might be removed later but for now thats how we get Slimes
     public void SaveGame(List<Slime> _fromUI)
@@ -80,7 +81,6 @@ public class SaveManager : MonoBehaviour
         }
         WriteFile();
     }
-
     public bool ReadFile()
     {
         if (File.Exists(savePath))
@@ -95,35 +95,81 @@ public class SaveManager : MonoBehaviour
         }
         return false;
     }
+    public void SaveTrainerInfo(string _name, JSONTrainerInfo _info)
+    {
+        if (TrainerLookup.ContainsKey(_name))
+            TrainerLookup[_name] = _info;
+    }
+    public bool LoadTrainerList()
+    {
+        TextAsset file = Resources.Load<TextAsset>(TrainerFileName);
+        var TrainerList = JsonUtility.FromJson<JSONTrainerList>(file.text);
+        if (TrainerList == null)
+            return false;
 
+        foreach (string name in TrainerList.ActiveTrainers)
+        {
+            TrainerLookup.Add(name, null);
+        }
+        return true;
+    }
     public bool LoadTrainers()
     {
         TextAsset file = Resources.Load<TextAsset>("Trainers/Trainers") as TextAsset;
         var trainerInfo = JsonUtility.FromJson<JSONTrainerInfo>(file.text);
-        if (trainerInfo != null)
-        {
-            TrainerLookup.Add(trainerInfo.TrainerName, trainerInfo);
-            return true;
-        }
-        else
+        if (trainerInfo == null)
             return false;
-    }
 
+        TrainerLookup.Add(trainerInfo.TrainerName, trainerInfo);
+        return true;
+    }
     public JSONTrainerInfo LookUpTrainer(string _name)
     {
         return TrainerLookup[_name];
     }
-
     private void WriteFile()
     {
         string jsonString = JsonUtility.ToJson(toBeSaved, true);
         Debug.Log($"Path: {savePath}. Size: {toBeSaved.SavedSlime.Count()}, Context: {jsonString}");
-        using (FileStream filestream = new FileStream(savePath, FileMode.Truncate))
+        using (FileStream filestream = new FileStream(Application.dataPath + "/Resources/" + TrainerFileName, FileMode.Truncate))
         using (StreamWriter streamwriter = new StreamWriter(filestream))
         {
             streamwriter.Write(jsonString);
             streamwriter.Flush();
         }
+    }
+    /// <summary>
+    /// TODO print out custom trainer data
+    /// need to make an ingame editor so i can make trainers on the fly.
+    /// this will save out side the scene to where game data is drag it into the resource folder to fully 
+    /// update the game ty
+    /// </summary>
+    public void TODO_Convert()
+    {
+        activeTrainerList = new JSONTrainerList();
+        activeTrainerList.ActiveTrainers = new List<string>();
+        foreach (var t in TrainerLookup)
+        {
+            activeTrainerList.ActiveTrainers.Add(t.Key);
+        }
+      
+        TrainerFileName = Application.persistentDataPath + TrainerFileName;
+        string jsonString = JsonUtility.ToJson(activeTrainerList, true);
+        Debug.Log($"writting to {TrainerFileName}");
+        using (FileStream filestream = new FileStream(TrainerFileName, FileMode.CreateNew))
+        using (StreamWriter streamWriter = new StreamWriter(filestream))
+        {
+            streamWriter.Write(jsonString);
+            streamWriter.Flush();
+        }
+    }
+    public void UpdateTrainerState(string _who, bool _hasBeenHit = true)
+    {
+        TrainerLookup[_who].HasBeenBattled = _hasBeenHit;
+    }
+    public bool GetTrainerState(string _who)
+    {
+        return TrainerLookup[_who].HasBeenBattled;
     }
 }
 
@@ -171,15 +217,25 @@ public class JsonSlimeInfo
         Debug.Log(statement);
     }
 }
-
 [System.Serializable]
 public class JSONTrainerInfo
 {
     public string TrainerName;
+    public bool HasBeenBattled;
     public JSONTrainerInfo(string _name)
     {
         teamInfo = new JsonSaveData();
         TrainerName = _name;
     }
     public JsonSaveData teamInfo;
+}
+[System.Serializable]
+public class JSONTrainerList
+{
+    [SerializeField]
+    public List<string> ActiveTrainers;
+    public JSONTrainerList()
+    {
+        ActiveTrainers = new List<string>();
+    }
 }

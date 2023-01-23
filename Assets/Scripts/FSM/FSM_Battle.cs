@@ -15,7 +15,7 @@ public class FSM_Battle : FSM_State
 
     public override void Reason(Behaviour player, FSM_System npc)
     {
-        if(LeaveBattle)
+        if (LeaveBattle)
         {
             npc.PerformTransition(Transition.To_Play);
         }
@@ -25,6 +25,7 @@ public class FSM_Battle : FSM_State
     {
         Debug.Log("FSM_Battle DoBeforeEntering()");
         UI_NPCBattle.OnClickLeaveBattle += FSM_LeaveBattle;
+        GameEntry.Instance.SetCurrentLevel(LevelTags.NPC_Battle);
     }
     public override void DoBeforeLeaving()
     {

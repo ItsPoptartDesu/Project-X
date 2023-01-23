@@ -22,7 +22,7 @@ public struct LevelInfo
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
-    public LevelBehavior currentLevel;
+    public LevelBehavior currentLevelBehaviour;
     private NPC_Trainer EnemyTrainer;
     private void Awake()
     {
@@ -42,15 +42,15 @@ public class LevelManager : MonoBehaviour
     public void OnPlayerEnterClean(GameObject _player, LevelTags _lvlTag)
     {
         //LevelInfo lvl = Levels.Where(x => x.LevelTag == _lvlTag).FirstOrDefault();
-        currentLevel = GameObject.FindObjectOfType<LevelBehavior>();
-        if (currentLevel != null)
+        currentLevelBehaviour = GameObject.FindObjectOfType<LevelBehavior>();
+        if (currentLevelBehaviour != null)
         {
-            currentLevel.GetPlayerSpawnPoint(_player);
+            currentLevelBehaviour.GetPlayerSpawnPoint(_player);
         }
         if (_lvlTag == LevelTags.NPC_Battle)
         {
             var Player = ObjectManager.Instance.GetActivePlayer();
-            ((NPC_BattleSystem)currentLevel).PreLoadForBattle(Player, BattleNPC);
+            ((NPC_BattleSystem)currentLevelBehaviour).PreLoadForBattle(Player, BattleNPC);
         }
         LoadTrainerData(_lvlTag);
     }
@@ -61,7 +61,6 @@ public class LevelManager : MonoBehaviour
         _player.SetPreviousLevel(GameEntry.Instance.GetCurrentLevel(),_player.transform.position);
         BattleNPC = _npc;
         Debug.Log($"{_npc.name} is in a battle with {_player.GetUsername()}");
-        _player.TogglePlayerMovement(false);
         GameEntry.Instance.PlayToBattleTransition(_npc, _player);
     }
 
@@ -75,9 +74,9 @@ public class LevelManager : MonoBehaviour
 
     public void LoadTrainerData(LevelTags _level)
     {
-        currentLevel = GameObject.FindObjectOfType<LevelBehavior>();
+        currentLevelBehaviour = GameObject.FindObjectOfType<LevelBehavior>();
 
-        foreach (var t in currentLevel.npc_Trainers)
+        foreach (var t in currentLevelBehaviour.npc_Trainers)
         {
             JSONTrainerInfo tInfo = GameEntry.Instance.GetSaveManager().LookUpTrainer(t.name);
             t.LoadTrainerData(tInfo);
@@ -85,13 +84,13 @@ public class LevelManager : MonoBehaviour
     }
     public LevelBehavior GetCurrentLevelBehavior()
     {
-        if (currentLevel == null)
-            currentLevel = GameObject.FindObjectOfType<LevelBehavior>();
-        return currentLevel;
+        if (currentLevelBehaviour == null)
+            currentLevelBehaviour = GameObject.FindObjectOfType<LevelBehavior>();
+        return currentLevelBehaviour;
     }
     public void Load()
     {
-        currentLevel.Load();
+        currentLevelBehaviour.Load();
     }
     public void Load(LevelTags _level)
     {

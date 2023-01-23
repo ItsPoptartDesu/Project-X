@@ -67,7 +67,10 @@ public class ObjectManager : MonoBehaviour
     {
         Debug.Log("Deleting Cache Items");
         foreach (GameObject o in toBeDeleted)
+        {
+            Debug.Log($"{o.gameObject.name}");
             Destroy(o);
+        }
     }
 
     public void MarkObjectToBeDeleted(GameObject _go)
@@ -142,40 +145,6 @@ public class ObjectManager : MonoBehaviour
         MarkObjectToBeDeleted(slimePrefab);
         return slimePrefab;
     }
-    #region OPENAI CODE
-    //    GameObject slimePrefab = Instantiate(SlimePrefab);
-    //    Slime slimeComp = slimePrefab.GetComponent<Slime>();
-    //    slimeComp.Init(null);
-    //        SO_SlimePart ToBeRendered = SO_ForeheadParts.ElementAt
-    //            (UnityEngine.Random.Range(0, SO_ForeheadParts.Count));
-    //    slimeComp.UpdateSlimePart(ESlimePart.FOREHEAD, ToBeRendered);
-
-    //        ToBeRendered = SO_EyeParts.ElementAt
-    //    (UnityEngine.Random.Range(0, SO_EyeParts.Count));
-    //        slimeComp.UpdateSlimePart(ESlimePart.EYES, ToBeRendered);
-
-    //        ToBeRendered = SO_EarParts.ElementAt
-    //    (UnityEngine.Random.Range(0, SO_EarParts.Count));
-    //        slimeComp.UpdateSlimePart(ESlimePart.EARS, ToBeRendered);
-
-    //        ToBeRendered = SO_MouthParts.ElementAt
-    //    (UnityEngine.Random.Range(0, SO_MouthParts.Count));
-    //        slimeComp.UpdateSlimePart(ESlimePart.MOUTH, ToBeRendered);
-
-    //        ToBeRendered = SO_BackParts.ElementAt
-    //    (UnityEngine.Random.Range(0, SO_BackParts.Count));
-    //        slimeComp.UpdateSlimePart(ESlimePart.BACK, ToBeRendered);
-
-    //        ToBeRendered = SO_TailParts.ElementAt
-    //    (UnityEngine.Random.Range(0, SO_TailParts.Count));
-    //        slimeComp.UpdateSlimePart(ESlimePart.TAIL, ToBeRendered);
-
-    //        ToBeRendered = SO_BodyParts.ElementAt
-    //(UnityEngine.Random.Range(0, SO_BodyParts.Count));
-    //        slimeComp.UpdateSlimePart(ESlimePart.BODY, ToBeRendered);
-    //        MarkObjectToBeDeleted(slimePrefab);
-    //        return slimePrefab;
-    #endregion
     public GameObject GenerateSlime(JsonSlimeInfo _copy, bool _overrideDelete = false)
     {
         GameObject slimePrefab = Instantiate(SlimePrefab);
@@ -210,44 +179,7 @@ public class ObjectManager : MonoBehaviour
             CardLookup.Add(p.GetCardType(), p);
         }
     }
-    #region OPENAICode
-    /*
-
-        foreach (var p in SO_ForeheadParts)
-        {
-            So_Lookup.Add(p.CardComponentType, p);
-        }
-        foreach (var p in SO_EarParts)
-        {
-            So_Lookup.Add(p.CardComponentType, p);
-        }
-        foreach (var p in SO_EyeParts)
-        {
-            So_Lookup.Add(p.CardComponentType, p);
-        }
-        foreach (var p in SO_MouthParts)
-        {
-            So_Lookup.Add(p.CardComponentType, p);
-        }
-        foreach (var p in SO_TailParts)
-        {
-            So_Lookup.Add(p.CardComponentType, p);
-        }
-        foreach (var p in SO_BackParts)
-        {
-            So_Lookup.Add(p.CardComponentType, p);
-        }
-        foreach (var p in SO_BodyParts)
-        {
-            So_Lookup.Add(p.CardComponentType, p);
-        }
-
-        foreach (var p in GameCardPrefabs)
-        {
-            CardLookup.Add(p.GetCardType(), p);
-        }*/
-    #endregion
-    public GameObject GeneratePlayer(/*probly need player save data outside of slime*/)
+    public GameObject GeneratePlayer()
     {
         GameObject player = Instantiate(PlayerPrefab);
         ActivePlayer = player.GetComponent<PlayerController>();
