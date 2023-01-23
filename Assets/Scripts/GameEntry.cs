@@ -15,7 +15,6 @@ public class GameEntry : MonoBehaviour
 
     public static event System.Action OnClickCollectionMenu;
     public static event System.Action OnClickUIToMainMenu;
-    public static event System.Action PlayStateToBattleState;
     public static event System.Action BattleStateToPlayState;
     public static GameEntry Instance { get; private set; }
 
@@ -87,8 +86,8 @@ public class GameEntry : MonoBehaviour
     public void PlayToBattleTransition(NPC_Trainer _npc, PlayerController _player)
     {
         //SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
+        gameloop.PerformTransition(Transition.To_Battle);
         sceneLoader.StartAsyncLoad(currentLevel);
-        PlayStateToBattleState?.Invoke();
     }
     // Start is called before the first frame update
     void Start()
@@ -136,15 +135,12 @@ public class GameEntry : MonoBehaviour
     /// </summary>
     public void Button_OnClickToPlay()
     {
-        Debug.Log("A - Button_OnClickToPlay");
-        GameEntry.Instance.StartLoadLevel(LevelTags.LEVEL_1);
-        Debug.Log("B - Button_OnClickToPlay");
-
-        //SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
+        LevelManager.Instance.LoadingLevel = LevelTags.LEVEL_1;
+        GameEntry.Instance.StartLoadLevel();
     }
-    public void StartLoadLevel(LevelTags _level)
+    public void StartLoadLevel()
     {
-        sceneLoader.StartAsyncLoad(_level);
+        sceneLoader.StartAsyncLoad(LevelManager.Instance.LoadingLevel);
     }
     /// <summary>
     /// Called everytime a new scene finishes loading
@@ -158,6 +154,7 @@ public class GameEntry : MonoBehaviour
     }
     public void QuitToMainMenu()
     {
+        LevelManager.Instance.LoadingLevel = LevelTags.MainMenu;
         gameloop.PerformTransition(Transition.To_Idle);
     }
     public void LeaveBattle(LevelTags _returnTo)

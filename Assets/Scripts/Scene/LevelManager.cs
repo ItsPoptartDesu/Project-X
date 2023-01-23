@@ -17,12 +17,12 @@ public struct LevelInfo
     public LevelBehavior Level;
     public LevelTags LevelTag;
 }
-//TODO
-//probably could remove the static and put a ref in object manager
+
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
     public LevelBehavior currentLevelBehaviour;
+    public LevelTags LoadingLevel;
     private NPC_Trainer EnemyTrainer;
     private void Awake()
     {
