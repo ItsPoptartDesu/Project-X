@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class FSM_Play : FSM_State
 {
-    private bool toMainMenu = false;
     private bool toBattle = false;
+    private bool toMainMenu = false;
     public FSM_Play()
     {
         stateID = StateID.Play;
@@ -20,12 +20,17 @@ public class FSM_Play : FSM_State
         {
             npc.PerformTransition(Transition.To_Idle);
         }
+        if (toBattle)
+        {
+            npc.PerformTransition(Transition.To_Battle);
+        }
     }
     public override void DoBeforeEntering()
     {
         Debug.Log("FSM_Play DoBeforeEntering()");
         GameEntry.Instance.SetCurrentLevel(LevelTags.LEVEL_1);
         InGameUIController.OnClickGameToMainMenu += FSM_OnClickToMainMenu;
+        SceneLoader.OnTransPlayToBattle += FSM_OnClickToBattle;
         LevelManager.Instance.OnPlayerEnterClean(
             ObjectManager.Instance.GetActivePlayerObject(),
             GameEntry.Instance.GetCurrentLevel());
@@ -34,17 +39,23 @@ public class FSM_Play : FSM_State
     }
     public override void DoBeforeLeaving()
     {
-        ObjectManager.Instance.DeleteMarkedObjects();
+        //ObjectManager.Instance.DeleteMarkedObjects();
+        SceneLoader.OnTransPlayToBattle -= FSM_OnClickToBattle;
         Debug.Log("FSM_Play DoBeforeLeaving()");
         InGameUIController.OnClickGameToMainMenu -= FSM_OnClickToMainMenu;
         toMainMenu = false;
         toBattle = false;
         LevelManager.Instance.Load();
         ObjectManager.Instance.GetActivePlayer().DisablePlayerMovementRendererCamera();
-        GameEntry.Instance.StartLoadLevel();
+        ObjectManager.Instance.GetActivePlayer().
+            SetPreviousLevel(GameEntry.Instance.GetCurrentLevel());
     }
     private void FSM_OnClickToMainMenu()
     {
         toMainMenu = true;
+    }
+    private void FSM_OnClickToBattle()
+    {
+        toBattle = true;
     }
 }

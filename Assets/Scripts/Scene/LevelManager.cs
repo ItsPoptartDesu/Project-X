@@ -26,8 +26,7 @@ public class LevelManager : MonoBehaviour
     private NPC_Trainer EnemyTrainer;
     private void Awake()
     {
-        // If there is an instance, and it's not me, delete myself.
-
+        // If there is an instance, and it's not me, self immulation
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -37,15 +36,19 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
     }
-
     public List<LevelInfo> Levels = new List<LevelInfo>();
     public void OnPlayerEnterClean(GameObject _player, LevelTags _lvlTag)
     {
         //LevelInfo lvl = Levels.Where(x => x.LevelTag == _lvlTag).FirstOrDefault();
         currentLevelBehaviour = GameObject.FindObjectOfType<LevelBehavior>();
-        if (currentLevelBehaviour != null)
+        if (ObjectManager.Instance.GetActivePlayer().GetPreviousLevel() == LevelTags.NPC_Battle)
         {
-            currentLevelBehaviour.GetPlayerSpawnPoint(_player);
+            PlayerController pc = _player.GetComponent<PlayerController>();
+            _player.transform.SetLocalPositionAndRotation(pc.GetPreviousPosition(), Quaternion.identity);
+        }
+        else if (currentLevelBehaviour != null)
+        {
+            currentLevelBehaviour.SetPlayerToSpawnPoint(_player);
         }
         if (_lvlTag == LevelTags.NPC_Battle)
         {
@@ -55,15 +58,14 @@ public class LevelManager : MonoBehaviour
         LoadTrainerData(_lvlTag);
     }
     private NPC_Trainer BattleNPC;
-
     public void StartBattle(NPC_Trainer _npc, PlayerController _player)
     {
-        _player.SetPreviousLevel(GameEntry.Instance.GetCurrentLevel(),_player.transform.position);
+        _player.SetPreviousPosition(_player.transform.position);
+        _player.SetPreviousLevel(GameEntry.Instance.GetCurrentLevel());
         BattleNPC = _npc;
         Debug.Log($"{_npc.name} is in a battle with {_player.GetUsername()}");
         GameEntry.Instance.PlayToBattleTransition(_npc, _player);
     }
-
     private void DisableLevels()
     {
         foreach (var lvl in Levels)
@@ -71,7 +73,6 @@ public class LevelManager : MonoBehaviour
             lvl.Level.gameObject.SetActive(false);
         }
     }
-
     public void LoadTrainerData(LevelTags _level)
     {
         currentLevelBehaviour = GameObject.FindObjectOfType<LevelBehavior>();

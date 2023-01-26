@@ -16,7 +16,7 @@ public class LevelBehavior : MonoBehaviour
     {
 
     }
-    public void GetPlayerSpawnPoint(GameObject _player)
+    public void SetPlayerToSpawnPoint(GameObject _player)
     {
         SpawnPoints sp = spawnPoints.First(x => x.GetObjectType() == ObjectType.Player);
         _player.transform.position = sp.position;

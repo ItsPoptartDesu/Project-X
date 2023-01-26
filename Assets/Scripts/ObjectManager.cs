@@ -9,7 +9,8 @@ public enum ObjectType
     Player,
     NPC,
     Slime,
-    Collectible
+    Collectible,
+    NULL,
 }
 
 
@@ -57,26 +58,10 @@ public class ObjectManager : MonoBehaviour
     private Dictionary<ESlimePart, List<SO_SlimePart>> parts;
     private List<List<SO_SlimePart>> partsLists;
     public static ObjectManager Instance { get; private set; }
-
-    private List<GameObject> toBeDeleted = new List<GameObject>();
     [Space(1)]
     [SerializeField]
     private GameObject CardPrefab;
     public float BattleScale = 75f;
-    public void DeleteMarkedObjects()
-    {
-        Debug.Log("Deleting Cache Items");
-        foreach (GameObject o in toBeDeleted)
-        {
-            Debug.Log($"{o.gameObject.name}");
-            Destroy(o);
-        }
-    }
-
-    public void MarkObjectToBeDeleted(GameObject _go)
-    {
-        toBeDeleted.Add(_go);
-    }
     public SlimeCard CreateCard(SlimePiece _base, DECK_SLOTS _who)
     {
         var g = CardLookup[_base.GetCardType()];
@@ -84,7 +69,7 @@ public class ObjectManager : MonoBehaviour
         SlimeCard sCard = card.GetComponent<SlimeCard>();
         sCard.AssignCardValues(_base, _who);
         //sCard.rawCardStats = _base;
-        MarkObjectToBeDeleted(card);
+        //MarkObjectToBeDeleted(card);
         return sCard;
     }
     private void Awake()
@@ -142,10 +127,10 @@ public class ObjectManager : MonoBehaviour
             slimeComp.UpdateSlimePart(part.Key, ToBeRendered);
         }
 
-        MarkObjectToBeDeleted(slimePrefab);
+        //MarkObjectToBeDeleted(slimePrefab);
         return slimePrefab;
     }
-    public GameObject GenerateSlime(JsonSlimeInfo _copy, bool _overrideDelete = false)
+    public GameObject GenerateSlime(JsonSlimeInfo _copy)
     {
         GameObject slimePrefab = Instantiate(SlimePrefab);
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
@@ -156,8 +141,6 @@ public class ObjectManager : MonoBehaviour
             SO_SlimePart sp = So_Lookup[_copy.myCardType[i]];
             slimeComp.UpdateSlimePart(sp.SlimePart, sp);
         }
-        if (!_overrideDelete)
-            MarkObjectToBeDeleted(slimePrefab);
         return slimePrefab;
     }
     public void LoadAssets()

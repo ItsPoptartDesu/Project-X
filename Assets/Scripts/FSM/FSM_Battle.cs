@@ -23,15 +23,29 @@ public class FSM_Battle : FSM_State
     }
     public override void DoBeforeEntering()
     {
+        LeaveBattle = false;
         Debug.Log("FSM_Battle DoBeforeEntering()");
         UI_NPCBattle.OnClickLeaveBattle += FSM_LeaveBattle;
-        GameEntry.Instance.SetCurrentLevel(LevelTags.NPC_Battle);
+        SceneLoader.OnTransBattleToPlay += FSM_LeaveBattle;
+        GameEntry.Instance.SetCurrentLevel(LevelManager.Instance.LoadingLevel);
+        //ObjectManager.Instance.GetActivePlayer().DisablePlayerMovementRendererCamera();
+        LevelManager.Instance.OnPlayerEnterClean(
+            ObjectManager.Instance.GetActivePlayerObject(),
+            GameEntry.Instance.GetCurrentLevel());
+        LevelManager.Instance.GetCurrentLevelBehavior().PostLevelLoad();
     }
     public override void DoBeforeLeaving()
     {
-        Debug.Log("FSM_Battle DoBeforeLeaving()");
-        UI_NPCBattle.OnClickLeaveBattle -= FSM_LeaveBattle;
         LeaveBattle = false;
+        Debug.Log("FSM_Battle DoBeforeLeaving()");
+        //ObjectManager.Instance.DeleteMarkedObjects();
+        SceneLoader.OnTransBattleToPlay -= FSM_LeaveBattle;
+        UI_NPCBattle.OnClickLeaveBattle -= FSM_LeaveBattle;
+        LevelManager.Instance.Load();
+        ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
+        LeaveBattle = false;
+        ObjectManager.Instance.GetActivePlayer().
+            SetPreviousLevel(GameEntry.Instance.GetCurrentLevel());
     }
     private void FSM_LeaveBattle()
     {

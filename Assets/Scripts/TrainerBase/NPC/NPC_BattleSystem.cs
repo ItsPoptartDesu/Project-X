@@ -11,6 +11,14 @@ public enum DECK_SLOTS
     MAX = 2,
     STARTING,
 }
+public enum WIN_STATE
+{
+    PLAYER_WIN,
+    NPC_WIN,
+    TIE,
+    NA,
+}
+
 public class NPC_BattleSystem : LevelBehavior
 {
     [SerializeField]
@@ -32,6 +40,7 @@ public class NPC_BattleSystem : LevelBehavior
     private Queue<SlimeCard> ActionQueue = new Queue<SlimeCard>();
     public DECK_SLOTS GetCurrentTurn() { return currentTurn; }
     public UI_ManaDisplay[] ManaDisplay = new UI_ManaDisplay[2];
+
     public HealthBar InitHealhBar(DECK_SLOTS _who, BoardPos _pos, int _hp)
     {
         SpawnPoints sp = GetSpawnPoint(_who, _pos);
@@ -52,6 +61,7 @@ public class NPC_BattleSystem : LevelBehavior
     }
     public void Update()
     {
+        WIN_STATE state = WIN_STATE.NA;
         while (ActionQueue.Count > 0)
         {
             SlimeCard card = ActionQueue.Dequeue();
@@ -69,27 +79,51 @@ public class NPC_BattleSystem : LevelBehavior
             {
                 IncTurn();
             }
-            IsGameOver();
+            state = IsGameOver();
+            if (state != WIN_STATE.NA)
+                break;
+        }
+        if (state == WIN_STATE.PLAYER_WIN)
+        {
+            //animation & particales
+            //exp, save and other bullshit
+            StartCoroutine(End());
+        }
+        else if (state == WIN_STATE.NPC_WIN)
+        {
+            //animation & particales
+            //die, reload last save
+            StartCoroutine(End());
         }
     }
-    private bool IsGameOver()
+    IEnumerator End()
     {
-        int deadCount = npc.ActiveTeam.Count(s => s.IsDead());
-        if (deadCount == npc.ActiveTeam.Count)
+        yield return new WaitForSeconds(2f);
+        GameEntry.Instance.LeaveBattle(ObjectManager.Instance.GetActivePlayer().GetPreviousLevel());
+    }
+    private WIN_STATE IsGameOver()
+    {
+        int playerDeadCount = user.GetActiveTeam().Count(s => s.IsDead());
+        int npcDeadCount = npc.ActiveTeam.Count(s => s.IsDead());
+        if (playerDeadCount == npcDeadCount && npcDeadCount == 0)
+        {
+            return WIN_STATE.TIE;
+        }
+        if (playerDeadCount == user.GetActiveTeam().Count)
+        {
+            Debug.Log("NPC Wins");
+
+            return WIN_STATE.NPC_WIN;
+        }
+        if (npcDeadCount == npc.ActiveTeam.Count)
         {
             Debug.Log("Player Wins");
-            return true;
+            return WIN_STATE.PLAYER_WIN;
         }
         else
         {
-            deadCount = user.GetActiveTeam().Count(s => s.IsDead());
-            if (deadCount == user.GetActiveTeam().Count)
-            {
-                Debug.Log("NPC Wins");
-                return true;
-            }
+            return WIN_STATE.NA;
         }
-        return false;
     }
     private void AddCardToDiscardPile(SlimeCard _card)
     {
@@ -133,7 +167,7 @@ public class NPC_BattleSystem : LevelBehavior
     }
     public void CreateDecks(Slime _slime, DECK_SLOTS _who)
     {
-        var l = ShuffleDeck(_slime.GetActiveParts()
+        List<SlimeCard> l = ShuffleDeck(_slime.GetActiveParts()
                     .Where(part => part.GetSlimePart() != ESlimePart.BODY)
                     .Select(part =>
                     {
@@ -147,26 +181,6 @@ public class NPC_BattleSystem : LevelBehavior
         Decks[_who] = new Queue<SlimeCard>(l);
         Discard[_who] = new List<SlimeCard>();
     }
-    #region Old Create Deck Open AI scares me, just in case XD 
-    //Decks[_who] = new Queue<SlimeCard>();
-    //Discard[_who] = new List<SlimeCard>();
-    //Transform who = _who == DECK_SLOTS.PLAYER ? DeckAttachmentPoints[(int)DECK_SLOTS.PLAYER] : DeckAttachmentPoints[(int)DECK_SLOTS.NPC];
-    //List<SlimeCard> toBeAdded = new List<SlimeCard>();
-    //foreach (var piece in _slime.GetActiveParts())
-    //{
-    //    if (piece.GetSlimePart() == ESlimePart.BODY)
-    //        continue;
-    //    SlimeCard Card = ObjectManager.Instance.CreateCard(piece, _who);
-    //    Card.OnEnterDeck();
-    //    toBeAdded.Add(Card);
-    //    Card.AttachParent(who);
-    //}
-    //toBeAdded = ShuffleDeck(toBeAdded);
-    //for (int i = 0; i < toBeAdded.Count; i++)
-    //{
-    //    Decks[_who].Enqueue(toBeAdded[i]);
-    //}
-    #endregion
     public List<SlimeCard> ShuffleDeck(List<SlimeCard> _toBeShuffled)
     {
         System.Random rnd = new System.Random();

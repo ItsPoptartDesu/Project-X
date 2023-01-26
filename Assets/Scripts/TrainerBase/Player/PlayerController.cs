@@ -23,9 +23,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 previousPosition;
     public LevelTags GetPreviousLevel() { return previousLevel; }
     public Vector3 GetPreviousPosition() { return previousPosition; }
-    public void SetPreviousLevel(LevelTags _returnTo, Vector3 _pos) { previousLevel = _returnTo; previousPosition = _pos; }
+    public void SetPreviousPosition(Vector3 _location) { previousPosition = _location; }
+    public void SetPreviousLevel(LevelTags _returnTo) 
+    {
+        previousLevel = _returnTo;
+    }
     public void OnBattleStart(NPC_BattleSystem _system)
     {
+        ToggleCamera(true);
         ActiveTeamDuringBattle.Clear();
         ActiveTeamDuringBattle = GameEntry.Instance.GetSaveManager().GetActiveTeam();
         foreach (var slime in ActiveTeamDuringBattle)
@@ -40,7 +45,6 @@ public class PlayerController : MonoBehaviour
             _system.CreateDecks(slime, DECK_SLOTS.PLAYER);
         }
     }
-
     public void Start()
     {
         ((SettingsMenu)SettingsUI).OnClick.onClick.AddListener(OnClickQuitButton);
@@ -117,7 +121,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"TeamSize: {slimeJSON.Count}");
         foreach (JsonSlimeInfo s in slimeJSON)
         {
-            GameObject mySlime = ObjectManager.Instance.GenerateSlime(s, true);
+            GameObject mySlime = ObjectManager.Instance.GenerateSlime(s);
             AttachToSelf(mySlime.transform);
             Slime slimeComp = mySlime.GetComponent<Slime>();
             slimeComp.ToggleRenderers();

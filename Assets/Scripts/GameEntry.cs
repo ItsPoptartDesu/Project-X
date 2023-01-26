@@ -27,7 +27,6 @@ public class GameEntry : MonoBehaviour
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
-
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -86,8 +85,8 @@ public class GameEntry : MonoBehaviour
     public void PlayToBattleTransition(NPC_Trainer _npc, PlayerController _player)
     {
         //SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
-        gameloop.PerformTransition(Transition.To_Battle);
-        sceneLoader.StartAsyncLoad(currentLevel);
+        LevelManager.Instance.LoadingLevel = LevelTags.NPC_Battle;
+        StartLoadLevel();
     }
     // Start is called before the first frame update
     void Start()
@@ -128,7 +127,6 @@ public class GameEntry : MonoBehaviour
         OnClickUIToMainMenu?.Invoke();
         // switch menu UI
         MainMenuUI.Instance.ResetUI();
-        ObjectManager.Instance.DeleteMarkedObjects();
     }
     /// <summary>
     /// Main Menu to Game Play
@@ -136,7 +134,7 @@ public class GameEntry : MonoBehaviour
     public void Button_OnClickToPlay()
     {
         LevelManager.Instance.LoadingLevel = LevelTags.LEVEL_1;
-        GameEntry.Instance.StartLoadLevel();
+        StartLoadLevel();
     }
     public void StartLoadLevel()
     {
@@ -159,22 +157,8 @@ public class GameEntry : MonoBehaviour
     }
     public void LeaveBattle(LevelTags _returnTo)
     {
-        currentLevel = _returnTo;
-        switch (currentLevel)
-        {
-            case LevelTags.MainMenu:
-            case LevelTags.NPC_Battle:
-                ObjectManager.Instance.GetActivePlayer().DisablePlayerMovementRendererCamera();
-                break;
-            case LevelTags.LEVEL_1:
-                ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
-                LevelManager.Instance.LoadTrainerData(currentLevel);
-                break;
-            default:
-                break;
-        }
+        Debug.Log($"Returning to {_returnTo}");
+        LevelManager.Instance.LoadingLevel = _returnTo;
         sceneLoader.StartAsyncLoad(_returnTo);
-        //LevelManager.Instance.Load(currentLevel);
-        BattleStateToPlayState?.Invoke();
     }
 }

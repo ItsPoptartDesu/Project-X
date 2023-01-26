@@ -55,6 +55,8 @@ public class FSM_Idle : FSM_State
         toCollection = false;
         toGame = false;
         Debug.Log("FSM_Idle DoBeforeLeaving()");
-        ObjectManager.Instance.DeleteMarkedObjects();
+        //ObjectManager.Instance.DeleteMarkedObjects();
+        ObjectManager.Instance.GetActivePlayer().
+            SetPreviousLevel(GameEntry.Instance.GetCurrentLevel());
     }
 }
