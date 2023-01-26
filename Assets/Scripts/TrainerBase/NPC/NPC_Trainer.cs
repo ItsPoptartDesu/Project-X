@@ -32,10 +32,12 @@ public class NPC_Trainer : MonoBehaviour
         string trainerName = trainerInfo.TrainerName;
         if (trainerName == null || trainerName == string.Empty)
             return;
+        SaveManager localSave = GameEntry.Instance.GetSaveManager();
+        if (localSave.GetTrainerState(trainerName))
+            return;
         Debug.DrawRay(rayCastPoint.position, LookDir * LookDistance);
         var hit = Physics2D.Raycast(rayCastPoint.position, LookDir * LookDistance);
-        SaveManager localSave = GameEntry.Instance.GetSaveManager();
-        if (hit.collider != null && !localSave.GetTrainerState(trainerName))
+        if (hit.collider != null)
         {
             localSave.UpdateTrainerState(trainerName);
             trainerInfo.HasBeenBattled = true;
