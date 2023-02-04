@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Steamroller : SlimeCard
+public class Green_Thorns : SlimeCard
 {
     // Start is called before the first frame update
     void Start()

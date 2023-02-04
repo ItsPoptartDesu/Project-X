@@ -58,7 +58,7 @@ public class NPC_Trainer : MonoBehaviour
             var NPC_Slime = ObjectManager.Instance.GenerateSlime(slime);
             Slime slimeComp = NPC_Slime.GetComponent<Slime>();
 
-            BoardPos pos = slimeComp.dna.TeamPos;
+            BoardPos pos = slimeComp.stats.dna.TeamPos;
             SpawnPoints sp = _system.GetSpawnPoint(DECK_SLOTS.NPC, pos);
             slimeComp.AttachParent(sp.transform);
             slimeComp.transform.localScale = new Vector3(
@@ -66,7 +66,10 @@ public class NPC_Trainer : MonoBehaviour
                 ObjectManager.Instance.BattleScale,
                 ObjectManager.Instance.BattleScale);
             _system.CreateDecks(slimeComp, DECK_SLOTS.NPC);
-            HealthBar hb = _system.InitHealhBar(DECK_SLOTS.NPC, pos, slimeComp.GetHealth());
+            HealthBar hb = _system.InitHealhBar(
+                DECK_SLOTS.NPC,
+                pos,
+                new Vector2(slimeComp.GetHealth(),slimeComp.GetShields()));
             slimeComp.InitHealthBar(hb);
             ActiveTeam.Add(slimeComp);
         }

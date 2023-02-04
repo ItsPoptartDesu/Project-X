@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour //TODO: use new unity input system. and seperate input from movement logic
 {
     public float speed;
+    public LayerMask grassLayer;
     private Animator animator;
     private void Start()
     {
@@ -39,5 +40,18 @@ public class PlayerMovement : MonoBehaviour //TODO: use new unity input system. 
         animator.SetBool("IsMoving", dir.magnitude > 0);
 
         GetComponent<Rigidbody2D>().velocity = speed * dir;
+        CheckForEncounters();
+    }
+
+    private void CheckForEncounters()
+    {
+        if (Physics2D.OverlapCircle(transform.position, 0.2f, grassLayer) != null)
+        {
+            System.Random r = new System.Random();
+            if (r.Next(0, 100) < 10)
+            {
+                Debug.Log("Random Encounter Hit");
+            }
+        }
     }
 }

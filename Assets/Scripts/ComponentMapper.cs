@@ -8,13 +8,13 @@ public enum CardComponentType
     Assurance, Attack_Order, Beat_Up, Bug_Bite, Bite, BODY, Breaking_Swipe, Bug_Buzz, Clanging_Scales, Clangorous_Soul,
     Clangorous_Soulblaze, Core_Enforcer, Crunch, Dark_Pulse, Dark_Void, Defend_Order, Devastating_Drake, Draco_Meteor,DragonHammer, Dragon_Berries, 
     Dragon_Breath, Dragon_Claw, Dragon_Dance,Dragon_Darts, Dragon_Dive, Dragon_Energy, Dragon_Pride, Dragon_Pulse, Dragon_Rage, Dragon_Rush,
-    Dragon_Snot, Dragon_Tail, Dual_Chop, Dynamax_Cannon, Embargo, Etenabeam, Fake_Tears, Feint_Attack, Fell_Stinger, First_Impression, 
-    Flatter, Fling, Foul_Play, Fury_Cutter, Heal_Order, Hone_Claws, Infestation,Knock_off, Leech_Life,Lunge,
+    Dragon_Snot, Dragon_Tail, Dual_Chop, Dynamax_Cannon, Embargo, Etenabeam, Fake_Tears, Feint_Attack, Bone_Sail, First_Impression, 
+    Flatter, Fling, Foul_Play, Fury_Cutter, Heal_Order, Hone_Claws, Croc, Knock_off, Leech_Life,Lunge,
     Max_Flutterby, Max_Wyrmwind, Megahorn, Memento, NastyPlot, NightSlash, Night_Daze, Outrage, Parting_Shot,
-    Payback, Pin_Missile, Pollen_Puff, Powder, Punishment, Pursuit, Quash, Quiver_Dance, Rage_Powder,Roar_Of_Time, 
-    Savage_Spin_Out, Scale_Shot, Signal_Beam, Silver_Wind, Snarl, Snatch, Spacial_Rend, Spider_Web, Steamroller, Sticky_Web,
+    Payback, Pin_Missile, Pollen_Puff, Green_Thorns, Punishment, Pursuit, Quash, Quiver_Dance, Rage_Powder,Roar_Of_Time, 
+    Savage_Spin_Out, Scale_Shot, Signal_Beam, Silver_Wind, Snarl, Snatch, Spacial_Rend, Spider_Web, Indian_Star, Red_Ear,
     String_Shot, Struggle_Bug, Sucker_Punch, Switcheroo, Tail_Glow, Taunt, Thief, Torment, Twineedle, Twister, 
-    U_Turn, X_Scissors
+    U_Turn, X_Scissors, Tiny_Dino, Tri_Spikes,
 }
 
 public static class ComponentMapper
@@ -23,11 +23,14 @@ public static class ComponentMapper
         CardComponents = new Dictionary<CardComponentType, Type>
     {
             #region back
-        { CardComponentType.Fell_Stinger, typeof(Fell_Stinger) },
-        { CardComponentType.Infestation, typeof(Infestation) },
-        { CardComponentType.Powder, typeof(Powder) },
-        { CardComponentType.Steamroller, typeof(Steamroller) },
-        { CardComponentType.Sticky_Web, typeof(Sticky_Web) },
+        { CardComponentType.Bone_Sail, typeof(Bone_Sail) },
+        { CardComponentType.Croc, typeof(Croc) },
+        { CardComponentType.Green_Thorns, typeof(Green_Thorns) },
+        { CardComponentType.Indian_Star, typeof(Indian_Star) },
+        { CardComponentType.Red_Ear, typeof(Red_Ear) },
+        { CardComponentType.Tiny_Dino, typeof(Tiny_Dino) },
+        { CardComponentType.Tri_Spikes, typeof(Tri_Spikes) },
+
 
         { CardComponentType.Bite, typeof(Bite) },
         { CardComponentType.Crunch, typeof(Crunch) },

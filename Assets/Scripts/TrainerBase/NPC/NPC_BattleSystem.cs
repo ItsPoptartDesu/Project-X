@@ -41,17 +41,17 @@ public class NPC_BattleSystem : LevelBehavior
     public DECK_SLOTS GetCurrentTurn() { return currentTurn; }
     public UI_ManaDisplay[] ManaDisplay = new UI_ManaDisplay[2];
 
-    public HealthBar InitHealhBar(DECK_SLOTS _who, BoardPos _pos, int _hp)
+    public HealthBar InitHealhBar(DECK_SLOTS _who, BoardPos _pos, Vector2 _HealthnShields)
     {
         SpawnPoints sp = GetSpawnPoint(_who, _pos);
         sp.myHealthBar.ToggleHealthBar(true);
-        sp.myHealthBar.SetHealth(_hp);
+        sp.myHealthBar.SetHealth(_HealthnShields);
         return sp.myHealthBar;
     }
     public void UpdateHealthBars(DECK_SLOTS _who, BoardPos _pos, int _hp)
     {
         SpawnPoints sp = GetSpawnPoint(_who, _pos);
-        sp.myHealthBar.SetHealth(_hp);
+        //sp.myHealthBar.SetHealth(_hp);
     }
     public SpawnPoints GetSpawnPoint(DECK_SLOTS _who, BoardPos _pos)
     {
@@ -168,7 +168,7 @@ public class NPC_BattleSystem : LevelBehavior
     public void CreateDecks(Slime _slime, DECK_SLOTS _who)
     {
         List<SlimeCard> l = ShuffleDeck(_slime.GetActiveParts()
-                    .Where(part => part.GetSlimePart() != ESlimePart.BODY)
+                    .Where(part => part.GetESlimePart() != ESlimePart.BODY)
                     .Select(part =>
                     {
                         SlimeCard card = ObjectManager.Instance.CreateCard(part, _who);

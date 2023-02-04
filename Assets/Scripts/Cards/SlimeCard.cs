@@ -75,12 +75,16 @@ public class SlimeCard : CardBase,
             Debug.Log($"Clicked on {card.CardName.text}");
         }
     }
+    /// <summary>
+    /// Base functionality is to hit the first slime on the team.
+    /// </summary>
+    /// <param name="_activeTeam"></param>
     public override void OnPlay(List<Slime> _activeTeam)
     {
         myState = CardState.IN_PLAY;
         DEBUG_Message();
-        Slime hit = _activeTeam.OrderBy(x => x.dna.TeamPos).First();
-        hit.ApplyDamage(rawCardStats.GetPower());
+        Slime hit = _activeTeam.OrderBy(x => x.stats.dna.TeamPos).First();
+        hit.ApplyDamage(rawCardStats);
     }
 
     public override void OnEnterDiscardPile()

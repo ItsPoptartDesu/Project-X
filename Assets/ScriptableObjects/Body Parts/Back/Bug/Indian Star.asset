@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Sticky Web
+  m_Name: Indian Star
   m_EditorClassIdentifier: 
   SlimePart: 3
   SlimeType: 5
-  CardComponentType: 78
-  PartName: Sticky Web
-  ImgToDisplay: {fileID: 21300000, guid: 633606b0e26f4db408c39d9a1812c6d1, type: 3}
-  Power: 0
-  Cost: 0
+  CardComponentType: 77
+  PartName: Indian Star
+  ImgToDisplay: {fileID: 21300000, guid: 2aa57c8a967456a4a9cb4cd8491b726f, type: 3}
+  Power: 70
+  Cost: 1

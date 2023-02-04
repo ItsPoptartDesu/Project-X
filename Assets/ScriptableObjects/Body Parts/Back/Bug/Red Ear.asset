@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Steamroller
+  m_Name: Red Ear
   m_EditorClassIdentifier: 
   SlimePart: 3
   SlimeType: 5
-  CardComponentType: 77
-  PartName: Steamroller
-  ImgToDisplay: {fileID: 21300000, guid: 0732d06c3d3108240a079610027bb41c, type: 3}
-  Power: 65
-  Cost: 1
+  CardComponentType: 78
+  PartName: Red Ear
+  ImgToDisplay: {fileID: 21300000, guid: e57ff41732aae1446b07ae4ebf5aae8d, type: 3}
+  Power: 0
+  Cost: 0

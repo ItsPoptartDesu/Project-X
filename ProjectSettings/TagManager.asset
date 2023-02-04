@@ -11,7 +11,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Encounter
   - 
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2126409405
+    locked: 0
+  - name: Grass
+    uniqueID: 669590829
     locked: 0

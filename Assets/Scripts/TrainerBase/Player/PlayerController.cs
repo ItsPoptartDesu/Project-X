@@ -35,12 +35,15 @@ public class PlayerController : MonoBehaviour
         ActiveTeamDuringBattle = GameEntry.Instance.GetSaveManager().GetActiveTeam();
         foreach (var slime in ActiveTeamDuringBattle)
         {
-            BoardPos pos = slime.dna.TeamPos;
+            BoardPos pos = slime.stats.dna.TeamPos;
             SpawnPoints sp = _system.GetSpawnPoint(DECK_SLOTS.PLAYER, pos);
             slime.AttachParent(sp.transform);
             slime.transform.localScale *= ObjectManager.Instance.BattleScale;
             slime.ToggleRenderers();
-            HealthBar hb = _system.InitHealhBar(DECK_SLOTS.PLAYER, pos, slime.GetHealth());
+            HealthBar hb = _system.InitHealhBar(
+                DECK_SLOTS.PLAYER,
+                pos,
+                new Vector2(slime.GetHealth(), slime.GetShields()));
             slime.InitHealthBar(hb);
             _system.CreateDecks(slime, DECK_SLOTS.PLAYER);
         }

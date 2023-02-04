@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Powder
+  m_Name: Bone Sail
   m_EditorClassIdentifier: 
   SlimePart: 3
   SlimeType: 5
-  CardComponentType: 62
-  PartName: Powder
-  ImgToDisplay: {fileID: 21300000, guid: 181073e1bb52d50488b1a7d5962f3dd5, type: 3}
-  Power: 0
-  Cost: 0
+  CardComponentType: 38
+  PartName: Bone Sail
+  ImgToDisplay: {fileID: 21300000, guid: 0732d06c3d3108240a079610027bb41c, type: 3}
+  Power: 50
+  Cost: 1

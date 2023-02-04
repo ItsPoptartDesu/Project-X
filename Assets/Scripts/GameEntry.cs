@@ -114,7 +114,7 @@ public class GameEntry : MonoBehaviour
         List<Slime> at = saveManager.GetActiveTeam();
         foreach (var s in at)
         {
-            GameObject Slime = ObjectManager.Instance.GenerateSlime(s.dna);//TODO i think i should jsut toggle my preloaded team like battles this is problaby bad
+            GameObject Slime = ObjectManager.Instance.GenerateSlime(s.stats.dna);//TODO i think i should jsut toggle my preloaded team like battles this is problaby bad
             MainMenuUI.Instance.teamSelectionManager.AttachNewMember(Slime.transform);
         }
     }

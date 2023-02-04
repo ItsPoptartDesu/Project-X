@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Spacial Rend
+  m_Name: Croc
   m_EditorClassIdentifier: 
-  SlimePart: 0
-  SlimeType: 10
-  CardComponentType: 75
-  PartName: Spacial Rend
-  ImgToDisplay: {fileID: 21300000, guid: 916daff491e5b1245a232e997fd02ca8, type: 3}
-  Power: 10
-  Cost: 2
+  SlimePart: 3
+  SlimeType: 5
+  CardComponentType: 46
+  PartName: Croc
+  ImgToDisplay: {fileID: 21300000, guid: 633606b0e26f4db408c39d9a1812c6d1, type: 3}
+  Power: 20
+  Cost: 1

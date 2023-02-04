@@ -15,6 +15,7 @@ public enum Transition
     To_Play,
     To_Collection,
     To_Battle,
+    To_Encounter,
 }
 /// <summary>
 /// Place the labels for the States in this enum.
@@ -28,6 +29,7 @@ public enum StateID
     Play,
     Collection,
     Battle,
+    Encounter,
 }
 
 /// <summary>

@@ -13,14 +13,10 @@ public enum BoardPos
 
 public class Slime : MonoBehaviour
 {
-    private int BaseHP = 100;
-    private int RawHealth;
-    private int HealthModifier = 0;
-    public int GetHealth() { return HealthModifier + RawHealth; }
+    public SlimeStats stats;
     private bool isDead = false;
     public bool IsDead() { return isDead; }
-    [HideInInspector]
-    public JsonSlimeInfo dna;
+
     [HideInInspector]
     public string secret;
 
@@ -43,13 +39,20 @@ public class Slime : MonoBehaviour
     public void InitHealthBar(HealthBar _bar)
     {
         HealthBarRef = _bar;
-        HealthBarRef.SetMaxHealth(GetHealth());
+        HealthBarRef.SetStats(stats.GetHealth(), stats.GetShield());
+    }
+    public int GetHealth()
+    {
+        return stats.GetHealth();
+    }
+    public int GetShields()
+    {
+        return stats.GetShield();
     }
     public void Init(JsonSlimeInfo _copy)
     {
-        dna = _copy;
         secret = _copy == null ? System.Guid.NewGuid().ToString() : _copy.secret;
-        RawHealth = BaseHP;
+        stats = new SlimeStats(_copy);
         foreach (var p in _RenderParts)
         {
             if (slimeParts.ContainsKey(p.GetESlimePart()))
@@ -62,6 +65,7 @@ public class Slime : MonoBehaviour
             }
             if (GameEntry.Instance.isDEBUG)
                 Debug.Log($"adding part {p.GetESlimePart()} to slime {SlimeName}");
+            p.SetHost(this);
             slimeParts.Add(p.GetESlimePart(), p);
         }
         System.Array values = System.Enum.GetValues(typeof(BoardPos));
@@ -78,11 +82,6 @@ public class Slime : MonoBehaviour
     {
         return slimeParts.Values.ToList();
     }
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void ToggleRenderers()
     {
         foreach (var piece in _RenderParts)
@@ -98,19 +97,35 @@ public class Slime : MonoBehaviour
         statement += "attached to it";
         Debug.Log(statement);
     }
-    public void ApplyDamage(int _damage)
+    public void ApplyDamage(SlimePiece _aggressor)
     {
-        int hp = GetHealth();
-        hp -= _damage;
-        if (hp < 0)
+        int damage = _aggressor.GetPower();
+
+        //if i have the thorn effect toggled on
+        if((stats.GetStatus() & StatusEffect.Thorn) != 0)
+        {
+            _aggressor.GetHost().stats.TakeDamage((int)(damage * SlimeStats.ThornReturnPercentage));
+            _aggressor.GetHost().RefreshHealthBar();
+        }
+
+        Vector2 hp = stats.TakeDamage(damage);
+        if (hp.x <= 0)
             Die();
-        else
-            HealthBarRef.SetHealth(hp);
+        HealthBarRef.SetHealth(hp);
+    }
+    public void AdjustShields(int _amount)
+    {
+        stats.AdjustShields(_amount);
+        HealthBarRef.SetHealth(new Vector2(GetHealth(),_amount));
     }
     private void Die()
     {
-        HealthBarRef.SetHealth(0);
+        HealthBarRef.SetHealth(Vector2.zero);
         isDead = true;
-        Debug.Log($"{dna.SlimeName} has died");
+        Debug.Log($"{stats.dna.SlimeName} has died");
+    }
+    public void RefreshHealthBar()
+    {
+        HealthBarRef.SetHealth(new Vector2(stats.GetHealth(), stats.GetShield()));
     }
 }

@@ -8,11 +8,7 @@ public class SlimePiece : MonoBehaviour
     private ESlimePart eSlimePart;
     protected SpriteRenderer myRenderer;
     private SO_SlimePart basePart;
-    public int PowerModifier = 0;
-    public int CostModifier = 0;
-    public int HealthModifier = 0;
-    [SerializeField]
-    private int StartingHealth = 100;
+    private Slime Host;
     public CardComponentType GetCardType() { return basePart.CardComponentType; }
     public void Awake()
     {
@@ -29,9 +25,10 @@ public class SlimePiece : MonoBehaviour
     public ESlimeType GetSlimeType() { return basePart.SlimeType; }
     public string GetSlimePartName() { return basePart.PartName; }
     public Sprite GetSlimeSprite() { return basePart.ImgToDisplay; }
-    public int GetPower() { return basePart.Power + PowerModifier; }
-    public int GetCost() { return basePart.Cost + CostModifier; }
-    public int GetHealth() { return StartingHealth + HealthModifier; }
+    public int GetPower() { return basePart.Power; }
+    public int GetCost() { return basePart.Cost; }
+    public void SetHost(Slime _s) { Host = _s; }
+    public Slime GetHost() {  return Host; }
     public void UpdateSlimePart(SO_SlimePart _part)
     {
         basePart = _part;
