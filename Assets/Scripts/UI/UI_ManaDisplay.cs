@@ -30,7 +30,7 @@ public class UI_ManaDisplay : MonoBehaviour
         for (int i = 0; i < Mana.Count; i++)
             Mana[i].TurnOffMana();
     }
-    public void TurnStart()
+    public void UpdateManaDisplay()
     {
         TurnOnMana(CurrentMana);
         CurrentTurn++;

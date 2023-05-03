@@ -10,7 +10,7 @@ public class SlimeCard : CardBase,
 {
     private bool CanDisplayInfo { get { return myOwner == DECK_SLOTS.PLAYER && myState != CardState.DECK; } }
     private bool CanPlayCard { get { return ((NPC_BattleSystem)LevelManager.Instance.currentLevelBehaviour).GetCurrentTurn() == DECK_SLOTS.PLAYER; } }
-
+    private bool HasBeenPlayed = false;
     public override void OnEnterDeck()
     {
         myState = CardState.DECK;
@@ -64,16 +64,17 @@ public class SlimeCard : CardBase,
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (!CanPlayCard)
-            return;
-        Debug.Log("OnPointerClick");
         GameObject clickedOn = eventData.pointerPress;
         SlimeCard card = clickedOn.GetComponent<SlimeCard>();
-        ((NPC_BattleSystem)LevelManager.Instance.currentLevelBehaviour).AddCardToActionQueue(card);
         if (card != null)
         {
             Debug.Log($"Clicked on {card.CardName.text}");
         }
+        if (!CanPlayCard || myState == CardState.IN_PLAY)
+            return;
+        Debug.Log("OnPointerClick");
+        ((NPC_BattleSystem)LevelManager.Instance.currentLevelBehaviour).AddCardToActionQueue(card);
+        myState = CardState.IN_PLAY;
     }
     /// <summary>
     /// Base functionality is to hit the first slime on the team.
@@ -81,7 +82,6 @@ public class SlimeCard : CardBase,
     /// <param name="_activeTeam"></param>
     public override void OnPlay(List<Slime> _activeTeam)
     {
-        myState = CardState.IN_PLAY;
         DEBUG_Message();
         Slime hit = _activeTeam.OrderBy(x => x.stats.dna.TeamPos).First();
         hit.ApplyDamage(rawCardStats);

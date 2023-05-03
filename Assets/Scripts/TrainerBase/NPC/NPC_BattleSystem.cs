@@ -70,15 +70,17 @@ public class NPC_BattleSystem : LevelBehavior
             card.OnPlay(TeamToBeHit);
             ManaDisplay[(int)currentTurn].OnPlay(card.rawCardStats.GetCost());
             card.OnEnterDiscardPile();
-            Discard[currentTurn].Add(card);
-            ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).AddCardToDiscardPile(card);
             AddCardToDiscardPile(card);
+            ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).AddCardToDiscardPile(card, Discard[currentTurn].Count);
             if (currentTurn == DECK_SLOTS.NPC && ActionQueue.Count == 0)
-                isNPCTurn = false;
-            if (!isNPCTurn && currentTurn == DECK_SLOTS.NPC)
             {
+                Debug.Log($"{currentTurn} is ending their turn");
                 IncTurn();
             }
+            //isNPCTurn = false;
+            //if (!isNPCTurn && currentTurn == DECK_SLOTS.NPC)
+            Debug.Log($"UPDATE {currentTurn} || Deck Size {Decks[currentTurn].Count} || Hand Size {Hands[currentTurn].Count} || Discard Size {Discard[currentTurn].Count}");
+
             state = IsGameOver();
             if (state != WIN_STATE.NA)
                 break;
@@ -101,35 +103,6 @@ public class NPC_BattleSystem : LevelBehavior
         yield return new WaitForSeconds(2f);
         GameEntry.Instance.LeaveBattle(ObjectManager.Instance.GetActivePlayer().GetPreviousLevel());
     }
-    private WIN_STATE IsGameOver()
-    {
-        int playerDeadCount = user.GetActiveTeam().Count(s => s.IsDead());
-        int npcDeadCount = npc.ActiveTeam.Count(s => s.IsDead());
-        if (playerDeadCount == npcDeadCount && npcDeadCount == 0)
-        {
-            return WIN_STATE.TIE;
-        }
-        if (playerDeadCount == user.GetActiveTeam().Count)
-        {
-            Debug.Log("NPC Wins");
-
-            return WIN_STATE.NPC_WIN;
-        }
-        if (npcDeadCount == npc.ActiveTeam.Count)
-        {
-            Debug.Log("Player Wins");
-            return WIN_STATE.PLAYER_WIN;
-        }
-        else
-        {
-            return WIN_STATE.NA;
-        }
-    }
-    private void AddCardToDiscardPile(SlimeCard _card)
-    {
-        Discard[currentTurn].Add(_card);
-        ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).AddCardToDiscardPile(_card);
-    }
     public void PreLoadForBattle(PlayerController _player, NPC_Trainer _npc)
     {
         user = _player;
@@ -137,25 +110,26 @@ public class NPC_BattleSystem : LevelBehavior
         Debug.Log("PreLoadForBattle");
         _player.OnBattleStart(this);
         _npc.OnBattleStart(this);
-        //StartCoroutine(Draw(DECK_SLOTS.PLAYER, StartDrawAmount));
-        //StartCoroutine(Draw(DECK_SLOTS.NPC, StartDrawAmount));
     }
     private IEnumerator Draw(DECK_SLOTS _who, int _numCards)
     {
+        Debug.Log($"BEFORE {_who} || Deck Size {Decks[_who].Count} || Hand Size {Hands[_who].Count} || Discard Size {Discard[_who].Count}");
         WaitForSeconds wfs = new WaitForSeconds(0.1f);
-        Hands[_who] = new List<SlimeCard>();
-        ManaDisplay[(int)_who].TurnStart();
+        Hands[_who].Clear();
+        ManaDisplay[(int)_who].UpdateManaDisplay();
+        //if we can't draw the number of cards needed for a hand.
+        if (Decks[_who].Count < _numCards)
+        {
+            List<SlimeCard> shuffled = ShuffleDeck(Discard[_who]);
+            Debug.Log($"{_who} is shuffleing {shuffled.Count} cards back in to the deck.");
+            foreach (var card in shuffled)
+            {
+                AddCardToDeck(card);
+            }
+            Discard[_who].Clear();
+        }
         for (int i = 0; i < _numCards; i++)
         {
-            if (Decks[_who].Count == 0)
-            {
-                List<SlimeCard> shuffled = ShuffleDeck(Discard[currentTurn]);
-                foreach (var card in shuffled)
-                {
-                    Decks[currentTurn].Enqueue(card);
-                }
-                Discard[currentTurn].Clear();
-            }
             SlimeCard deckToHand = Decks[_who].Dequeue();
             deckToHand.AttachParent(HandAttachmentPoints[(int)_who]);
             deckToHand.OnEnterHand();
@@ -164,10 +138,13 @@ public class NPC_BattleSystem : LevelBehavior
             Hands[_who].Add(deckToHand);
             yield return wfs;
         }
+        Debug.Log($"AFTER {_who} || Deck Size {Decks[_who].Count} || Hand Size {Hands[_who].Count} || Discard Size {Discard[_who].Count}");
+
     }
+
     public void CreateDecks(Slime _slime, DECK_SLOTS _who)
     {
-        List<SlimeCard> l = ShuffleDeck(_slime.GetActiveParts()
+        var shuffled = _slime.GetActiveParts()
                     .Where(part => part.GetESlimePart() != ESlimePart.BODY)
                     .Select(part =>
                     {
@@ -177,21 +154,25 @@ public class NPC_BattleSystem : LevelBehavior
                             DeckAttachmentPoints[(int)DECK_SLOTS.PLAYER] :
                             DeckAttachmentPoints[(int)DECK_SLOTS.NPC]);
                         return card;
-                    }).ToList());
+                    }).ToList();
+        List<SlimeCard> l = ShuffleDeck(shuffled);
         Decks[_who] = new Queue<SlimeCard>(l);
+        Hands[_who] = new List<SlimeCard>();
         Discard[_who] = new List<SlimeCard>();
     }
     public List<SlimeCard> ShuffleDeck(List<SlimeCard> _toBeShuffled)
     {
         System.Random rnd = new System.Random();
-        for (int i = _toBeShuffled.Count - 1; i > 0; i--)
+        List<SlimeCard> shuffled = new List<SlimeCard>(_toBeShuffled);
+        for (int i = shuffled.Count - 1; i > 0; i--)
         {
-            int k = rnd.Next(i + 1);
-            SlimeCard value = _toBeShuffled[k];
-            _toBeShuffled[k] = _toBeShuffled[i];
-            _toBeShuffled[i] = value;
+            //int k = rnd.Next(i + 1);
+            int k = UnityEngine.Random.Range(0, i + 1);
+            SlimeCard value = shuffled[k];
+            shuffled[k] = shuffled[i];
+            shuffled[i] = value;
         }
-        return _toBeShuffled;
+        return shuffled;
     }
     public override void PostLevelLoad()
     {
@@ -245,11 +226,12 @@ public class NPC_BattleSystem : LevelBehavior
             card.OnEnterDiscardPile();
             AddCardToDiscardPile(card);
         }
+        Hands[currentTurn].Clear();
         ManaDisplay[(int)currentTurn].TurnEnd();
         currentTurn++;
         if (currentTurn >= DECK_SLOTS.MAX)
             currentTurn = DECK_SLOTS.PLAYER;
-        ManaDisplay[(int)currentTurn].TurnStart();
+        ManaDisplay[(int)currentTurn].UpdateManaDisplay();
         TurnPicker();
     }
     public void AddCardToActionQueue(SlimeCard _card)
@@ -261,9 +243,46 @@ public class NPC_BattleSystem : LevelBehavior
             Debug.Log($"Can not play {_card.CardName}: {cost} cost");
             return;
         }
-        Debug.Log($"Playing {_card.CardName.text}");
+        Debug.Log($"{currentTurn} is playing {_card.CardName.text}");
         _card.myState = CardState.LIMBO;
         Hands[currentTurn].Remove(_card);
         ActionQueue.Enqueue(_card);
     }
+    private WIN_STATE IsGameOver()
+    {
+        int playerDeadCount = user.GetActiveTeam().Count(s => s.IsDead());
+        int npcDeadCount = npc.ActiveTeam.Count(s => s.IsDead());
+        if (playerDeadCount == npcDeadCount && npcDeadCount == 0)
+        {
+            return WIN_STATE.TIE;
+        }
+        if (playerDeadCount == user.GetActiveTeam().Count)
+        {
+            Debug.Log("NPC Wins");
+
+            return WIN_STATE.NPC_WIN;
+        }
+        if (npcDeadCount == npc.ActiveTeam.Count)
+        {
+            Debug.Log("Player Wins");
+            return WIN_STATE.PLAYER_WIN;
+        }
+        else
+        {
+            return WIN_STATE.NA;
+        }
+    }
+    private void AddCardToDiscardPile(SlimeCard _card)
+    {
+        Debug.Log($"Moving {_card.rawCardStats.GetSlimePartName()} to the discard pile");
+        Discard[currentTurn].Add(_card);
+        ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).AddCardToDiscardPile(_card, Discard[currentTurn].Count);
+    }
+    private void AddCardToDeck(SlimeCard _card)
+    {
+        Debug.Log($"{currentTurn} is adding { _card.CardName.text} back to his deck pile");
+        _card.OnEnterDeck();
+        Decks[currentTurn].Enqueue(_card);
+    }
+
 }

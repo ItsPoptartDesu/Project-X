@@ -39,7 +39,6 @@ public class LevelManager : MonoBehaviour
     public List<LevelInfo> Levels = new List<LevelInfo>();
     public void OnPlayerEnterClean(GameObject _player, LevelTags _lvlTag)
     {
-        //LevelInfo lvl = Levels.Where(x => x.LevelTag == _lvlTag).FirstOrDefault();
         currentLevelBehaviour = GameObject.FindObjectOfType<LevelBehavior>();
         if (ObjectManager.Instance.GetActivePlayer().GetPreviousLevel() == LevelTags.NPC_Battle)
         {
