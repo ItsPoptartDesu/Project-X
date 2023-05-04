@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class UI_ManaDisplay : MonoBehaviour
 {
+    private int CurrentManaTurnCap = 0;
     private int CurrentMana = 0;
-    private int CurrentTurn = 0;
     public const int MaxMana = 10;
     public int GetCurrentMana() { return CurrentMana; }
-    public int GetCurrentTurn() { return CurrentTurn; }
     public List<UI_Mana> Mana;
     private const int MANA_LIMIT = 10;
-    public void TurnOnMana(int _turn)
+    public void TurnOnMana()
     {
-        if (_turn > MANA_LIMIT)
-            return;
-        Mana[_turn].TurnOnMana();
+        for (int i = 0; i < CurrentManaTurnCap; i++)
+            Mana[i].TurnOnMana();
     }
     public void OnPlay(int _cost)
     {
@@ -30,12 +28,12 @@ public class UI_ManaDisplay : MonoBehaviour
         for (int i = 0; i < Mana.Count; i++)
             Mana[i].TurnOffMana();
     }
-    public void UpdateManaDisplay()
+    public void OnTurn()
     {
-        TurnOnMana(CurrentMana);
-        CurrentTurn++;
-        if(CurrentTurn > MANA_LIMIT)
-            CurrentTurn = MANA_LIMIT;
-        CurrentMana = CurrentTurn;
+        CurrentManaTurnCap++;
+        if (CurrentManaTurnCap >= MANA_LIMIT)
+            CurrentManaTurnCap = MANA_LIMIT;
+        CurrentMana = CurrentManaTurnCap;
+        TurnOnMana();
     }
 }

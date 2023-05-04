@@ -40,7 +40,6 @@ public class NPC_BattleSystem : LevelBehavior
     private Queue<SlimeCard> ActionQueue = new Queue<SlimeCard>();
     public DECK_SLOTS GetCurrentTurn() { return currentTurn; }
     public UI_ManaDisplay[] ManaDisplay = new UI_ManaDisplay[2];
-
     public HealthBar InitHealhBar(DECK_SLOTS _who, BoardPos _pos, Vector2 _HealthnShields)
     {
         SpawnPoints sp = GetSpawnPoint(_who, _pos);
@@ -111,37 +110,32 @@ public class NPC_BattleSystem : LevelBehavior
         _player.OnBattleStart(this);
         _npc.OnBattleStart(this);
     }
-    private IEnumerator Draw(DECK_SLOTS _who, int _numCards)
+    private void Draw(int _numCards)
     {
-        Debug.Log($"BEFORE {_who} || Deck Size {Decks[_who].Count} || Hand Size {Hands[_who].Count} || Discard Size {Discard[_who].Count}");
-        WaitForSeconds wfs = new WaitForSeconds(0.1f);
-        Hands[_who].Clear();
-        ManaDisplay[(int)_who].UpdateManaDisplay();
+        Debug.Log($"BEFORE {currentTurn} || Deck Size {Decks[currentTurn].Count} || Hand Size {Hands[currentTurn].Count} || Discard Size {Discard[currentTurn].Count}");
+        Hands[currentTurn].Clear();
         //if we can't draw the number of cards needed for a hand.
-        if (Decks[_who].Count < _numCards)
+        if (Decks[currentTurn].Count < _numCards)
         {
-            List<SlimeCard> shuffled = ShuffleDeck(Discard[_who]);
-            Debug.Log($"{_who} is shuffleing {shuffled.Count} cards back in to the deck.");
+            List<SlimeCard> shuffled = ShuffleDeck(Discard[currentTurn]);
+            Debug.Log($"{currentTurn} is shuffleing {shuffled.Count} cards back in to the deck.");
             foreach (var card in shuffled)
             {
                 AddCardToDeck(card);
             }
-            Discard[_who].Clear();
+            Discard[currentTurn].Clear();
         }
         for (int i = 0; i < _numCards; i++)
         {
-            SlimeCard deckToHand = Decks[_who].Dequeue();
-            deckToHand.AttachParent(HandAttachmentPoints[(int)_who]);
+            SlimeCard deckToHand = Decks[currentTurn].Dequeue();
+            deckToHand.AttachParent(HandAttachmentPoints[(int)currentTurn]);
             deckToHand.OnEnterHand();
-            if (_who == DECK_SLOTS.NPC)
+            if (currentTurn == DECK_SLOTS.NPC)
                 deckToHand.ToggleCardBackRoot(true);
-            Hands[_who].Add(deckToHand);
-            yield return wfs;
+            Hands[currentTurn].Add(deckToHand);
         }
-        Debug.Log($"AFTER {_who} || Deck Size {Decks[_who].Count} || Hand Size {Hands[_who].Count} || Discard Size {Discard[_who].Count}");
-
+        Debug.Log($"AFTER {currentTurn} || Deck Size {Decks[currentTurn].Count} || Hand Size {Hands[currentTurn].Count} || Discard Size {Discard[currentTurn].Count}");
     }
-
     public void CreateDecks(Slime _slime, DECK_SLOTS _who)
     {
         var shuffled = _slime.GetActiveParts()
@@ -185,7 +179,6 @@ public class NPC_BattleSystem : LevelBehavior
         yield return new WaitForSeconds(2f);
         currentTurn = DECK_SLOTS.PLAYER;
         TurnPicker();
-        //IncTurn();
     }
     private void TurnPicker()
     {
@@ -206,11 +199,13 @@ public class NPC_BattleSystem : LevelBehavior
     }
     private void PlayerTurn()
     {
-        StartCoroutine(Draw(currentTurn, StartDrawAmount));
+        ManaDisplay[(int)DECK_SLOTS.PLAYER].OnTurn();
+        Draw(StartDrawAmount);
     }
     private void NPCTurn()
     {
-        StartCoroutine(Draw(currentTurn, StartDrawAmount));
+        ManaDisplay[(int)DECK_SLOTS.NPC].OnTurn();
+        Draw(StartDrawAmount);
         Debug.Log($"{currentTurn} - NPC Turn");
         List<SlimeCard> cards = Hands[currentTurn];
         SlimeCard CardToPlay = cards.Where(x => x.rawCardStats.GetCost() <= ManaDisplay[(int)currentTurn].GetCurrentMana()).First();
@@ -231,7 +226,6 @@ public class NPC_BattleSystem : LevelBehavior
         currentTurn++;
         if (currentTurn >= DECK_SLOTS.MAX)
             currentTurn = DECK_SLOTS.PLAYER;
-        ManaDisplay[(int)currentTurn].UpdateManaDisplay();
         TurnPicker();
     }
     public void AddCardToActionQueue(SlimeCard _card)
