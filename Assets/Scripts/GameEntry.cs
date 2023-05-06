@@ -71,7 +71,7 @@ public class GameEntry : MonoBehaviour
         //load games assest
         ObjectManager.Instance.LoadAssets();
         //turn off all UI except for base UI on load
-        MainMenuUI.Instance.ResetUI();
+        MainMenuUI.Instance.ShowSavedSlotUI();
         //Load Level Defaults
         LevelManager.Instance.Load(currentLevel);
         //finally load the player
@@ -102,6 +102,11 @@ public class GameEntry : MonoBehaviour
             return;
         gameloop.CurrentState.Act(null, gameloop);
         gameloop.CurrentState.Reason(null, gameloop);
+    }
+    public void OnClickSaveSlot(int _slotID)
+    {
+        if (saveManager.CheckSaveSlotData(_slotID))
+            MainMenuUI.Instance.ResetUI();
     }
     /// <summary>
     /// Main menu to collection scene

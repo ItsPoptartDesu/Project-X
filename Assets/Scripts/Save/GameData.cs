@@ -9,13 +9,13 @@ public class GameData
     {
         ActiveTeam = new List<Slime>();
     }
-    private JsonSaveData LastSave;
+    private SaveSlotData LastSave;
     public List<Slime> GetActiveTeam() { return ActiveTeam; }
-    public void SetLastSave(JsonSaveData _FromFile)
+    public void SetLastSave(SaveSlotData _FromFile)
     {
         LastSave = _FromFile;
     }
-    public JsonSaveData GetLastSave() { return LastSave; }
+    public SaveSlotData GetLastSave() { return LastSave; }
     private List<Slime> ActiveTeam;
     public void AddSlimeToTeam(Slime _slime)
     {
@@ -28,7 +28,7 @@ public class GameData
             ActiveTeam.Add(s);
     }
 
-    public void Load(JsonSaveData _mySaveData)
+    public void Load(SaveSlotData _mySaveData)
     {
         SetLastSave(_mySaveData);
     }

@@ -52,7 +52,7 @@ public class NPC_Trainer : MonoBehaviour
     }
     public void OnBattleStart(NPC_BattleSystem _system)
     {
-        var ActiveList = trainerInfo.teamInfo.SavedSlime;
+        var ActiveList = new List<JsonSlimeInfo>();// = trainerInfo.ActiveTeam.SavedSlime;
         foreach (var slime in ActiveList)
         {
             var NPC_Slime = ObjectManager.Instance.GenerateSlime(slime);

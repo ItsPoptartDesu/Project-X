@@ -12,6 +12,8 @@ public class MainMenuUI : UI_Base
     [SerializeField]
     private GameObject MenuCollection_UI;
     [SerializeField]
+    private GameObject MenuSavedSlot_UI;
+    [SerializeField]
     UISlimeCollectionController slimeCollectionController_UI;
 
     public Button PlayButton;
@@ -21,14 +23,22 @@ public class MainMenuUI : UI_Base
     {
         return slimeCollectionController_UI.GetActiveTeam();
     }
+    public void ShowSavedSlotUI()
+    {
+        MenuCollection_UI.SetActive(false);
+        MenuIdle_UI.SetActive(false);
+        MenuSavedSlot_UI.SetActive(true);
+    }
     public void ResetUI()
     {
         MenuCollection_UI.SetActive(false);
+        MenuSavedSlot_UI.SetActive(false);
         MenuIdle_UI.SetActive(true);
     }
     public void ShowCollectionUI()
     {
         MenuCollection_UI.SetActive(true);
+        MenuSavedSlot_UI.SetActive(false);
         MenuIdle_UI.SetActive(false);
     }
 
