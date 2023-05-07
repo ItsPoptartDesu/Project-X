@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using System.Runtime.Serialization;
 
 [System.Serializable]
 public enum LevelTags
 {
+    [EnumMember(Value = "MainMenu")]
     MainMenu,
+    [EnumMember(Value = "LEVEL_1")]
     LEVEL_1,
+    [EnumMember(Value = "NPC_Battle")]
     NPC_Battle,
+    [EnumMember(Value = "NOT_SET")]
+    NOT_SET,
+
 }
 [System.Serializable]
 public struct LevelInfo

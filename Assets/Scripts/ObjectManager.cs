@@ -53,21 +53,21 @@ public class ObjectManager : MonoBehaviour
     [Space(1)]
     [SerializeField]
     private List<SlimeCard> GameCardPrefabs = new List<SlimeCard>();
-    private Dictionary<CardComponentType, SlimeCard> CardLookup = new Dictionary<CardComponentType, SlimeCard>();
-    private Dictionary<CardComponentType, SO_SlimePart> So_Lookup = new Dictionary<CardComponentType, SO_SlimePart>();
-    private Dictionary<ESlimePart, List<SO_SlimePart>> parts;
+    private Dictionary<CardComponentType , SlimeCard> CardLookup = new Dictionary<CardComponentType , SlimeCard>();
+    private Dictionary<CardComponentType , SO_SlimePart> So_Lookup = new Dictionary<CardComponentType , SO_SlimePart>();
+    private Dictionary<ESlimePart , List<SO_SlimePart>> parts;
     private List<List<SO_SlimePart>> partsLists;
     public static ObjectManager Instance { get; private set; }
     [Space(1)]
     [SerializeField]
     private GameObject CardPrefab;
     public float BattleScale = 75f;
-    public SlimeCard CreateCard(SlimePiece _base, DECK_SLOTS _who)
+    public SlimeCard CreateCard(SlimePiece _base , DECK_SLOTS _who)
     {
         var g = CardLookup[_base.GetCardType()];
         GameObject card = Instantiate(g.gameObject);
         SlimeCard sCard = card.GetComponent<SlimeCard>();
-        sCard.AssignCardValues(_base, _who);
+        sCard.AssignCardValues(_base , _who);
         //sCard.rawCardStats = _base;
         //MarkObjectToBeDeleted(card);
         return sCard;
@@ -87,7 +87,7 @@ public class ObjectManager : MonoBehaviour
     }
     private void Start()
     {
-        parts = new Dictionary<ESlimePart, List<SO_SlimePart>>
+        parts = new Dictionary<ESlimePart , List<SO_SlimePart>>
                 {
                     { ESlimePart.FOREHEAD, SO_ForeheadParts },
                     { ESlimePart.EYES, SO_EyeParts },
@@ -123,11 +123,9 @@ public class ObjectManager : MonoBehaviour
         System.Random rnd = new System.Random();
         foreach (var part in parts)
         {
-            SO_SlimePart ToBeRendered = part.Value[rnd.Next(0, part.Value.Count)];
-            slimeComp.UpdateSlimePart(part.Key, ToBeRendered);
+            SO_SlimePart ToBeRendered = part.Value[rnd.Next(0 , part.Value.Count)];
+            slimeComp.UpdateSlimePart(part.Key , ToBeRendered);
         }
-
-        //MarkObjectToBeDeleted(slimePrefab);
         return slimePrefab;
     }
     public GameObject GenerateSlime(JsonSlimeInfo _copy)
@@ -139,7 +137,7 @@ public class ObjectManager : MonoBehaviour
         for (int i = 0; i < _copy.myCardType.Count; i++)
         {
             SO_SlimePart sp = So_Lookup[_copy.myCardType[i]];
-            slimeComp.UpdateSlimePart(sp.SlimePart, sp);
+            slimeComp.UpdateSlimePart(sp.SlimePart , sp);
         }
         return slimePrefab;
     }
@@ -153,13 +151,13 @@ public class ObjectManager : MonoBehaviour
         {
             foreach (var p in parts)
             {
-                So_Lookup.Add(p.CardComponentType, p);
+                So_Lookup.Add(p.CardComponentType , p);
             }
         }
 
         foreach (var p in GameCardPrefabs)
         {
-            CardLookup.Add(p.GetCardType(), p);
+            CardLookup.Add(p.GetCardType() , p);
         }
     }
     public GameObject GeneratePlayer()

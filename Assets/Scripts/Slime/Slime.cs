@@ -2,12 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Runtime.Serialization;
 
 public enum BoardPos
 {
-    F1 = 0, F2,
-    M1, M2,
-    B1, B2,
+    [EnumMember(Value = "Front 1")]
+    F1 = 0,
+    [EnumMember(Value = "Front 2")]
+    F2,
+    [EnumMember(Value = "Mid 1")]
+    M1,
+    [EnumMember(Value = "Mid 2")]
+    M2,
+    [EnumMember(Value = "Back 1")]
+    B1,
+    [EnumMember(Value = "Back 2")]
+    B2,
+    [EnumMember(Value = "NOT_SET")]
     NA,
 }
 
@@ -23,7 +34,7 @@ public class Slime : MonoBehaviour
     [SerializeField]
     private List<SlimePiece> _RenderParts = new List<SlimePiece>();
 
-    private Dictionary<ESlimePart, SlimePiece> slimeParts = new Dictionary<ESlimePart, SlimePiece>();
+    private Dictionary<ESlimePart , SlimePiece> slimeParts = new Dictionary<ESlimePart , SlimePiece>();
     private HealthBar HealthBarRef;
     public string SlimeName { get; private set; }
     public BoardPos myBoardPos = BoardPos.NA;
@@ -39,7 +50,7 @@ public class Slime : MonoBehaviour
     public void InitHealthBar(HealthBar _bar)
     {
         HealthBarRef = _bar;
-        HealthBarRef.SetStats(stats.GetHealth(), stats.GetShield());
+        HealthBarRef.SetStats(stats.GetHealth() , stats.GetShield());
     }
     public int GetHealth()
     {
@@ -66,14 +77,14 @@ public class Slime : MonoBehaviour
             if (GameEntry.Instance.isDEBUG)
                 Debug.Log($"adding part {p.GetESlimePart()} to slime {SlimeName}");
             p.SetHost(this);
-            slimeParts.Add(p.GetESlimePart(), p);
+            slimeParts.Add(p.GetESlimePart() , p);
         }
         System.Array values = System.Enum.GetValues(typeof(BoardPos));
         System.Random random = new System.Random();
         myBoardPos = (BoardPos)values.GetValue(random.Next(values.Length));
         isDead = false;
     }
-    public void UpdateSlimePart(ESlimePart _piece, SO_SlimePart _part)
+    public void UpdateSlimePart(ESlimePart _piece , SO_SlimePart _part)
     {
         SlimePiece sp = slimeParts[_piece];
         sp.UpdateSlimePart(_part);
@@ -102,7 +113,7 @@ public class Slime : MonoBehaviour
         int damage = _aggressor.GetPower();
 
         //if i have the thorn effect toggled on
-        if((stats.GetStatus() & StatusEffect.Thorn) != 0)
+        if ((stats.GetStatus() & StatusEffect.Thorn) != 0)
         {
             _aggressor.GetHost().stats.TakeDamage((int)(damage * SlimeStats.ThornReturnPercentage));
             _aggressor.GetHost().RefreshHealthBar();
@@ -116,7 +127,7 @@ public class Slime : MonoBehaviour
     public void AdjustShields(int _amount)
     {
         stats.AdjustShields(_amount);
-        HealthBarRef.SetHealth(new Vector2(GetHealth(),_amount));
+        HealthBarRef.SetHealth(new Vector2(GetHealth() , _amount));
     }
     private void Die()
     {
@@ -126,6 +137,6 @@ public class Slime : MonoBehaviour
     }
     public void RefreshHealthBar()
     {
-        HealthBarRef.SetHealth(new Vector2(stats.GetHealth(), stats.GetShield()));
+        HealthBarRef.SetHealth(new Vector2(stats.GetHealth() , stats.GetShield()));
     }
 }

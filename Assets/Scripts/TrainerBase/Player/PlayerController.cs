@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public List<Slime> GetActiveTeam() { return ActiveTeamDuringBattle; }
     private LevelTags previousLevel;
     private Vector3 previousPosition;
+    public LevelTags LastPlayableLevel;
     public LevelTags GetPreviousLevel() { return previousLevel; }
     public Vector3 GetPreviousPosition() { return previousPosition; }
     public void SetPreviousPosition(Vector3 _location) { previousPosition = _location; }
@@ -86,6 +87,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F2))
         {
             Debug.Log($"Previous Level - {previousLevel} || Current Level - {GameEntry.Instance.GetCurrentLevel()}");
+        }
+        if(Input.GetKeyDown(KeyCode.F12))
+        {
+            GameEntry.Instance.GetSaveManager().SavePlayerGame(GetPreviousPosition());
         }
     }
     public void AttachToSelf(Transform _toBeAttached)

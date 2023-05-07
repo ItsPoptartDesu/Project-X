@@ -29,6 +29,7 @@ public class FSM_Play : FSM_State
     {
         Debug.Log("FSM_Play DoBeforeEntering()");
         GameEntry.Instance.SetCurrentLevel(LevelTags.LEVEL_1);
+        ObjectManager.Instance.GetActivePlayer().LastPlayableLevel = LevelTags.LEVEL_1;
         InGameUIController.OnClickGameToMainMenu += FSM_OnClickToMainMenu;
         SceneLoader.OnTransPlayToBattle += FSM_OnClickToBattle;
         LevelManager.Instance.OnPlayerEnterClean(
