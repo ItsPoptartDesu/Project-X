@@ -66,9 +66,9 @@ public class SaveManager : MonoBehaviour
         {
             toBeSaved.ActiveTeam.SavedSlime.Add(new JsonSlimeInfo(s));
         }
-        GameObject randomSlime = ObjectManager.Instance.GenerateRandomSlime();
-        JsonSlimeInfo js = new JsonSlimeInfo(randomSlime.GetComponent<Slime>());
-        toBeSaved.ActiveTeam.SavedSlime.Add(js);
+        //GameObject randomSlime = ObjectManager.Instance.GenerateRandomSlime();
+        //JsonSlimeInfo js = new JsonSlimeInfo(randomSlime.GetComponent<Slime>());
+        //toBeSaved.ActiveTeam.SavedSlime.Add(js);
         string jsonString = JsonConvert.SerializeObject(toBeSaved , JsonSettings);
         string path = DirectoryPath + ActiveSaveSlot.ToString() + FileName;
 
