@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Runtime.Serialization;
 
+[System.Serializable]
 public enum BoardPos
 {
     [EnumMember(Value = "Front 1")]
@@ -81,7 +82,7 @@ public class Slime : MonoBehaviour
         }
         System.Array values = System.Enum.GetValues(typeof(BoardPos));
         System.Random random = new System.Random();
-        myBoardPos = (BoardPos)values.GetValue(random.Next(values.Length));
+        myBoardPos = _copy.TeamPos;
         isDead = false;
     }
     public void UpdateSlimePart(ESlimePart _piece , SO_SlimePart _part)

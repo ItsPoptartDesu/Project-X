@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Runtime.Serialization;
 
+[System.Serializable]
 public enum CardComponentType
 {
     [EnumMember(Value = "Assurance")]

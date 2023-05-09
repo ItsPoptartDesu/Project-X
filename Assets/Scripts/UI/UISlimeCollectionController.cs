@@ -56,7 +56,7 @@ public class UISlimeCollectionController : UI_Base
     }
     public void OnClickSaveTeam()
     {
-        GameEntry.Instance.GetSaveManager().SaveGame(ActiveTeam_UI);
+        
     }
 
     public override void ToggleSelf()

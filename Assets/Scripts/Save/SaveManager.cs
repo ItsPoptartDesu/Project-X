@@ -5,19 +5,16 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 
 public class SaveManager : MonoBehaviour
 {
     private GameData gameData;
-    private List<SaveSlotData> SavedSlots;
-    string FileName = "/GameData.json";
-    private string savePath;
+    private SaveSlotData[] SavedSlots;
+    string GameDataFileName = "/GameData.json";
     private string DirectoryPath;
-    private SaveSlotData toBeSaved;
-    private SaveSlotData ActiveSave;
     private Dictionary<string , JSONTrainerInfo> TrainerLookup = new Dictionary<string , JSONTrainerInfo>();
     public List<string> TrainersToLoad = new List<string>();
-    public SaveSlotData GetActiveSaveGame() { return ActiveSave; }
     public SaveSlotData GetSaveSlotOne() { return gameData.GetLastSave(); }
     public List<Slime> GetActiveTeam() { return gameData.GetActiveTeam(); }
     public string DirectoryName = "SlimeAdventure";
@@ -31,9 +28,12 @@ public class SaveManager : MonoBehaviour
     public void FirstLoad()
     {
         DirectoryPath = Application.persistentDataPath + "/" + DirectoryName;
-        ActiveSave = new SaveSlotData();
-        toBeSaved = new SaveSlotData();
-        SavedSlots = new List<SaveSlotData>();
+        SavedSlots = new SaveSlotData[]
+        {
+            new SaveSlotData(),
+            new SaveSlotData(),
+            new SaveSlotData()
+        };
         StartCoroutine(DirectoryCheck());
         JsonSettings = new JsonSerializerSettings
         {
@@ -58,35 +58,41 @@ public class SaveManager : MonoBehaviour
     }
     public void SavePlayerGame(Vector3 _pos)
     {
-        toBeSaved.CurrentWorldName = ObjectManager.Instance.GetActivePlayer().LastPlayableLevel;
-        toBeSaved.SavedPosition.Add((int)_pos.x);
-        toBeSaved.SavedPosition.Add((int)_pos.y);
-        toBeSaved.SavedPosition.Add((int)_pos.z);
+        // Update the current world name and saved position
+        SavedSlots[ActiveSaveSlot].CurrentWorldName = ObjectManager.Instance.GetActivePlayer().LastPlayableLevel;
+        SavedSlots[ActiveSaveSlot].SavedPosition = new List<int> { (int)_pos.x , (int)_pos.y , (int)_pos.z };
+
+        // Save the active team's slimes
+        SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime.Clear();
         foreach (var s in gameData.GetActiveTeam())
         {
-            toBeSaved.ActiveTeam.SavedSlime.Add(new JsonSlimeInfo(s));
+            SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime.Add(new JsonSlimeInfo(s));
         }
-        //GameObject randomSlime = ObjectManager.Instance.GenerateRandomSlime();
-        //JsonSlimeInfo js = new JsonSlimeInfo(randomSlime.GetComponent<Slime>());
-        //toBeSaved.ActiveTeam.SavedSlime.Add(js);
-        string jsonString = JsonConvert.SerializeObject(toBeSaved , JsonSettings);
-        string path = DirectoryPath + ActiveSaveSlot.ToString() + FileName;
 
+        // Add a random slime to the active team
+        GameObject randomSlime = ObjectManager.Instance.GenerateRandomSlime();
+        JsonSlimeInfo js = new JsonSlimeInfo(randomSlime.GetComponent<Slime>());
+        SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime.Add(js);
+        SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime[0].TeamPos = BoardPos.F1;
+        SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime[0].SlimeName = "Stubs";
+
+        // Serialize the saved data to JSON
+        string jsonString = JsonConvert.SerializeObject(SavedSlots[ActiveSaveSlot] , JsonSettings);
+
+        // Write the JSON string to a file
+        string path = DirectoryPath + ActiveSaveSlot.ToString() + GameDataFileName;
         if (!Directory.Exists(DirectoryPath + ActiveSaveSlot.ToString()))
         {
             Debug.LogError($"Directory '{path}' does not exist!");
             return;
         }
-        using (FileStream filestream = new FileStream(path , FileMode.Truncate))
-        using (StreamWriter streamwriter = new StreamWriter(filestream))
-        {
-            streamwriter.Write(jsonString);
-            streamwriter.Flush();
-        }
+        File.WriteAllText(path , jsonString);
+
         Debug.Log($"CurrentWorldName: {ObjectManager.Instance.GetActivePlayer().LastPlayableLevel}. " +
-         $"CurrentWorldName: {toBeSaved.CurrentWorldName}," +
-         $" path: {path}");
+                 $"CurrentWorldName: {SavedSlots[ActiveSaveSlot].CurrentWorldName}," +
+                 $" path: {path}");
     }
+
     /// <summary>
     /// Used on the first time you load into the game. 
     /// Creates game directories for saving and loading
@@ -121,19 +127,16 @@ public class SaveManager : MonoBehaviour
 
     public IEnumerator NewGame(int _slotID)
     {
+        Debug.Log("starting a NEW GAME");
         SaveSlotData ssd = new SaveSlotData();
         string jsonString = JsonConvert.SerializeObject(ssd , JsonSettings);
-        //string jsonString = JsonConvert.SerializeObject(ssd);//JsonUtility.ToJson(ssd, true);
-        string path = DirectoryPath + _slotID.ToString() + FileName;
+        string path = DirectoryPath + _slotID.ToString() + GameDataFileName;
         Debug.Log($"Path: {path}. Size: {ssd.ActiveTeam.SavedSlime.Count()}, Context: {jsonString}");
-        //using (FileStream filestream = new FileStream(Application.dataPath + "/Resources/" + TrainerFileName, FileMode.Truncate))
         if (!Directory.Exists(DirectoryPath + "0"))
         {
             Debug.LogError($"Directory '{path}' does not exist!");
             yield break;
         }
-
-
         using (FileStream filestream = new FileStream(path , FileMode.Create))
         using (StreamWriter streamwriter = new StreamWriter(filestream))
         {
@@ -142,46 +145,55 @@ public class SaveManager : MonoBehaviour
         }
         yield return new WaitForEndOfFrame();
     }
-    //used to save from mainUI might be removed later but for now thats how we get Slimes
-    public void SaveGame(List<Slime> _fromUI)
-    {
-        //HashSet<string> keys = new HashSet<string>();
-        //foreach (var s in toBeSaved.SavedSlime)
-        //    keys.Add(s.secret);
-        //foreach (var slime in GetActiveTeam())
-        //{
-        //    if (keys.Contains(slime.secret))
-        //        continue;
-        //    JsonSlimeInfo info = new JsonSlimeInfo(slime);
-        //    toBeSaved.SavedSlime.Add(info);
-        //}
-        //foreach (var slime in _fromUI)
-        //{
-        //    if (keys.Contains(slime.secret))
-        //        continue;
-        //    JsonSlimeInfo info = new JsonSlimeInfo(slime);
-        //    toBeSaved.SavedSlime.Add(info);
-        //}
-        //WriteFile();
-    }
     public bool CheckSaveSlotData(int _slotID)
     {
         string path = Application.persistentDataPath + "/" + DirectoryName + _slotID.ToString();
-        return false;
+        bool LoadResult = LoadJsonToSavedSlot(path , _slotID);
+        if (LoadResult)
+            ActiveSaveSlot = _slotID;
+        Debug.Log($"Load Results: {LoadResult} @ SlotID: {_slotID}");
+        return LoadResult;
     }
-    public bool ReadFile()
+    public bool LoadJsonToSavedSlot(string _path , int _slotID)
     {
-        //if (File.Exists(savePath))
-        //{
-        //    string fileContent = File.ReadAllText(savePath);
-        //    saveSlotOne = JsonUtility.FromJson<SaveSlotData>(fileContent);
-        //    gameData.SetLastSave(saveSlotOne);
-        //    if (GameEntry.Instance.isDEBUG)
-        //        foreach (var s in saveSlotOne.SavedSlime)
-        //            s.DebugStatement();
-        //    return true;
-        //}
-        return false;
+        string filePath = _path + GameDataFileName;
+        Debug.Log($"Path:{_path}||SlotID:{_slotID}||FilePath:{filePath}");
+        if (!File.Exists(filePath))
+        {
+            Debug.LogError($"Path: {_path} @ Slot: {_slotID} doesn't exist");
+            return false;
+        }
+
+        try
+        {
+            string fileContent = File.ReadAllText(filePath);
+            Debug.Log($"fileContent: {fileContent}");
+            SaveSlotData ssd = JsonConvert.DeserializeObject<SaveSlotData>(fileContent , JsonSettings);
+
+            if (ssd == null)
+            {
+                Debug.LogError($"Failed to deserialize SaveSlotData at {filePath} @ Slot: {_slotID}");
+                return false;
+            }
+
+            SavedSlots[_slotID] = ssd;
+            gameData.SetLastSave(SavedSlots[_slotID]);
+
+            if (GameEntry.Instance.isDEBUG)
+            {
+                foreach (var s in SavedSlots[_slotID].ActiveTeam.SavedSlime)
+                {
+                    s.DebugStatement();
+                }
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Exception caught while deserializing SaveSlotData at {_path} @ Slot: {_slotID}: {ex.Message}");
+            return false;
+        }
     }
     public void SaveTrainerInfo(string _name , JSONTrainerInfo _info)
     {
@@ -202,18 +214,6 @@ public class SaveManager : MonoBehaviour
     {
         return TrainerLookup[_name];
     }
-    private void WriteFile()
-    {
-        //string jsonString = JsonUtility.ToJson(toBeSaved, true);
-        //Debug.Log($"Path: {savePath}. Size: {toBeSaved.SavedSlime.Count()}, Context: {jsonString}");
-        ////using (FileStream filestream = new FileStream(Application.dataPath + "/Resources/" + TrainerFileName, FileMode.Truncate))
-        //using (FileStream filestream = new FileStream(savePath, FileMode.Truncate)) 
-        //using (StreamWriter streamwriter = new StreamWriter(filestream))
-        //{
-        //    streamwriter.Write(jsonString);
-        //    streamwriter.Flush();
-        //}
-    }
     public void UpdateTrainerState(string _who , bool _hasBeenHit = true)
     {
         TrainerLookup[_who].HasBeenBattled = _hasBeenHit;
@@ -232,17 +232,27 @@ public class SaveSlotData
         CurrentWorldName = LevelTags.NOT_SET;
         SavedPosition = new List<int>();
     }
-    [SerializeField]
-    public SlimeTeamInfo ActiveTeam;
-    [SerializeField]
-    public LevelTags CurrentWorldName;
-    [SerializeField]
-    public List<int> SavedPosition;
-
+    [SerializeField] public SlimeTeamInfo ActiveTeam;
+    [SerializeField] public LevelTags CurrentWorldName;
+    [SerializeField] public List<int> SavedPosition;
+}
+[System.Serializable]
+public class SlimeTeamInfo
+{
+    [SerializeField] public List<JsonSlimeInfo> SavedSlime;
+    public SlimeTeamInfo()
+    {
+        SavedSlime = new List<JsonSlimeInfo>();
+    }
 }
 [System.Serializable]
 public class JsonSlimeInfo
 {
+    [SerializeField] public string SlimeName;
+    [SerializeField] public string secret;
+    [SerializeField] public BoardPos TeamPos;
+    [SerializeField] public List<CardComponentType> myCardType;
+
     public JsonSlimeInfo(Slime _slime)
     {
         myCardType = new List<CardComponentType>();
@@ -254,15 +264,11 @@ public class JsonSlimeInfo
         TeamPos = _slime.myBoardPos;
         secret = _slime.secret;
     }
-    [SerializeField]
-    public string SlimeName;
-    [SerializeField]
-    public string secret;
-    [SerializeField]
-    public BoardPos TeamPos;
-    [SerializeField]
-    public List<CardComponentType> myCardType;
-
+    public JsonSlimeInfo()
+    {
+        myCardType = new List<CardComponentType>();
+        TeamPos = BoardPos.NA; // initialize to default value
+    }
     public void DebugStatement()
     {
         string statement = SlimeName + " Parts: ";
@@ -270,6 +276,7 @@ public class JsonSlimeInfo
         {
             statement += p + " & ";
         }
+        statement += TeamPos.ToString();
         Debug.Log(statement);
     }
 }
@@ -286,23 +293,14 @@ public class WorldInfo
 [System.Serializable]
 public class JSONTrainerInfo
 {
-    public string TrainerName;
-    public bool HasBeenBattled;
+    [SerializeField] public string TrainerName;
+    [SerializeField] public bool HasBeenBattled;
+    [SerializeField] public SlimeTeamInfo ActiveTeam;
     public JSONTrainerInfo(string _name)
     {
         ActiveTeam = new SlimeTeamInfo();
         TrainerName = _name;
     }
-    public SlimeTeamInfo ActiveTeam;
 }
-[System.Serializable]
-public class SlimeTeamInfo
-{
-    public SlimeTeamInfo()
-    {
-        SavedSlime = new List<JsonSlimeInfo>();
-    }
-    [SerializeField]
-    public List<JsonSlimeInfo> SavedSlime;
-}
+
 

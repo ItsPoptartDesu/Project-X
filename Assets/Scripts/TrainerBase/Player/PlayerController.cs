@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
             LevelManager.Instance.currentLevelBehaviour.ToggleSettingsUI();
             //OnClickOpenMenu();
         }
-        if (Input.GetKeyDown(KeyCode.F12))
+        if (Input.GetKeyDown(KeyCode.F11))
         {
             var at = GameEntry.Instance.GetActiveTeam();
             foreach (var slime in at)
