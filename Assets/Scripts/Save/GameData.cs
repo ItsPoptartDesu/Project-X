@@ -11,13 +11,13 @@ public class GameData
     }
     private SaveSlotData LastSave;
     public List<Slime> GetActiveTeam() { return ActiveTeam; }
-    public void SetLastSave(SaveSlotData _FromFile)
+    private void SetLastSave(SaveSlotData _FromFile)
     {
         LastSave = _FromFile;
     }
     public SaveSlotData GetLastSave() { return LastSave; }
     private List<Slime> ActiveTeam;
-    public void AddSlimeToTeam(Slime _slime)
+    private void AddSlimeToTeam(Slime _slime)
     {
         ActiveTeam.Add(_slime);
     }
@@ -28,8 +28,16 @@ public class GameData
             ActiveTeam.Add(s);
     }
 
-    public void Load(SaveSlotData _mySaveData)
+    public void TransferData(SaveSlotData _mySaveData)
     {
         SetLastSave(_mySaveData);
+        foreach (JsonSlimeInfo s in _mySaveData.ActiveTeam.SavedSlime)
+        {
+            GameObject mySlime = ObjectManager.Instance.GenerateSlime(s);
+            ObjectManager.Instance.GetActivePlayer().AttachToSelf(mySlime.transform);
+            Slime slimeComp = mySlime.GetComponent<Slime>();
+            slimeComp.ToggleRenderers();
+            AddSlimeToTeam(slimeComp);
+        }
     }
 }

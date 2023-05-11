@@ -49,10 +49,12 @@ public class NPC_Trainer : MonoBehaviour
     {
         Debug.Log("LoadTrainerData");
         trainerInfo = _trainerData;
+        for (int i = 0; i < trainerInfo.ActiveTeam.SavedSlime.Count; i++)
+            trainerInfo.ActiveTeam.SavedSlime[i].DebugStatement();
     }
     public void OnBattleStart(NPC_BattleSystem _system)
     {
-        var ActiveList = new List<JsonSlimeInfo>();// = trainerInfo.ActiveTeam.SavedSlime;
+        var ActiveList = new List<JsonSlimeInfo>();// trainerInfo.ActiveTeam.SavedSlime;
         foreach (var slime in ActiveList)
         {
             var NPC_Slime = ObjectManager.Instance.GenerateSlime(slime);

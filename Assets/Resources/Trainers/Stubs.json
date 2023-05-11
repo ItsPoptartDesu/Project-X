@@ -1,0 +1,22 @@
+{
+  "TrainerName": "Stubs",
+  "HasBeenBattled": false,
+  "ActiveTeam": {
+    "SavedSlime": [
+      {
+        "SlimeName": "Roman",
+        "secret": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "TeamPos": "Front 1",
+        "myCardType": [
+          "Spider_Web",
+          "BODY",
+          "Torment",
+          "Megahorn",
+          "Switcheroo",
+          "Indian_Star",
+          "Dragon_Snot"
+        ]
+      }
+    ]
+  }
+}

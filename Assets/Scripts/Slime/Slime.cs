@@ -104,7 +104,7 @@ public class Slime : MonoBehaviour
         string statement = $"{SlimeName} has ";
         foreach (var p in slimeParts.Values)
         {
-            statement += $"{p.GetSlimePartName()} ";
+            statement += $"{p.GetSlimePartName()}, ";
         }
         statement += "attached to it";
         Debug.Log(statement);

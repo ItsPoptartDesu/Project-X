@@ -1384,7 +1384,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980930788}
         m_TargetAssemblyTypeName: GameEntry, Assembly-CSharp
-        m_MethodName: OnClickSaveSlot
+        m_MethodName: Button_OnClickSaveSlot
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1922,7 +1922,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980930788}
         m_TargetAssemblyTypeName: GameEntry, Assembly-CSharp
-        m_MethodName: OnClickSaveSlot
+        m_MethodName: Button_OnClickSaveSlot
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2594,7 +2594,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980930788}
         m_TargetAssemblyTypeName: GameEntry, Assembly-CSharp
-        m_MethodName: OnClickSaveSlot
+        m_MethodName: Button_OnClickSaveSlot
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

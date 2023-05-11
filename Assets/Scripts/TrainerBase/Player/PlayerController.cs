@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F11))
         {
             var at = GameEntry.Instance.GetActiveTeam();
+            var gd = GameEntry.Instance.GetSaveManager().activeGameData;
             foreach (var slime in at)
             {
                 slime.DebugStatement();
@@ -120,21 +121,6 @@ public class PlayerController : MonoBehaviour
         ToggleRenderers(false);
         TogglePlayerMovement(false);
         ToggleCamera(false);
-        //load slimes
-        var SaveSlot = GameEntry.Instance.GetSaveManager().GetSaveSlotOne();
-        //on a clean load we wont have any team to load
-        if (SaveSlot == null)
-            return;
-        List<JsonSlimeInfo> slimeJSON = null;// GameEntry.Instance.GetSaveManager().GetSaveSlotOne().SavedSlime;
-        Debug.Log($"TeamSize: {slimeJSON.Count}");
-        foreach (JsonSlimeInfo s in slimeJSON)
-        {
-            GameObject mySlime = ObjectManager.Instance.GenerateSlime(s);
-            AttachToSelf(mySlime.transform);
-            Slime slimeComp = mySlime.GetComponent<Slime>();
-            slimeComp.ToggleRenderers();
-            GameEntry.Instance.GetSaveManager().AddSlimeToTeam(slimeComp);
-        }
         DontDestroyOnLoad(gameObject);
     }
     public void OnClickOpenMenu()
