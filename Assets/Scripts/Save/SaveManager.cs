@@ -90,8 +90,8 @@ public class SaveManager : MonoBehaviour
     }
     private IEnumerator LoadJsonSlotData()
     {
-            CheckSaveSlotData();
-            yield return new WaitForEndOfFrame();
+        CheckSaveSlotData();
+        yield return new WaitForEndOfFrame();
     }
     private IEnumerator CreateDirectories()
     {
@@ -212,7 +212,8 @@ public class SaveManager : MonoBehaviour
         Debug.Log(path);
         string fileContent = File.ReadAllText(path);
         WorldInfo jsonStringRead = JsonConvert.DeserializeObject<WorldInfo>(fileContent);
-        jsonStringRead.ActiveTrainers.Add(_trainerName);
+        if (!jsonStringRead.ActiveTrainers.Contains(_trainerName))
+            jsonStringRead.ActiveTrainers.Add(_trainerName);
         string jsonString = JsonConvert.SerializeObject(jsonStringRead , JsonSettings);
         using (FileStream filestream = new FileStream(path , FileMode.Truncate))
         using (StreamWriter streamwriter = new StreamWriter(filestream))

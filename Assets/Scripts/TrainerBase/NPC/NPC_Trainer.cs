@@ -7,8 +7,9 @@ using UnityEngine;
 public class NPC_Trainer : MonoBehaviour
 {
     public BattleBehaviour battleBehaviour;
+    public TrainerStatus myStatus;
     [SerializeField]
-    [Range(2f, 10f)]
+    [Range(2f , 10f)]
     private float LookDistance = 2;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -18,7 +19,7 @@ public class NPC_Trainer : MonoBehaviour
     Vector2 LookDir = Vector2.left;
     [SerializeField]
     JSONTrainerInfo trainerInfo;
-    public string GetTrainerName() {  return trainerInfo.TrainerName; }
+    public string GetTrainerName() { return trainerInfo.TrainerName; }
     public List<Slime> ActiveTeam = new List<Slime>();
     // Start is called before the first frame update
     void Start()
@@ -34,16 +35,16 @@ public class NPC_Trainer : MonoBehaviour
         if (trainerName == null || trainerName == string.Empty)
             return;
         SaveManager localSave = GameEntry.Instance.GetSaveManager();
-        if (localSave.GetTrainerState(trainerName))
+        if (myStatus.hasBeenBattled)
             return;
-        Debug.DrawRay(rayCastPoint.position, LookDir * LookDistance);
-        var hit = Physics2D.Raycast(rayCastPoint.position, LookDir * LookDistance);
+        Debug.DrawRay(rayCastPoint.position , LookDir * LookDistance);
+        var hit = Physics2D.Raycast(rayCastPoint.position , LookDir * LookDistance);
         if (hit.collider != null)
         {
             localSave.UpdateTrainerState(trainerName);
             trainerInfo.HasBeenBattled = true;
             Debug.Log($"Hit: {hit.transform.gameObject.name}");
-            LevelManager.Instance.StartBattle(this, hit.transform.gameObject.GetComponent<PlayerController>());
+            LevelManager.Instance.StartBattle(this , hit.transform.gameObject.GetComponent<PlayerController>());
         }
     }
     public void LoadTrainerData(JSONTrainerInfo _trainerData)
@@ -62,17 +63,17 @@ public class NPC_Trainer : MonoBehaviour
             Slime slimeComp = NPC_Slime.GetComponent<Slime>();
 
             BoardPos pos = slimeComp.stats.dna.TeamPos;
-            SpawnPoints sp = _system.GetSpawnPoint(DECK_SLOTS.NPC, pos);
+            SpawnPoints sp = _system.GetSpawnPoint(DECK_SLOTS.NPC , pos);
             slimeComp.AttachParent(sp.transform);
             slimeComp.transform.localScale = new Vector3(
-                -ObjectManager.Instance.BattleScale,
-                ObjectManager.Instance.BattleScale,
+                -ObjectManager.Instance.BattleScale ,
+                ObjectManager.Instance.BattleScale ,
                 ObjectManager.Instance.BattleScale);
-            _system.CreateDecks(slimeComp, DECK_SLOTS.NPC);
+            _system.CreateDecks(slimeComp , DECK_SLOTS.NPC);
             HealthBar hb = _system.InitHealhBar(
-                DECK_SLOTS.NPC,
-                pos,
-                new Vector2(slimeComp.GetHealth(),slimeComp.GetShields()));
+                DECK_SLOTS.NPC ,
+                pos ,
+                new Vector2(slimeComp.GetHealth() , slimeComp.GetShields()));
             slimeComp.InitHealthBar(hb);
             ActiveTeam.Add(slimeComp);
         }
