@@ -18,6 +18,7 @@ public class NPC_Trainer : MonoBehaviour
     Vector2 LookDir = Vector2.left;
     [SerializeField]
     JSONTrainerInfo trainerInfo;
+    public string GetTrainerName() {  return trainerInfo.TrainerName; }
     public List<Slime> ActiveTeam = new List<Slime>();
     // Start is called before the first frame update
     void Start()

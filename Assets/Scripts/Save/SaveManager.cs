@@ -11,7 +11,7 @@ public class SaveManager : MonoBehaviour
 {
     //TODO: change back to private
     public GameData activeGameData;
-    private SaveSlotData[] SavedSlots;
+    private SaveSlotData SavedSlot;
     string GameDataFileName = "/GameData.json";
     string WorldDirectoryName = "/World";
     string WorldDataFileExt = ".json";
@@ -22,19 +22,13 @@ public class SaveManager : MonoBehaviour
     public List<Slime> GetActiveTeam() { return activeGameData.GetActiveTeam(); }
     public string DirectoryName = "SlimeAdventure";
     private JsonSerializerSettings JsonSettings;
-    public int ActiveSaveSlot = 0;
 
     private bool IsFirstLoad = true;
     public void FirstLoad()
     {
         DirectoryPath = Application.persistentDataPath + "/" + DirectoryName;
         activeGameData = new GameData();
-        SavedSlots = new SaveSlotData[]
-        {
-            new SaveSlotData(),
-            new SaveSlotData(),
-            new SaveSlotData()
-        };
+        SavedSlot = new SaveSlotData();
         JsonSettings = new JsonSerializerSettings
         {
             Converters = new List<JsonConverter> { new StringEnumConverter() } ,
@@ -45,14 +39,14 @@ public class SaveManager : MonoBehaviour
     public void SavePlayerGame(Vector3 _pos)
     {
         // Update the current world name and saved position
-        SavedSlots[ActiveSaveSlot].CurrentWorldName = ObjectManager.Instance.GetActivePlayer().LastPlayableLevel;
-        SavedSlots[ActiveSaveSlot].SavedPosition = new List<int> { (int)_pos.x , (int)_pos.y , (int)_pos.z };
+        SavedSlot.CurrentWorldName = ObjectManager.Instance.GetActivePlayer().LastPlayableLevel;
+        SavedSlot.SavedPosition = new List<int> { (int)_pos.x , (int)_pos.y , (int)_pos.z };
 
         // Save the active team's slimes
-        SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime.Clear();
+        SavedSlot.ActiveTeam.SavedSlime.Clear();
         foreach (var s in activeGameData.GetActiveTeam())
         {
-            SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime.Add(new JsonSlimeInfo(s));
+            SavedSlot.ActiveTeam.SavedSlime.Add(new JsonSlimeInfo(s));
         }
 
         // Add a random slime to the active team
@@ -63,11 +57,11 @@ public class SaveManager : MonoBehaviour
         //SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime[0].SlimeName = "Stubs";
 
         // Serialize the saved data to JSON
-        string jsonString = JsonConvert.SerializeObject(SavedSlots[ActiveSaveSlot] , JsonSettings);
+        string jsonString = JsonConvert.SerializeObject(SavedSlot , JsonSettings);
 
         // Write the JSON string to a file
-        string path = DirectoryPath + ActiveSaveSlot.ToString() + GameDataFileName;
-        if (!Directory.Exists(DirectoryPath + ActiveSaveSlot.ToString()))
+        string path = DirectoryPath + GameDataFileName;
+        if (!Directory.Exists(DirectoryPath))
         {
             Debug.LogError($"Directory '{path}' does not exist!");
             return;
@@ -75,7 +69,7 @@ public class SaveManager : MonoBehaviour
         File.WriteAllText(path , jsonString);
 
         Debug.Log($"CurrentWorldName: {ObjectManager.Instance.GetActivePlayer().LastPlayableLevel}. " +
-                 $"CurrentWorldName: {SavedSlots[ActiveSaveSlot].CurrentWorldName}," +
+                 $"CurrentWorldName: {SavedSlot.CurrentWorldName}," +
                  $" path: {path}");
     }
 
@@ -88,7 +82,7 @@ public class SaveManager : MonoBehaviour
     {
         yield return StartCoroutine(CreateDirectories());
         if (IsFirstLoad)
-            yield return StartCoroutine(NewGame(0));
+            yield return StartCoroutine(NewGame());
         else
             yield return StartCoroutine(LoadJsonSlotData());
 
@@ -96,45 +90,38 @@ public class SaveManager : MonoBehaviour
     }
     private IEnumerator LoadJsonSlotData()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            CheckSaveSlotData(i);
+            CheckSaveSlotData();
             yield return new WaitForEndOfFrame();
-        }
     }
     private IEnumerator CreateDirectories()
     {
-        for (int i = 0; i < 3; i++)
+        if (!Directory.Exists(DirectoryPath))
         {
-            string path = DirectoryPath + i.ToString();
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-                if (GameEntry.Instance.isDEBUG)
-                    Debug.Log($"Creating Directory at {path}");
-            }
-            else
-            {
-                IsFirstLoad = false;
-                if (GameEntry.Instance.isDEBUG)
-                    Debug.Log($"Already a Directory at {path}");
-            }
-            string trainerPath = path + WorldDirectoryName;
-            if (!Directory.Exists(trainerPath))
-                Directory.CreateDirectory(trainerPath);
+            Directory.CreateDirectory(DirectoryPath);
+            if (GameEntry.Instance.isDEBUG)
+                Debug.Log($"Creating Directory at {DirectoryPath}");
         }
+        else
+        {
+            IsFirstLoad = false;
+            if (GameEntry.Instance.isDEBUG)
+                Debug.Log($"Already a Directory at {DirectoryPath}");
+        }
+        string worldPath = DirectoryPath + WorldDirectoryName;
+        if (!Directory.Exists(worldPath))
+            Directory.CreateDirectory(worldPath);
 
         yield return new WaitForEndOfFrame();
     }
 
-    public IEnumerator NewGame(int _slotID)
+    public IEnumerator NewGame()
     {
         Debug.Log("starting a NEW GAME");
         SaveSlotData ssd = new SaveSlotData();
         string jsonString = JsonConvert.SerializeObject(ssd , JsonSettings);
-        string path = DirectoryPath + _slotID.ToString() + GameDataFileName;
+        string path = DirectoryPath + GameDataFileName;
         Debug.Log($"Path: {path}. Size: {ssd.ActiveTeam.SavedSlime.Count()}, Context: {jsonString}");
-        if (!Directory.Exists(DirectoryPath + _slotID.ToString()))
+        if (!Directory.Exists(DirectoryPath))
         {
             Debug.LogError($"Directory '{path}' does not exist!");
             yield break;
@@ -145,26 +132,24 @@ public class SaveManager : MonoBehaviour
             streamwriter.Write(jsonString);
             streamwriter.Flush();
         }
-        SavedSlots[_slotID] = ssd;
+        SavedSlot = ssd;
         yield return new WaitForEndOfFrame();
     }
-    public bool CheckSaveSlotData(int _slotID)
+    public bool CheckSaveSlotData()
     {
-        string path = Application.persistentDataPath + "/" + DirectoryName + _slotID.ToString();
-        bool LoadResult = LoadJsonToSavedSlot(path , _slotID);
-        if (LoadResult)
-            ActiveSaveSlot = _slotID;
-        Debug.Log($"Load Results: {LoadResult} @ SlotID: {_slotID}");
+        string path = Application.persistentDataPath + "/" + DirectoryName;
+        bool LoadResult = LoadJsonToSavedSlot(path);
+        Debug.Log($"Load Results: {LoadResult}");
         return LoadResult;
     }
     //TODO if return false change button UI to new game. else fill out saved game data. whereever this game function is called.
-    public bool LoadJsonToSavedSlot(string _path , int _slotID)
+    public bool LoadJsonToSavedSlot(string _path)
     {
         string filePath = _path + GameDataFileName;
         if (!File.Exists(filePath))
         {
             if (GameEntry.Instance.isDEBUG)
-                Debug.Log($"Path: {_path} @ Slot: {_slotID} doesn't exist");
+                Debug.Log($"Path: {_path}");
             return false;
         }
         try//had issues logging with the ENUMMEMBER to make it more readable. iono if i still need this but it can't hurt right XD
@@ -175,13 +160,13 @@ public class SaveManager : MonoBehaviour
             SaveSlotData ssd = JsonConvert.DeserializeObject<SaveSlotData>(fileContent , JsonSettings);
             if (ssd == null)
             {
-                Debug.LogError($"Failed to deserialize SaveSlotData at {filePath} @ Slot: {_slotID}");
+                Debug.LogError($"Failed to deserialize SaveSlotData at {filePath}");
                 return false;
             }
-            SavedSlots[_slotID] = ssd;
+            SavedSlot = ssd;
             if (GameEntry.Instance.isDEBUG)
             {
-                foreach (var s in SavedSlots[_slotID].ActiveTeam.SavedSlime)
+                foreach (var s in SavedSlot.ActiveTeam.SavedSlime)
                 {
                     s.DebugStatement();
                 }
@@ -190,17 +175,13 @@ public class SaveManager : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Exception caught while deserializing SaveSlotData at {_path} @ Slot: {_slotID}: {ex.Message}");
+            Debug.LogError($"Exception caught while deserializing SaveSlotData at {_path}: {ex.Message}");
             return false;
         }
     }
     public bool ConvertSavedDataToGameData(int _slotID)
     {
-        SaveSlotData ssd = SavedSlots[_slotID];
-        if (ssd == null)
-            return false;
-        ActiveSaveSlot = _slotID;
-        activeGameData.TransferData(ssd);
+        activeGameData.TransferData(SavedSlot);
         return true;
     }
     public void SaveWorldToFile()
@@ -216,7 +197,7 @@ public class SaveManager : MonoBehaviour
         }
         //TODO save out consumeables whenever we do it
         string jsonString = JsonConvert.SerializeObject(worldInfo , JsonSettings);
-        string path = DirectoryPath + ActiveSaveSlot.ToString() + WorldDirectoryName + "/" + LevelTags.LEVEL_1.ToString() + WorldDataFileExt;
+        string path = DirectoryPath + WorldDirectoryName + "/" + LevelTags.LEVEL_1.ToString() + WorldDataFileExt;
 
         using (FileStream filestream = new FileStream(path , FileMode.Truncate))
         using (StreamWriter streamwriter = new StreamWriter(filestream))
@@ -225,14 +206,15 @@ public class SaveManager : MonoBehaviour
             streamwriter.Flush();
         }
     }
-    public void SaveJSONTrainer(string _name)
+    public void SaveJSONTrainer(string _trainerName)
     {
-        JSONTrainerInfo t = new JSONTrainerInfo(_name);
-        t.HasBeenBattled = false;
-
-        string jsonString = JsonConvert.SerializeObject(t , JsonSettings);
-        string path = DirectoryPath + ActiveSaveSlot.ToString() + WorldDirectoryName + "/" + _name + ".json";
-        using (FileStream filestream = new FileStream(path , FileMode.Create))
+        string path = DirectoryPath + WorldDirectoryName + $"/{ObjectManager.Instance.GetActivePlayer().GetPreviousLevel()}_trainers.json";
+        Debug.Log(path);
+        string fileContent = File.ReadAllText(path);
+        WorldInfo jsonStringRead = JsonConvert.DeserializeObject<WorldInfo>(fileContent);
+        jsonStringRead.ActiveTrainers.Add(_trainerName);
+        string jsonString = JsonConvert.SerializeObject(jsonStringRead , JsonSettings);
+        using (FileStream filestream = new FileStream(path , FileMode.Truncate))
         using (StreamWriter streamwriter = new StreamWriter(filestream))
         {
             streamwriter.Write(jsonString);

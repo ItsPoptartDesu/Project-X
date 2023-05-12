@@ -88,6 +88,7 @@ public class NPC_BattleSystem : LevelBehavior
         {
             //animation & particales
             //exp, save and other bullshit
+            GameEntry.Instance.GetSaveManager().SaveJSONTrainer(npc.GetTrainerName());
             StartCoroutine(End());
         }
         else if (state == WIN_STATE.NPC_WIN)
@@ -99,7 +100,7 @@ public class NPC_BattleSystem : LevelBehavior
     }
     IEnumerator End()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         GameEntry.Instance.LeaveBattle(ObjectManager.Instance.GetActivePlayer().GetPreviousLevel());
     }
     public void PreLoadForBattle(PlayerController _player, NPC_Trainer _npc)

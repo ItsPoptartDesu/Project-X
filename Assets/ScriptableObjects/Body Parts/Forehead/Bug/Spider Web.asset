@@ -17,5 +17,5 @@ MonoBehaviour:
   CardComponentType: 76
   PartName: Spider Web
   ImgToDisplay: {fileID: 21300000, guid: 5a75d544e1c05b94397497ee4d66e348, type: 3}
-  Power: 10
+  Power: 2000
   Cost: 1
