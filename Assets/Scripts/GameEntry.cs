@@ -103,9 +103,9 @@ public class GameEntry : MonoBehaviour
         gameloop.CurrentState.Act(null, gameloop);
         gameloop.CurrentState.Reason(null, gameloop);
     }
-    public void Button_OnClickSaveSlot(int _slotID)
+    public void Button_OnClickSaveSlot()
     {
-        if (saveManager.ConvertSavedDataToGameData(_slotID))
+        if (saveManager.ConvertSavedDataToGameData())
             MainMenuUI.Instance.ResetUI();
     }
     /// <summary>

@@ -179,7 +179,7 @@ public class SaveManager : MonoBehaviour
             return false;
         }
     }
-    public bool ConvertSavedDataToGameData(int _slotID)
+    public bool ConvertSavedDataToGameData()
     {
         activeGameData.TransferData(SavedSlot);
         return true;
