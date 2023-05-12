@@ -48,14 +48,6 @@ public class SaveManager : MonoBehaviour
         {
             SavedSlot.ActiveTeam.SavedSlime.Add(new JsonSlimeInfo(s));
         }
-
-        // Add a random slime to the active team
-        //GameObject randomSlime = ObjectManager.Instance.GenerateRandomSlime();
-        //JsonSlimeInfo js = new JsonSlimeInfo(randomSlime.GetComponent<Slime>());
-        //SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime.Add(js);
-        //SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime[0].TeamPos = BoardPos.F1;
-        //SavedSlots[ActiveSaveSlot].ActiveTeam.SavedSlime[0].SlimeName = "Stubs";
-
         // Serialize the saved data to JSON
         string jsonString = JsonConvert.SerializeObject(SavedSlot , JsonSettings);
 
@@ -72,7 +64,6 @@ public class SaveManager : MonoBehaviour
                  $"CurrentWorldName: {SavedSlot.CurrentWorldName}," +
                  $" path: {path}");
     }
-
     /// <summary>
     /// Used on the first time you load into the game. 
     /// Creates game directories for saving and loading
@@ -113,7 +104,6 @@ public class SaveManager : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
     }
-
     public IEnumerator NewGame()
     {
         Debug.Log("starting a NEW GAME");
@@ -184,44 +174,6 @@ public class SaveManager : MonoBehaviour
         activeGameData.TransferData(SavedSlot);
         return true;
     }
-    public void SaveWorldToFile()
-    {
-        //create new world info to be saved out
-        WorldInfo worldInfo = new WorldInfo();
-        //save out all the trainer who haven't been battled yet
-        foreach (var pair in TrainerLookup)
-        {
-            if (pair.Value.HasBeenBattled)
-                continue;
-            worldInfo.ActiveTrainers.Add(pair.Key);
-        }
-        //TODO save out consumeables whenever we do it
-        string jsonString = JsonConvert.SerializeObject(worldInfo , JsonSettings);
-        string path = DirectoryPath + WorldDirectoryName + "/" + LevelTags.LEVEL_1.ToString() + WorldDataFileExt;
-
-        using (FileStream filestream = new FileStream(path , FileMode.Truncate))
-        using (StreamWriter streamwriter = new StreamWriter(filestream))
-        {
-            streamwriter.Write(jsonString);
-            streamwriter.Flush();
-        }
-    }
-    public void SaveJSONTrainer(string _trainerName)
-    {
-        string path = DirectoryPath + WorldDirectoryName + $"/{ObjectManager.Instance.GetActivePlayer().GetPreviousLevel()}_trainers.json";
-        Debug.Log(path);
-        string fileContent = File.ReadAllText(path);
-        WorldInfo jsonStringRead = JsonConvert.DeserializeObject<WorldInfo>(fileContent);
-        if (!jsonStringRead.ActiveTrainers.Contains(_trainerName))
-            jsonStringRead.ActiveTrainers.Add(_trainerName);
-        string jsonString = JsonConvert.SerializeObject(jsonStringRead , JsonSettings);
-        using (FileStream filestream = new FileStream(path , FileMode.Truncate))
-        using (StreamWriter streamwriter = new StreamWriter(filestream))
-        {
-            streamwriter.Write(jsonString);
-            streamwriter.Flush();
-        }
-    }
     public bool LoadTrainers()
     {
         string subdirectoryPath = "Trainers"; // Replace with the actual subdirectory path
@@ -249,14 +201,6 @@ public class SaveManager : MonoBehaviour
     public JSONTrainerInfo LookUpTrainer(string _name)
     {
         return TrainerLookup[_name];
-    }
-    public void UpdateTrainerState(string _who , bool _hasBeenHit = true)
-    {
-        TrainerLookup[_who].HasBeenBattled = _hasBeenHit;
-    }
-    public bool GetTrainerState(string _who)
-    {
-        return TrainerLookup[_who].HasBeenBattled;
     }
 }
 [System.Serializable]
