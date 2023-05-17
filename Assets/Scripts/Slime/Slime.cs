@@ -29,9 +29,6 @@ public class Slime : MonoBehaviour
     private bool isDead = false;
     public bool IsDead() { return isDead; }
 
-    [HideInInspector]
-    public string secret;
-
     [SerializeField]
     private List<SlimePiece> _RenderParts = new List<SlimePiece>();
 
@@ -63,7 +60,6 @@ public class Slime : MonoBehaviour
     }
     public void Init(JsonSlimeInfo _copy)
     {
-        secret = _copy == null ? System.Guid.NewGuid().ToString() : _copy.secret;
         stats = new SlimeStats(_copy);
         foreach (var p in _RenderParts)
         {

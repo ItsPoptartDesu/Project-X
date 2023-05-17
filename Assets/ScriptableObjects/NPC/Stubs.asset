@@ -13,4 +13,10 @@ MonoBehaviour:
   m_Name: Stubs
   m_EditorClassIdentifier: 
   TrainerName: Stubs
-  hasBeenBattled: 0
+  HasBeenBattled: 0
+  ActiveTeam:
+    SavedSlime:
+    - SlimeName: Roman
+      secret: 
+      TeamPos: 0
+      myCardType: 4d000000050000004c0000005600000034000000520000001e000000

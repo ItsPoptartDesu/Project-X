@@ -1803,6 +1803,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 1b67dabdbb4268e4986fedf27437d202,
         type: 2}
     - target: {fileID: 3637753, guid: 1a21ccbf6e5f32049bc66324e835081b, type: 3}
+      propertyPath: trainerInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b67dabdbb4268e4986fedf27437d202,
+        type: 2}
+    - target: {fileID: 3637753, guid: 1a21ccbf6e5f32049bc66324e835081b, type: 3}
       propertyPath: trainerInfo.TrainerName
       value: Stubs
       objectReference: {fileID: 0}

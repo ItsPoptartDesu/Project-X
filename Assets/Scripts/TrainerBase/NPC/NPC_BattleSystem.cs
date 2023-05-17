@@ -88,7 +88,7 @@ public class NPC_BattleSystem : LevelBehavior
         {
             //animation & particales
             //exp, save and other bullshit
-            npc.myStatus.hasBeenBattled = true;
+            npc.trainerInfo.HasBeenBattled = true;
             StartCoroutine(End());
         }
         else if (state == WIN_STATE.NPC_WIN)

@@ -7,7 +7,7 @@ using UnityEngine;
 public class NPC_Trainer : MonoBehaviour
 {
     public BattleBehaviour battleBehaviour;
-    public TrainerStatus myStatus;
+    public TrainerStatus trainerInfo;
     [SerializeField]
     [Range(2f , 10f)]
     private float LookDistance = 2;
@@ -17,8 +17,6 @@ public class NPC_Trainer : MonoBehaviour
     private Transform rayCastPoint;
     [SerializeField]
     Vector2 LookDir = Vector2.left;
-    [SerializeField]
-    JSONTrainerInfo trainerInfo;
     public string GetTrainerName() { return trainerInfo.TrainerName; }
     public List<Slime> ActiveTeam = new List<Slime>();
     // Start is called before the first frame update
@@ -34,8 +32,7 @@ public class NPC_Trainer : MonoBehaviour
         string trainerName = trainerInfo.TrainerName;
         if (trainerName == null || trainerName == string.Empty)
             return;
-        SaveManager localSave = GameEntry.Instance.GetSaveManager();
-        if (myStatus.hasBeenBattled && !GameEntry.Instance.isDEBUG)
+        if (trainerInfo.HasBeenBattled && !GameEntry.Instance.isDEBUG)
             return;
         Debug.DrawRay(rayCastPoint.position , LookDir * LookDistance);
         var hit = Physics2D.Raycast(rayCastPoint.position , LookDir * LookDistance);
@@ -44,13 +41,6 @@ public class NPC_Trainer : MonoBehaviour
             Debug.Log($"Hit: {hit.transform.gameObject.name}");
             LevelManager.Instance.StartBattle(this , hit.transform.gameObject.GetComponent<PlayerController>());
         }
-    }
-    public void LoadTrainerData(JSONTrainerInfo _trainerData)
-    {
-        Debug.Log("LoadTrainerData");
-        trainerInfo = _trainerData;
-        for (int i = 0; i < trainerInfo.ActiveTeam.SavedSlime.Count; i++)
-            trainerInfo.ActiveTeam.SavedSlime[i].DebugStatement();
     }
     public void OnBattleStart(NPC_BattleSystem _system)
     {

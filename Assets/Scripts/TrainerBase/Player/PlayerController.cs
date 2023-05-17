@@ -93,6 +93,10 @@ public class PlayerController : MonoBehaviour
         {
             GameEntry.Instance.GetSaveManager().SavePlayerGame(GetPreviousPosition());
         }
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+
+        }
     }
     public void AttachToSelf(Transform _toBeAttached)
     {

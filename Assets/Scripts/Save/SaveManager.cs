@@ -13,11 +13,8 @@ public class SaveManager : MonoBehaviour
     public GameData activeGameData;
     private SaveSlotData SavedSlot;
     string GameDataFileName = "/GameData.json";
-    string WorldDirectoryName = "/World";
-    string WorldDataFileExt = ".json";
     private string DirectoryPath;
     private Dictionary<string , JSONTrainerInfo> TrainerLookup = new Dictionary<string , JSONTrainerInfo>();
-    public List<string> TrainersToLoad = new List<string>();
     public SaveSlotData GetSaveSlotOne() { return activeGameData.GetLastSave(); }
     public List<Slime> GetActiveTeam() { return activeGameData.GetActiveTeam(); }
     public string DirectoryName = "SlimeAdventure";
@@ -77,7 +74,7 @@ public class SaveManager : MonoBehaviour
         else
             yield return StartCoroutine(LoadJsonSlotData());
 
-        LoadTrainers();
+        //LoadTrainers();
     }
     private IEnumerator LoadJsonSlotData()
     {
@@ -98,10 +95,6 @@ public class SaveManager : MonoBehaviour
             if (GameEntry.Instance.isDEBUG)
                 Debug.Log($"Already a Directory at {DirectoryPath}");
         }
-        string worldPath = DirectoryPath + WorldDirectoryName;
-        if (!Directory.Exists(worldPath))
-            Directory.CreateDirectory(worldPath);
-
         yield return new WaitForEndOfFrame();
     }
     public IEnumerator NewGame()
@@ -202,6 +195,10 @@ public class SaveManager : MonoBehaviour
     {
         return TrainerLookup[_name];
     }
+    public void UpdateTrainerStatus(string _name)
+    {
+        TrainerLookup[_name].HasBeenBattled = true;
+    }
 }
 [System.Serializable]
 public class SaveSlotData
@@ -229,7 +226,6 @@ public class SlimeTeamInfo
 public class JsonSlimeInfo
 {
     [SerializeField] public string SlimeName;
-    [SerializeField] public string secret;
     [SerializeField] public BoardPos TeamPos;
     [SerializeField] public List<CardComponentType> myCardType;
 
@@ -242,7 +238,6 @@ public class JsonSlimeInfo
         }
         SlimeName = _slime.SlimeName;
         TeamPos = _slime.myBoardPos;
-        secret = _slime.secret;
     }
     public JsonSlimeInfo()
     {

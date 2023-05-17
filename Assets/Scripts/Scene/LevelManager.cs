@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
             var Player = ObjectManager.Instance.GetActivePlayer();
             ((NPC_BattleSystem)currentLevelBehaviour).PreLoadForBattle(Player, BattleNPC);
         }
-        LoadTrainerData(_lvlTag);
+        //LoadTrainerData(_lvlTag);
     }
     private NPC_Trainer BattleNPC;
     public void StartBattle(NPC_Trainer _npc, PlayerController _player)
@@ -77,16 +77,6 @@ public class LevelManager : MonoBehaviour
         foreach (var lvl in Levels)
         {
             lvl.Level.gameObject.SetActive(false);
-        }
-    }
-    public void LoadTrainerData(LevelTags _level)
-    {
-        currentLevelBehaviour = GameObject.FindObjectOfType<LevelBehavior>();
-
-        foreach (var t in currentLevelBehaviour.npc_Trainers)
-        {
-            JSONTrainerInfo tInfo = GameEntry.Instance.GetSaveManager().LookUpTrainer(t.name);
-            t.LoadTrainerData(tInfo);
         }
     }
     public LevelBehavior GetCurrentLevelBehavior()
