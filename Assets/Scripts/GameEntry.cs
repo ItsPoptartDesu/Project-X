@@ -108,6 +108,11 @@ public class GameEntry : MonoBehaviour
         if (saveManager.ConvertSavedDataToGameData())
             MainMenuUI.Instance.ResetUI();
     }
+    public void Button_OnClickNewGame()
+    {
+        saveManager.NewGame();
+        MainMenuUI.Instance.ResetUI();
+    }
     /// <summary>
     /// Main menu to collection scene
     /// </summary>

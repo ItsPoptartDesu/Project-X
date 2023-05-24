@@ -30,7 +30,9 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
     public LevelBehavior currentLevelBehaviour;
     public LevelTags LoadingLevel;
-    private NPC_Trainer EnemyTrainer;
+    private NPC_Trainer BattleNPC; // the trainer the player controller is going to fight, should be null before and after the fight.
+    public NPC_Trainer GetBattleNPC() { return BattleNPC; }
+    public List<LevelInfo> Levels = new List<LevelInfo>();
     private void Awake()
     {
         // If there is an instance, and it's not me, self immulation
@@ -43,7 +45,6 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
     }
-    public List<LevelInfo> Levels = new List<LevelInfo>();
     public void OnPlayerEnterClean(GameObject _player, LevelTags _lvlTag)
     {
         currentLevelBehaviour = GameObject.FindObjectOfType<LevelBehavior>();
@@ -59,11 +60,9 @@ public class LevelManager : MonoBehaviour
         if (_lvlTag == LevelTags.NPC_Battle)
         {
             var Player = ObjectManager.Instance.GetActivePlayer();
-            ((NPC_BattleSystem)currentLevelBehaviour).PreLoadForBattle(Player, BattleNPC);
+            ((NPC_BattleSystem)currentLevelBehaviour).PreLoadForBattle(Player);
         }
-        //LoadTrainerData(_lvlTag);
     }
-    private NPC_Trainer BattleNPC;
     public void StartBattle(NPC_Trainer _npc, PlayerController _player)
     {
         _player.SetPreviousPosition(_player.transform.position);

@@ -17,6 +17,5 @@ MonoBehaviour:
   ActiveTeam:
     SavedSlime:
     - SlimeName: Roman
-      secret: 
       TeamPos: 0
       myCardType: 4d000000050000004c0000005600000034000000520000001e000000

@@ -45,6 +45,7 @@ public class NPC_Trainer : MonoBehaviour
     public void OnBattleStart(NPC_BattleSystem _system)
     {
         var ActiveList = trainerInfo.ActiveTeam.SavedSlime;
+        Debug.Log($"{ActiveList.Count}");
         foreach (var slime in ActiveList)
         {
             var NPC_Slime = ObjectManager.Instance.GenerateSlime(slime);
@@ -65,5 +66,12 @@ public class NPC_Trainer : MonoBehaviour
             slimeComp.InitHealthBar(hb);
             ActiveTeam.Add(slimeComp);
         }
+    }
+    public void OnBattleEnd(WIN_STATE _state)
+    {
+        Debug.Log($"Battle Over State{_state}");
+        if (_state == WIN_STATE.PLAYER_WIN)
+            trainerInfo.HasBeenBattled = true;
+        //GameEntry.Instance.GetSaveManager().UpdateTrainerStatus(trainerInfo.TrainerName);
     }
 }

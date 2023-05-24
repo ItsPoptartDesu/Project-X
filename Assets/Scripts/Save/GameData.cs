@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class GameData
 {
+    public List<TrainerStatus> Trainers;
     public GameData()
     {
         ActiveTeam = new List<Slime>();
+        Trainers = new List<TrainerStatus>();
     }
     private SaveSlotData LastSave;
     public List<Slime> GetActiveTeam() { return ActiveTeam; }

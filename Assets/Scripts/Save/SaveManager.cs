@@ -14,13 +14,17 @@ public class SaveManager : MonoBehaviour
     private SaveSlotData SavedSlot;
     string GameDataFileName = "/GameData.json";
     private string DirectoryPath;
-    private Dictionary<string , JSONTrainerInfo> TrainerLookup = new Dictionary<string , JSONTrainerInfo>();
+    private Dictionary<string , TrainerStatus> TrainerLookup = new Dictionary<string , TrainerStatus>();
     public SaveSlotData GetSaveSlotOne() { return activeGameData.GetLastSave(); }
     public List<Slime> GetActiveTeam() { return activeGameData.GetActiveTeam(); }
     public string DirectoryName = "SlimeAdventure";
     private JsonSerializerSettings JsonSettings;
-
-    private bool IsFirstLoad = true;
+    private bool hasSavedData = false;
+    public bool HasSavedData
+    {
+        get { return hasSavedData; }
+        set { hasSavedData = value; }
+    }
     public void FirstLoad()
     {
         DirectoryPath = Application.persistentDataPath + "/" + DirectoryName;
@@ -69,12 +73,9 @@ public class SaveManager : MonoBehaviour
     private IEnumerator DirectoryCheck()
     {
         yield return StartCoroutine(CreateDirectories());
-        if (IsFirstLoad)
-            yield return StartCoroutine(NewGame());
-        else
-            yield return StartCoroutine(LoadJsonSlotData());
-
-        //LoadTrainers();
+        yield return StartCoroutine(LoadJsonSlotData());
+        if (!LoadTrainers())
+            Debug.Log("ERROR LOADING TRAINERS");
     }
     private IEnumerator LoadJsonSlotData()
     {
@@ -91,7 +92,6 @@ public class SaveManager : MonoBehaviour
         }
         else
         {
-            IsFirstLoad = false;
             if (GameEntry.Instance.isDEBUG)
                 Debug.Log($"Already a Directory at {DirectoryPath}");
         }
@@ -121,9 +121,9 @@ public class SaveManager : MonoBehaviour
     public bool CheckSaveSlotData()
     {
         string path = Application.persistentDataPath + "/" + DirectoryName;
-        bool LoadResult = LoadJsonToSavedSlot(path);
-        Debug.Log($"Load Results: {LoadResult}");
-        return LoadResult;
+        HasSavedData = LoadJsonToSavedSlot(path);
+        Debug.Log($"Load Results: {HasSavedData}");
+        return HasSavedData;
     }
     //TODO if return false change button UI to new game. else fill out saved game data. whereever this game function is called.
     public bool LoadJsonToSavedSlot(string _path)
@@ -169,29 +169,24 @@ public class SaveManager : MonoBehaviour
     }
     public bool LoadTrainers()
     {
-        string subdirectoryPath = "Trainers"; // Replace with the actual subdirectory path
-
-        // Load all files in the subdirectory
-        System.Object[] loadedFiles = Resources.LoadAll(subdirectoryPath);
-
-        // Access the loaded files
-        foreach (System.Object file in loadedFiles)
+        string subdirectoryPath = "Trainers";
+        TrainerStatus[] scriptableObjects = Resources.LoadAll<TrainerStatus>(subdirectoryPath);
+        if (scriptableObjects == null || scriptableObjects.Length == 0)
+            return false;
+        foreach (TrainerStatus scriptableObject in scriptableObjects)
         {
-            // Check if the file is a JSON file
-            if (file is TextAsset)
-            {
-                TextAsset loadedJsonFile = (TextAsset)file;
-                string jsonString = loadedJsonFile.text;
-                // Process the JSON data
-                // Example: Deserialize the JSON string into an object
-                JSONTrainerInfo dataObject = JsonConvert.DeserializeObject<JSONTrainerInfo>(jsonString , JsonSettings);
-                Debug.Log($"Data: {jsonString} || Trainer: {dataObject.TrainerName} || {dataObject.HasBeenBattled} || {dataObject.ActiveTeam.SavedSlime[0].SlimeName} ");
-                TrainerLookup.Add(dataObject.TrainerName , dataObject);
-            }
+            TrainerLookup.Add(scriptableObject.name , scriptableObject);
         }
         return true;
     }
-    public JSONTrainerInfo LookUpTrainer(string _name)
+    public void ResetTrainerSettings()
+    {
+        foreach (TrainerStatus trainer in TrainerLookup.Values)
+        {
+            trainer.HasBeenBattled = false;
+        }
+    }
+    public TrainerStatus LookUpTrainer(string _name)
     {
         return TrainerLookup[_name];
     }
@@ -268,18 +263,3 @@ public class WorldInfo
         Consumables = new List<string>();
     }
 }
-[System.Serializable]
-public class JSONTrainerInfo
-{
-    [SerializeField] public string TrainerName;
-    [SerializeField] public bool HasBeenBattled;
-    [SerializeField] public SlimeTeamInfo ActiveTeam;
-    public JSONTrainerInfo(string _name)
-    {
-        ActiveTeam = new SlimeTeamInfo();
-        TrainerName = _name;
-        HasBeenBattled = false;
-    }
-}
-
-
