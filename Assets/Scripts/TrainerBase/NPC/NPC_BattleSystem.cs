@@ -86,7 +86,6 @@ public class NPC_BattleSystem : LevelBehavior
         }
         if (state != WIN_STATE.NA)
         {
-            npc.OnBattleEnd(state);
             StartCoroutine(End());
         }
     }

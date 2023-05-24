@@ -39,6 +39,7 @@ public class NPC_Trainer : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.Log($"Hit: {hit.transform.gameObject.name}");
+            trainerInfo.HasBeenBattled = true;
             LevelManager.Instance.StartBattle(this , hit.transform.gameObject.GetComponent<PlayerController>());
         }
     }
@@ -66,12 +67,5 @@ public class NPC_Trainer : MonoBehaviour
             slimeComp.InitHealthBar(hb);
             ActiveTeam.Add(slimeComp);
         }
-    }
-    public void OnBattleEnd(WIN_STATE _state)
-    {
-        Debug.Log($"Battle Over State{_state}");
-        if (_state == WIN_STATE.PLAYER_WIN)
-            trainerInfo.HasBeenBattled = true;
-        //GameEntry.Instance.GetSaveManager().UpdateTrainerStatus(trainerInfo.TrainerName);
     }
 }
