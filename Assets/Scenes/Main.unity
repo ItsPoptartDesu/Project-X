@@ -2895,7 +2895,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveManager: {fileID: 1385555359}
   sceneLoader: {fileID: 1385555364}
-  isDEBUG: 1
+  isDEBUG: 0
   currentLevel: 0
   LoadingPause: 0
 --- !u!1 &1986617916

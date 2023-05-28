@@ -30,7 +30,7 @@ public class FSM_Play : FSM_State
         Debug.Log("FSM_Play DoBeforeEntering()");
         GameEntry.Instance.SetCurrentLevel(LevelTags.LEVEL_1);
         ObjectManager.Instance.GetActivePlayer().LastPlayableLevel = LevelTags.LEVEL_1;
-        InGameUIController.OnClickGameToMainMenu += FSM_OnClickToMainMenu;
+        UI_IGController.OnClickGameToMainMenu += FSM_OnClickToMainMenu;
         SceneLoader.OnTransPlayToBattle += FSM_OnClickToBattle;
         LevelManager.Instance.OnPlayerEnterClean(
             ObjectManager.Instance.GetActivePlayerObject(),
@@ -43,7 +43,7 @@ public class FSM_Play : FSM_State
         //ObjectManager.Instance.DeleteMarkedObjects();
         SceneLoader.OnTransPlayToBattle -= FSM_OnClickToBattle;
         Debug.Log("FSM_Play DoBeforeLeaving()");
-        InGameUIController.OnClickGameToMainMenu -= FSM_OnClickToMainMenu;
+        UI_IGController.OnClickGameToMainMenu -= FSM_OnClickToMainMenu;
         toMainMenu = false;
         toBattle = false;
         LevelManager.Instance.Load();

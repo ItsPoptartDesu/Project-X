@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class UI_Base : MonoBehaviour
 {
-    public abstract void ToggleSelf();
-    public abstract void DisableInGameUI();
+    public virtual void ToggleSelf() { }
+    public virtual void DisableInGameUI() { }
 
 }

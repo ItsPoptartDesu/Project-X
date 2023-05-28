@@ -16,7 +16,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Camera myCamera;
     [SerializeField]
-    private UI_Base SettingsUI;
+    private UI_IGController UIIG_Controller;
+    public UI_IGController GetUIController() { return UIIG_Controller; }
+
     private List<Slime> ActiveTeamDuringBattle = new List<Slime>();
     public List<Slime> GetActiveTeam() { return ActiveTeamDuringBattle; }
     private LevelTags previousLevel;
@@ -49,27 +51,13 @@ public class PlayerController : MonoBehaviour
             _system.CreateDecks(slime, DECK_SLOTS.PLAYER);
         }
     }
-    public void Start()
-    {
-        ((SettingsMenu)SettingsUI).OnClick.onClick.AddListener(OnClickQuitButton);
-    }
-    /// <summary>
-    /// Settings UI Quit button
-    /// </summary>
-    private void OnClickQuitButton()
-    {
-        //transform.position = previousPosition;
-        //GameEntry.Instance.LeaveBattle(previousLevel);
-        GameEntry.Instance.QuitToMainMenu();
-        SettingsUI.DisableInGameUI();
-    }
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (LevelManager.Instance.currentLevelBehaviour == null)
                 Debug.Log("NO CURRENT LEVEL");
-            LevelManager.Instance.currentLevelBehaviour.ToggleSettingsUI();
+            UIIG_Controller.GetSettingsMenu().ToggleSelf();
             //OnClickOpenMenu();
         }
         if (Input.GetKeyDown(KeyCode.F11))
@@ -150,6 +138,6 @@ public class PlayerController : MonoBehaviour
     }
     public void ToggleSettingsUI()
     {
-        SettingsUI.ToggleSelf();
+        UIIG_Controller.GetSettingsMenu().ToggleSelf();
     }
 }

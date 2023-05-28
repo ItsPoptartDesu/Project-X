@@ -5,18 +5,30 @@ using UnityEngine.UI;
 
 public class SettingsMenu : UI_Base
 {
+    public Button QuitButton;
     [SerializeField]
-    private Canvas UIRoot;
+    Canvas myDisplay;
 
-    public Button OnClick;
-
+    public void Start()
+    {
+        QuitButton.onClick.AddListener(OnClick_QuitButton);
+    }
     public override void DisableInGameUI()
     {
-        UIRoot.enabled = false;
+        myDisplay.enabled = false;
     }
 
     public override void ToggleSelf()
     {
-        UIRoot.enabled = !UIRoot.enabled;
+        myDisplay.enabled = !myDisplay.enabled;
+    }
+
+    private void OnClick_QuitButton()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 }
