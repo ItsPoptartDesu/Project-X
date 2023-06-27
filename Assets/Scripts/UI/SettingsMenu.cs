@@ -12,6 +12,7 @@ public class SettingsMenu : UI_Base
     public void Start()
     {
         QuitButton.onClick.AddListener(OnClick_QuitButton);
+        DisableInGameUI();
     }
     public override void DisableInGameUI()
     {
