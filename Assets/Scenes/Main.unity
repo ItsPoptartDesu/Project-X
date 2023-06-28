@@ -1976,26 +1976,26 @@ MonoBehaviour:
   EnemyPrefabs:
   - {fileID: 5628018141983903104, guid: 1a21ccbf6e5f32049bc66324e835081b, type: 3}
   SO_ForeheadParts:
-  - {fileID: 11400000, guid: 0820dc8ead8bb834bbaa326b21e365ce, type: 2}
+  - {fileID: 11400000, guid: 7b35d46e8f4b19342a6815d839866c61, type: 2}
   SO_EarParts:
-  - {fileID: 11400000, guid: a8fe1f7e3c7393446a02dc155cff7c01, type: 2}
+  - {fileID: 11400000, guid: de8a07bbbd7e51743b7d3fa6adce5b67, type: 2}
   SO_EyeParts:
-  - {fileID: 11400000, guid: 1a8ecf572fee4024a8188d8411bc5c61, type: 2}
+  - {fileID: 11400000, guid: 1800fff9270ca3c46ab847c3ddf588c3, type: 2}
   SO_MouthParts:
-  - {fileID: 11400000, guid: ac80a1e5eee06ab4d9f682b1e529a0a2, type: 2}
+  - {fileID: 11400000, guid: 7731f4ee027753a4f99ec58a5e08166d, type: 2}
   SO_TailParts:
-  - {fileID: 11400000, guid: b8ed35ff40c62134db5b34bd09879ace, type: 2}
+  - {fileID: 11400000, guid: e341361b1bbc71e4888d59ba1c44fd8d, type: 2}
   SO_BackParts:
-  - {fileID: 11400000, guid: 7c173cda254916c408c51d5d38bd3e99, type: 2}
+  - {fileID: 11400000, guid: 3b6f6652047e73d438ad48c7e9e1cd5d, type: 2}
   SO_BodyParts:
-  - {fileID: 11400000, guid: 87743d051d8d4cd4f836e32fe45c6798, type: 2}
+  - {fileID: 11400000, guid: 38f47bb7a7e4e8a4480eeddb3795c59e, type: 2}
   GameCardPrefabs:
-  - {fileID: 2726144140892189901, guid: fd342a71b73080f40a0604fc8d36d7e6, type: 3}
-  - {fileID: 5280655058908278023, guid: 94ae88d0f5e4149409b0221fb53a5420, type: 3}
-  - {fileID: 1884209331866242498, guid: 450c3140c154c5f4aa536853f1e200c6, type: 3}
-  - {fileID: 5765432173324782569, guid: 0bcb439600a42674788e47e7ef134850, type: 3}
-  - {fileID: -6083052874316486968, guid: 77510dbc68550354d832c022db14cd4d, type: 3}
-  - {fileID: 1324582098956276758, guid: e97ba5f0968353749900c525ada4419b, type: 3}
+  - {fileID: 5280655058908278023, guid: 94408d1f9e26e4242b6935fd4e9d337a, type: 3}
+  - {fileID: -6083052874316486968, guid: 79c871e0bd9cc54459e17ad6a4b7b843, type: 3}
+  - {fileID: 5765432173324782569, guid: 1ff1d727fba7b6a4db9785f3a2c72506, type: 3}
+  - {fileID: 2726144140892189901, guid: f992f699455910f40a8b28e787e9a5d4, type: 3}
+  - {fileID: 1324582098956276758, guid: 55feacabce668d64abbcddec5322dbe3, type: 3}
+  - {fileID: 1884209331866242498, guid: cd4f32d1b9bdd4e44aafe0d582926e70, type: 3}
   CardPrefab: {fileID: 1111378251754244028, guid: 44bd6532184386046924657da56ec654,
     type: 3}
   BattleScale: 75
