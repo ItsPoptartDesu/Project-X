@@ -233,7 +233,7 @@ public class NPC_BattleSystem : LevelBehavior
         NPC_Trainer npc = LevelManager.Instance.GetBattleNPC();
         int playerDeadCount = user.GetActiveTeam().Count(s => s.IsDead());
         int npcDeadCount = npc.ActiveTeam.Count(s => s.IsDead());
-        if (playerDeadCount == npcDeadCount && npcDeadCount == 0)
+        if (playerDeadCount == user.GetActiveTeam().Count && npcDeadCount == npc.ActiveTeam.Count())
         {
             return WIN_STATE.TIE;
         }
