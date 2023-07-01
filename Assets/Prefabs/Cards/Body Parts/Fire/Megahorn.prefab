@@ -146,7 +146,7 @@ MonoBehaviour:
   CardBackRoot: {fileID: 6735711975502314650}
   myOwner: 0
   myState: 0
-  cardType: 52
+  cardType: 2
 --- !u!1 &1247021899283560808
 GameObject:
   m_ObjectHideFlags: 0

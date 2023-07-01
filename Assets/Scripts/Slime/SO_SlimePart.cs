@@ -10,17 +10,13 @@ public enum ESlimePart
     BODY,
     TAIL,
     FOREHEAD,
+    HEART,
 }
 
 public enum ESlimeType
 {
-    PSYCHIC, STEEL, ICE,
-    WATER, FAIRY, BUG,
-    GHOST, ROCK, GRASS,
-    FIRE, DRAGON, POISON,
-    DARK, GROUND, AIR,
-    ELECTRIC, FLYING, FIGHTING,
-    NORMAL,
+    BODY,
+    Fire,
 }
 
 [CreateAssetMenu(fileName = "New Part", menuName = "Body Part")]

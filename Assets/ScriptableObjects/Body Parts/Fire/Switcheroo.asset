@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Switcheroo
   m_EditorClassIdentifier: 
   SlimePart: 2
-  SlimeType: 12
-  CardComponentType: 82
+  SlimeType: 0
+  CardComponentType: 5
   PartName: Switcheroo
   ImgToDisplay: {fileID: 21300000, guid: 616e9f913f123dd45a6359f41789c3b3, type: 3}
   Power: 50

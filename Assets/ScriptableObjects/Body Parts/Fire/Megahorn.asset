@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Megahorn
   m_EditorClassIdentifier: 
   SlimePart: 1
-  SlimeType: 5
-  CardComponentType: 52
+  SlimeType: 0
+  CardComponentType: 2
   PartName: Megahorn
   ImgToDisplay: {fileID: 21300000, guid: e2bbb8b2ade110d4ea47a6725ce28636, type: 3}
   Power: 120

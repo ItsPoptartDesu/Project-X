@@ -86,9 +86,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3170345357212435192}
   - component: {fileID: 8336594775693505770}
-  - component: {fileID: 5765432173324782569}
+  - component: {fileID: 7732724241890052766}
   m_Layer: 0
-  m_Name: Spider_Web
+  m_Name: Firewall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111378251754244028}
   m_CullTransparentMesh: 1
---- !u!114 &5765432173324782569
+--- !u!114 &7732724241890052766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1111378251754244028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2f87188b535f1e448afd53eb4eeb7a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 269a2a7700ad61a489f65485fa8c3fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rawCardStats: {fileID: 0}
@@ -146,7 +146,7 @@ MonoBehaviour:
   CardBackRoot: {fileID: 6735711975502314650}
   myOwner: 0
   myState: 0
-  cardType: 3
+  cardType: 6
 --- !u!1 &1247021899283560808
 GameObject:
   m_ObjectHideFlags: 0

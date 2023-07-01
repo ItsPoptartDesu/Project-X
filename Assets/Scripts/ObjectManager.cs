@@ -29,34 +29,15 @@ public class ObjectManager : MonoBehaviour
     [Header("Scriptable Objects")]
     [Space(1)]
     [SerializeField]
-    private List<SO_SlimePart> SO_ForeheadParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_EarParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_EyeParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_MouthParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_TailParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_BackParts = new List<SO_SlimePart>();
-
-    [SerializeField]
-    private List<SO_SlimePart> SO_BodyParts = new List<SO_SlimePart>();
+    private List<SO_SlimePart> unsortedParts = new List<SO_SlimePart>();
 
     [Header("Card Prefabs")]
     [Space(1)]
     [SerializeField]
     private List<SlimeCard> GameCardPrefabs = new List<SlimeCard>();
+
     private Dictionary<CardComponentType , SlimeCard> CardLookup = new Dictionary<CardComponentType , SlimeCard>();
     private Dictionary<CardComponentType , SO_SlimePart> So_Lookup = new Dictionary<CardComponentType , SO_SlimePart>();
-    private Dictionary<ESlimePart , List<SO_SlimePart>> parts;
-    private List<List<SO_SlimePart>> partsLists;
     public static ObjectManager Instance { get; private set; }
     [Space(1)]
     [SerializeField]
@@ -68,8 +49,6 @@ public class ObjectManager : MonoBehaviour
         GameObject card = Instantiate(g.gameObject);
         SlimeCard sCard = card.GetComponent<SlimeCard>();
         sCard.AssignCardValues(_base , _who);
-        //sCard.rawCardStats = _base;
-        //MarkObjectToBeDeleted(card);
         return sCard;
     }
     private void Awake()
@@ -87,26 +66,7 @@ public class ObjectManager : MonoBehaviour
     }
     private void Start()
     {
-        parts = new Dictionary<ESlimePart , List<SO_SlimePart>>
-                {
-                    { ESlimePart.FOREHEAD, SO_ForeheadParts },
-                    { ESlimePart.EYES, SO_EyeParts },
-                    { ESlimePart.EARS, SO_EarParts },
-                    { ESlimePart.MOUTH, SO_MouthParts },
-                    { ESlimePart.BACK, SO_BackParts },
-                    { ESlimePart.TAIL, SO_TailParts },
-                    { ESlimePart.BODY, SO_BodyParts }
-                };
-        partsLists = new List<List<SO_SlimePart>>()
-                {
-                    SO_ForeheadParts,
-                    SO_EarParts,
-                    SO_EyeParts,
-                    SO_MouthParts,
-                    SO_TailParts,
-                    SO_BackParts,
-                    SO_BodyParts
-                };
+
     }
     public void LoadPlayer()
     {
@@ -120,12 +80,12 @@ public class ObjectManager : MonoBehaviour
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
         slimeComp.Init(null);
 
-        System.Random rnd = new System.Random();
-        foreach (var part in parts)
-        {
-            SO_SlimePart ToBeRendered = part.Value[rnd.Next(0 , part.Value.Count)];
-            slimeComp.UpdateSlimePart(part.Key , ToBeRendered);
-        }
+        //System.Random rnd = new System.Random();
+        //foreach (var part in parts)
+        //{
+        //    SO_SlimePart ToBeRendered = part.Value[rnd.Next(0 , part.Value.Count)];
+        //    slimeComp.UpdateSlimePart(part.Key , ToBeRendered);
+        //}
         return slimePrefab;
     }
     public GameObject GenerateSlime(JsonSlimeInfo _copy)
@@ -147,13 +107,8 @@ public class ObjectManager : MonoBehaviour
     }
     private void CreatePart_LookupTable()
     {
-        foreach (var parts in partsLists)
-        {
-            foreach (var p in parts)
-            {
-                So_Lookup.Add(p.CardComponentType , p);
-            }
-        }
+        foreach (var part in unsortedParts)
+            So_Lookup.Add(part.CardComponentType , part);
 
         foreach (var p in GameCardPrefabs)
         {
