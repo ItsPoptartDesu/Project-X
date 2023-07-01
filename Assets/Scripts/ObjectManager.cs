@@ -53,8 +53,6 @@ public class ObjectManager : MonoBehaviour
     }
     private void Awake()
     {
-        // If there is an instance, and it's not me, delete myself.
-
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -79,7 +77,22 @@ public class ObjectManager : MonoBehaviour
         GameObject slimePrefab = Instantiate(SlimePrefab);
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
         slimeComp.Init(null);
+        System.Random rnd = new System.Random();
+        foreach (ESlimePart desiredPart in Enum.GetValues(typeof(ESlimePart)))
+        {
+            List<SO_SlimePart> parts = unsortedParts.Where(obj => obj.SlimePart == desiredPart).ToList();
 
+            if (parts.Count > 0)
+            {
+                SO_SlimePart toBeRendered = parts[rnd.Next(0 , parts.Count)];
+                slimeComp.UpdateSlimePart(desiredPart , toBeRendered);
+            }
+            else
+            {
+                // Handle case when no parts are found for the desired part
+                Debug.LogError("HOPE I NEVER SEE THIS ALERT");
+            }
+        }
         //System.Random rnd = new System.Random();
         //foreach (var part in parts)
         //{
