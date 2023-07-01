@@ -45,7 +45,7 @@ public class SlimeCard : CardBase,
         CardDescription.text = "not filled out yet";
         CardAttack.text = _base.GetPower().ToString();
         CardCost.text = _base.GetCost().ToString();
-        img.sprite = _base.GetSlimeSprite();
+        img.sprite = _base.GetCardArt();
         myOwner = _who;
         rawCardStats = _base;
     }

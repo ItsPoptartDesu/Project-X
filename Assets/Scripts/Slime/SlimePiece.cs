@@ -24,11 +24,12 @@ public class SlimePiece : MonoBehaviour
     public ESlimePart GetSlimePart() { return basePart.SlimePart; }
     public ESlimeType GetSlimeType() { return basePart.SlimeType; }
     public string GetSlimePartName() { return basePart.PartName; }
-    public Sprite GetSlimeSprite() { return basePart.ImgToDisplay; }
+    public Sprite GetSlimeSprite() { return basePart.SlimeArt; }
+    public Sprite GetCardArt() { return basePart.CardArt; }
     public int GetPower() { return basePart.Power; }
     public int GetCost() { return basePart.Cost; }
     public void SetHost(Slime _s) { Host = _s; }
-    public Slime GetHost() {  return Host; }
+    public Slime GetHost() { return Host; }
     public void UpdateSlimePart(SO_SlimePart _part)
     {
         basePart = _part;
@@ -36,7 +37,9 @@ public class SlimePiece : MonoBehaviour
     }
     public void RefreshRenderer()
     {
-        myRenderer.sprite = basePart.ImgToDisplay;
+        if (basePart.SlimeArt == null)
+            return;
+        myRenderer.sprite = basePart.SlimeArt;
     }
     public void ToggleRenderer()
     {

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Dragon Snot
   m_EditorClassIdentifier: 
   SlimePart: 5
-  SlimeType: 0
+  SlimeType: 1
   CardComponentType: 1
   PartName: Dragon Snot
-  ImgToDisplay: {fileID: 21300000, guid: caa0a583fe72b79449860d3609c0f876, type: 3}
+  CardArt: {fileID: 0}
+  ImgToDisplay: {fileID: 0}
   Power: 35
   Cost: 1

@@ -34,19 +34,14 @@ public class ObjectManager : MonoBehaviour
     [Header("Card Prefabs")]
     [Space(1)]
     [SerializeField]
-    private List<SlimeCard> GameCardPrefabs = new List<SlimeCard>();
-
-    private Dictionary<CardComponentType , SlimeCard> CardLookup = new Dictionary<CardComponentType , SlimeCard>();
+    private GameObject CardPrefab;
     private Dictionary<CardComponentType , SO_SlimePart> So_Lookup = new Dictionary<CardComponentType , SO_SlimePart>();
     public static ObjectManager Instance { get; private set; }
-    [Space(1)]
-    [SerializeField]
-    private GameObject CardPrefab;
+
     public float BattleScale = 75f;
     public SlimeCard CreateCard(SlimePiece _base , DECK_SLOTS _who)
     {
-        var g = CardLookup[_base.GetCardType()];
-        GameObject card = Instantiate(g.gameObject);
+        GameObject card = Instantiate(CardPrefab);
         SlimeCard sCard = card.GetComponent<SlimeCard>();
         sCard.AssignCardValues(_base , _who);
         return sCard;
@@ -88,17 +83,8 @@ public class ObjectManager : MonoBehaviour
                 slimeComp.UpdateSlimePart(desiredPart , toBeRendered);
             }
             else
-            {
-                // Handle case when no parts are found for the desired part
                 Debug.LogError("HOPE I NEVER SEE THIS ALERT");
-            }
         }
-        //System.Random rnd = new System.Random();
-        //foreach (var part in parts)
-        //{
-        //    SO_SlimePart ToBeRendered = part.Value[rnd.Next(0 , part.Value.Count)];
-        //    slimeComp.UpdateSlimePart(part.Key , ToBeRendered);
-        //}
         return slimePrefab;
     }
     public GameObject GenerateSlime(JsonSlimeInfo _copy)
@@ -122,11 +108,6 @@ public class ObjectManager : MonoBehaviour
     {
         foreach (var part in unsortedParts)
             So_Lookup.Add(part.CardComponentType , part);
-
-        foreach (var p in GameCardPrefabs)
-        {
-            CardLookup.Add(p.GetCardType() , p);
-        }
     }
     public GameObject GeneratePlayer()
     {

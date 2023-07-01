@@ -26,7 +26,8 @@ public class SO_SlimePart : ScriptableObject
     public ESlimeType SlimeType;
     public CardComponentType CardComponentType;
     public string PartName;
-    public Sprite ImgToDisplay;
+    public Sprite CardArt;
+    public Sprite SlimeArt;
     public int Power;
     public int Cost;
 }
