@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
 public class LevelBehavior : MonoBehaviour
 {
+    [Header("Base Class")]
     public LevelTags myLevelTag;
     //TODO:probably should do dictionary sorting or use some struct. but system.linq is nice 
     public List<SpawnPoints> spawnPoints = new List<SpawnPoints>();
     public UI_Base inGameUIController;
     public List<NPC_Trainer> npc_Trainers = new List<NPC_Trainer>();
     public Camera lvlCamera;
+    
 
     public virtual void PostLevelLoad()
     {

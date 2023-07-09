@@ -20,6 +20,7 @@ public enum StatusEffect
 public class SlimeStats
 {
     public static float ThornReturnPercentage = 0.75f;
+    public static int BurnDamage = 3;
     [HideInInspector]
     public JsonSlimeInfo dna;
     private int BaseHP = 100;
@@ -34,12 +35,11 @@ public class SlimeStats
     public void SetStatus(StatusEffect status) { myStatus = status; }
     public int GetHealth() { return RawHealth; }
 
-    public Vector2 TakeDamage(int _damage)
+    public void TakeDamage(int _damage)
     {
         int diff = System.Math.Min(RawShield, _damage);
         RawShield -= diff;
         RawHealth -= _damage - diff;
-        return new Vector2(RawHealth,RawShield);
     }
     public int GetShield() { return RawShield; }
     public void AdjustShields(int _shield)

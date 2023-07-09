@@ -183,6 +183,10 @@ public class NPC_BattleSystem : LevelBehavior
         }
         ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).UpdateTurnDisplay(currentTurn);
     }
+    private void UpdateStatusEffect(List<Slime> _activeTeam)
+    {
+
+    }
     private void PlayerTurn()
     {
         ManaDisplay[(int)DECK_SLOTS.PLAYER].OnTurn();
@@ -194,7 +198,7 @@ public class NPC_BattleSystem : LevelBehavior
         Draw(StartDrawAmount);
         Debug.Log($"{currentTurn} - NPC Turn");
         List<SlimeCard> cards = Hands[currentTurn];
-        SlimeCard CardToPlay = cards.Where(x => x.rawCardStats.GetCost() <= ManaDisplay[(int)currentTurn].GetCurrentMana()).First();
+        SlimeCard CardToPlay = cards.Where(x => x.rawCardStats.GetCost() <= ManaDisplay[(int)currentTurn].GetCurrentMana()).FirstOrDefault();
         AddCardToActionQueue(CardToPlay);
     }
     /// <summary>

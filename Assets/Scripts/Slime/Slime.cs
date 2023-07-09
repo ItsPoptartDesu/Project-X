@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Runtime.Serialization;
+using System;
 
 [System.Serializable]
 public enum BoardPos
@@ -115,11 +116,23 @@ public class Slime : MonoBehaviour
             _aggressor.GetHost().stats.TakeDamage((int)(damage * SlimeStats.ThornReturnPercentage));
             _aggressor.GetHost().RefreshHealthBar();
         }
-
-        Vector2 hp = stats.TakeDamage(damage);
-        if (hp.x <= 0)
+        stats.TakeDamage(damage);
+        CheckDeath();
+        RefreshHealthBar();
+    }
+    public void CheckStatusEffects()
+    {
+        if((stats.GetStatus() & StatusEffect.Burn) != 0)
+        {
+            stats.TakeDamage(SlimeStats.BurnDamage);
+            RefreshHealthBar();
+            CheckDeath();
+        }
+    }
+    private void CheckDeath()
+    {
+        if (stats.GetHealth() <= 0)
             Die();
-        HealthBarRef.SetHealth(hp);
     }
     public void AdjustShields(int _amount)
     {
@@ -135,5 +148,10 @@ public class Slime : MonoBehaviour
     public void RefreshHealthBar()
     {
         HealthBarRef.SetHealth(new Vector2(stats.GetHealth() , stats.GetShield()));
+    }
+
+    public void ApplyStatusEffect(StatusEffect _effect)
+    {
+        stats.SetStatus(_effect);
     }
 }

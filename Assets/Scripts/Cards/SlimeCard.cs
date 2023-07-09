@@ -83,7 +83,7 @@ public class SlimeCard : CardBase,
     public override void OnPlay(List<Slime> _activeTeam)
     {
         DEBUG_Message();
-        Slime hit = _activeTeam.OrderBy(x => x.stats.dna.TeamPos).First();
+        Slime hit = _activeTeam.OrderBy(x => x.stats.dna.TeamPos).FirstOrDefault();
         hit.ApplyDamage(rawCardStats);
     }
 
