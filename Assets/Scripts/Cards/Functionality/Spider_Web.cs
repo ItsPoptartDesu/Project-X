@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Spider_Web : SlimeCard
+public class Spider_Web : CardDisplay
 {
 }

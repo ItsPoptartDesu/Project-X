@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dragon_Snot : SlimeCard
+public class Dragon_Snot : CardDisplay
 {
     // Start is called before the first frame update
     void Start()

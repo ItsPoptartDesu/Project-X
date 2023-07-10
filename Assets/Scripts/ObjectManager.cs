@@ -39,12 +39,12 @@ public class ObjectManager : MonoBehaviour
     public static ObjectManager Instance { get; private set; }
 
     public float BattleScale = 75f;
-    public SlimeCard CreateCard(SlimePiece _base , DECK_SLOTS _who)
+    public CardDisplay CreateCard(SlimePiece _base , DECK_SLOTS _who)
     {
         GameObject card = Instantiate(CardPrefab);
         var x = ComponentMapper.CardComponents[_base.GetCardType()];
         card.AddComponent(x);
-        SlimeCard sCard = card.GetComponent<SlimeCard>();
+        CardDisplay sCard = card.GetComponent<CardDisplay>();
         sCard.AssignCardValues(_base , _who);
         return sCard;
     }

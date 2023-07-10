@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Firebolt : SlimeCard
+public class Firebolt : CardDisplay
 {
 
     // Start is called before the first frame update
@@ -22,9 +22,6 @@ public class Firebolt : SlimeCard
         Slime closest = _activeTeam.OrderBy(x => x.myBoardPos).FirstOrDefault();
         closest.ApplyDamage(rawCardStats);
         closest.ApplyStatusEffect(StatusEffect.Burn);
-        /// inc shields
         rawCardStats.GetHost().AdjustShields(rawCardStats.GetPower());
-        //toggle status effect
-        //rawCardStats.GetHost().stats.SetStatus(StatusEffect.Thorn);
     }
 }

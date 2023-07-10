@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -984,9 +984,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1983,13 +1991,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7731f4ee027753a4f99ec58a5e08166d, type: 2}
   - {fileID: 11400000, guid: 3b6f6652047e73d438ad48c7e9e1cd5d, type: 2}
   - {fileID: 11400000, guid: 38f47bb7a7e4e8a4480eeddb3795c59e, type: 2}
-  GameCardPrefabs:
-  - {fileID: 5280655058908278023, guid: 94408d1f9e26e4242b6935fd4e9d337a, type: 3}
-  - {fileID: -6083052874316486968, guid: 79c871e0bd9cc54459e17ad6a4b7b843, type: 3}
-  - {fileID: 5765432173324782569, guid: 1ff1d727fba7b6a4db9785f3a2c72506, type: 3}
-  - {fileID: 2726144140892189901, guid: f992f699455910f40a8b28e787e9a5d4, type: 3}
-  - {fileID: 7732724241890052766, guid: 938419572d8cac641b05a9ffa0057985, type: 3}
-  - {fileID: 1884209331866242498, guid: cd4f32d1b9bdd4e44aafe0d582926e70, type: 3}
   CardPrefab: {fileID: 1111378251754244028, guid: 44bd6532184386046924657da56ec654,
     type: 3}
   BattleScale: 75
@@ -2509,7 +2510,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

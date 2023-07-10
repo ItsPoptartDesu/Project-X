@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
 
-public class SlimeCard : CardBase,
+public class CardDisplay : CardBase,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private bool CanDisplayInfo { get { return myOwner == DECK_SLOTS.PLAYER && myState != CardState.DECK; } }
@@ -66,7 +66,7 @@ public class SlimeCard : CardBase,
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         GameObject clickedOn = eventData.pointerPress;
-        SlimeCard card = clickedOn.GetComponent<SlimeCard>();
+        CardDisplay card = clickedOn.GetComponent<CardDisplay>();
         if (card != null)
         {
             Debug.Log($"Clicked on {card.rawCardStats.GetSlimePartName()}");
