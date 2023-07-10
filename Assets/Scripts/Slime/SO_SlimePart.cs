@@ -30,4 +30,5 @@ public class SO_SlimePart : ScriptableObject
     public Sprite SlimeArt;
     public int Power;
     public int Cost;
+    public float StatusEffectProbability;
 }

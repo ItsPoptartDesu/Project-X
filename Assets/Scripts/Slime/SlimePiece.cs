@@ -28,6 +28,7 @@ public class SlimePiece : MonoBehaviour
     public Sprite GetCardArt() { return basePart.CardArt; }
     public int GetPower() { return basePart.Power; }
     public int GetCost() { return basePart.Cost; }
+    public float GetStatusEffectProbability() { return basePart.StatusEffectProbability; }
     public void SetHost(Slime _s) { Host = _s; }
     public Slime GetHost() { return Host; }
     public void UpdateSlimePart(SO_SlimePart _part)
