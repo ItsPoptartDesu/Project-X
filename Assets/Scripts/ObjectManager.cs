@@ -13,9 +13,17 @@ public enum ObjectType
     NULL,
 }
 
+[Serializable]
+public struct ImgMatcher
+{
+    public StatusEffect StatusEffect;
+    public Sprite Img;
+}
 
 public class ObjectManager : MonoBehaviour
 {
+    public GameObject StatusEffectPrefab;
+    public ImgMatcher[] StatusEffectImage;
     [SerializeField]
     GameObject PlayerPrefab;
 
@@ -88,6 +96,14 @@ public class ObjectManager : MonoBehaviour
                 Debug.LogError("HOPE I NEVER SEE THIS ALERT");
         }
         return slimePrefab;
+    }
+    public GameObject GenerateStatusEffectIcon(StatusEffect _ToBeAdded)
+    {
+        ImgMatcher iconData = StatusEffectImage.Where(x => x.StatusEffect == _ToBeAdded).FirstOrDefault();
+        GameObject icon = Instantiate(StatusEffectPrefab);
+        icon.GetComponent<UIStatusEffectHelper>().AddStatusIcon(iconData.Img);
+        //StatusEffectPrefab.
+        return icon;
     }
     public GameObject GenerateSlime(JsonSlimeInfo _copy)
     {

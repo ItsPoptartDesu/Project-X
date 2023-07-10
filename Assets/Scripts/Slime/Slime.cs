@@ -51,6 +51,30 @@ public class Slime : MonoBehaviour
         HealthBarRef = _bar;
         HealthBarRef.SetStats(stats.GetHealth() , stats.GetShield());
     }
+    public void UpdateStatusEffect(StatusEffect _ToBeUpdated)
+    {
+        switch (_ToBeUpdated)
+        {
+            case StatusEffect.Burn:
+                if ((stats.GetStatus() & StatusEffect.Burn) != StatusEffect.Burn)
+                {
+                    HealthBarRef.AddStatusEffectIcon(StatusEffect.Burn);
+                }
+                break;
+            case StatusEffect.Poison:
+                break;
+            case StatusEffect.Freeze:
+                break;
+            case StatusEffect.Paralyze:
+                break;
+            case StatusEffect.Thorn:
+                break;
+            case StatusEffect.None:
+            default:
+                break;
+        }
+        stats.SetStatus(_ToBeUpdated);
+    }
     public int GetHealth()
     {
         return stats.GetHealth();
@@ -122,7 +146,7 @@ public class Slime : MonoBehaviour
     }
     public void CheckStatusEffects()
     {
-        if((stats.GetStatus() & StatusEffect.Burn) != 0)
+        if ((stats.GetStatus() & StatusEffect.Burn) != 0)
         {
             Debug.Log($"{stats.dna.SlimeName} has taken burn damage");
             stats.TakeDamage(SlimeStats.BurnDamage);
@@ -153,6 +177,6 @@ public class Slime : MonoBehaviour
 
     public void ApplyStatusEffect(StatusEffect _effect)
     {
-        stats.SetStatus(_effect);
+        UpdateStatusEffect(_effect);
     }
 }
