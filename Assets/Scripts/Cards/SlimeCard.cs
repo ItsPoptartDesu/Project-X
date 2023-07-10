@@ -22,8 +22,8 @@ public class SlimeCard : CardBase,
 
     public override void OnEnterHand()
     {
-        ToggleDisplayRoot(true);
-        ToggleCardBackRoot(false);
+        cardHelper.ToggleDisplayRoot(true);
+        cardHelper.ToggleCardBackRoot(false);
         myState = CardState.HAND;
     }
 
@@ -41,11 +41,12 @@ public class SlimeCard : CardBase,
 
     public override void AssignCardValues(SlimePiece _base, DECK_SLOTS _who)
     {
-        CardName.text = _base.GetSlimePartName();
-        CardDescription.text = "not filled out yet";
-        CardAttack.text = _base.GetPower().ToString();
-        CardCost.text = _base.GetCost().ToString();
-        img.sprite = _base.GetCardArt();
+        cardHelper = GetComponent<CardHelper>();
+        cardHelper.CardName.text = _base.GetSlimePartName();
+        cardHelper.CardDescription.text = "not filled out yet";
+        cardHelper.CardAttack.text = _base.GetPower().ToString();
+        cardHelper.CardCost.text = _base.GetCost().ToString();
+        cardHelper.img.sprite = _base.GetCardArt();
         myOwner = _who;
         rawCardStats = _base;
     }
@@ -68,7 +69,7 @@ public class SlimeCard : CardBase,
         SlimeCard card = clickedOn.GetComponent<SlimeCard>();
         if (card != null)
         {
-            Debug.Log($"Clicked on {card.CardName.text}");
+            Debug.Log($"Clicked on {card.rawCardStats.GetSlimePartName()}");
         }
         if (!CanPlayCard || myState == CardState.IN_PLAY)
             return;
@@ -90,8 +91,8 @@ public class SlimeCard : CardBase,
     public override void OnEnterDiscardPile()
     {
         myState = CardState.DISCARD;
-        ToggleCardBackRoot(false);
-        ToggleDisplayRoot(false);
+        cardHelper.ToggleCardBackRoot(false);
+        cardHelper.ToggleDisplayRoot(false);
     }
 
     public override void OnExitDiscardPile()

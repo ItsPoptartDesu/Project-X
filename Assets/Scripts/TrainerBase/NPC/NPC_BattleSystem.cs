@@ -182,10 +182,16 @@ public class NPC_BattleSystem : LevelBehavior
                 break;
         }
         ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).UpdateTurnDisplay(currentTurn);
+        UpdateStatusEffect();
     }
-    private void UpdateStatusEffect(List<Slime> _activeTeam)
+    private void UpdateStatusEffect()
     {
-
+        var npc = LevelManager.Instance.GetBattleNPC();
+        List<Slime> activeTeam = currentTurn == DECK_SLOTS.PLAYER ? npc.ActiveTeam : user.GetActiveTeam();
+        foreach(var slime in activeTeam)
+        {
+            slime.CheckStatusEffects();
+        }
     }
     private void PlayerTurn()
     {
@@ -224,10 +230,10 @@ public class NPC_BattleSystem : LevelBehavior
         //if the card cost's too much mana
         if (ManaDisplay[(int)currentTurn].GetCurrentMana() < cost)
         {
-            Debug.Log($"Can not play {_card.CardName}: {cost} cost");
+            Debug.Log($"Can not play {_card.rawCardStats.GetSlimePartName()}: {cost} cost");
             return;
         }
-        Debug.Log($"{currentTurn} is playing {_card.CardName.text}");
+        Debug.Log($"{currentTurn} is playing {_card.rawCardStats.GetSlimePartName()}");
         _card.myState = CardState.LIMBO;
         Hands[currentTurn].Remove(_card);
         ActionQueue.Enqueue(_card);
@@ -265,7 +271,7 @@ public class NPC_BattleSystem : LevelBehavior
     }
     private void AddCardToDeck(SlimeCard _card)
     {
-        Debug.Log($"{currentTurn} is adding { _card.CardName.text} back to his deck pile");
+        Debug.Log($"{currentTurn} is adding { _card.rawCardStats.GetSlimePartName()} back to his deck pile");
         _card.OnEnterDeck();
         Decks[currentTurn].Enqueue(_card);
     }

@@ -17,6 +17,6 @@ MonoBehaviour:
   CardComponentType: 1
   PartName: Dragon Snot
   CardArt: {fileID: 0}
-  ImgToDisplay: {fileID: 0}
-  Power: 35
+  SlimeArt: {fileID: 0}
+  Power: 0
   Cost: 1

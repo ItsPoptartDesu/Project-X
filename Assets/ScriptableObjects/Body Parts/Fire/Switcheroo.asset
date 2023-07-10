@@ -17,6 +17,6 @@ MonoBehaviour:
   CardComponentType: 5
   PartName: Switcheroo
   CardArt: {fileID: 0}
-  ImgToDisplay: {fileID: 0}
-  Power: 50
+  SlimeArt: {fileID: 0}
+  Power: 0
   Cost: 1

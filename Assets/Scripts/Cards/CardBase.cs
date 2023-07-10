@@ -18,25 +18,15 @@ public abstract class CardBase : MonoBehaviour
 {
     [HideInInspector]
     public SlimePiece rawCardStats;
-    public TextMeshProUGUI CardName;
-    public TextMeshProUGUI CardDescription;
-    public TextMeshProUGUI CardAttack;
-    public TextMeshProUGUI CardCost;
-    public Image img;
-    public GameObject CardFrontRoot;
-    public GameObject CardBackRoot;
     public DECK_SLOTS myOwner = DECK_SLOTS.STARTING;
     public CardState myState = CardState.DECK;
     [SerializeField]
-    private CardComponentType cardType; 
-    public CardComponentType GetCardType() { return cardType; }
+    protected CardHelper cardHelper;
     public virtual void OnDeckCreation()
     {
-        ToggleDisplayRoot(false);
-        ToggleCardBackRoot(true);
+        cardHelper.ToggleDisplayRoot(false);
+        cardHelper.ToggleCardBackRoot(true);
     }
-    public virtual void ToggleDisplayRoot(bool _on) { CardFrontRoot.SetActive(_on); }
-    public virtual void ToggleCardBackRoot(bool _on) { CardBackRoot.SetActive(_on); }
 
     public abstract void OnEnterGraveYard();
     public abstract void OnExitGraveYard();
@@ -48,10 +38,18 @@ public abstract class CardBase : MonoBehaviour
     public abstract void OnEnterDiscardPile();
     public abstract void OnExitDiscardPile();
 
-    public virtual void AssignCardValues(SlimePiece _base, DECK_SLOTS _who) { }
+    public virtual void AssignCardValues(SlimePiece _base , DECK_SLOTS _who) { }
     public virtual void AttachParent(Transform _parent)
     {
         transform.SetParent(_parent);
         transform.position = _parent.position;
+    }
+    public virtual void ToggleCardBackRoot(bool _display)
+    {
+        cardHelper.ToggleCardBackRoot(_display);
+    }
+    public virtual void ToggleCardDisplayRoot(bool _display)
+    {
+        cardHelper.ToggleDisplayRoot(_display);
     }
 }

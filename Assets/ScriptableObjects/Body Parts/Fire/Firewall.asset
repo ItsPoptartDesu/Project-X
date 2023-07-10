@@ -17,6 +17,6 @@ MonoBehaviour:
   CardComponentType: 6
   PartName: Firewall
   CardArt: {fileID: 0}
-  ImgToDisplay: {fileID: 0}
-  Power: 2000
+  SlimeArt: {fileID: 0}
+  Power: 0
   Cost: 1

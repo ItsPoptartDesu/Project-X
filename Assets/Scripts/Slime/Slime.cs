@@ -124,6 +124,7 @@ public class Slime : MonoBehaviour
     {
         if((stats.GetStatus() & StatusEffect.Burn) != 0)
         {
+            Debug.Log($"{stats.dna.SlimeName} has taken burn damage");
             stats.TakeDamage(SlimeStats.BurnDamage);
             RefreshHealthBar();
             CheckDeath();

@@ -42,6 +42,8 @@ public class ObjectManager : MonoBehaviour
     public SlimeCard CreateCard(SlimePiece _base , DECK_SLOTS _who)
     {
         GameObject card = Instantiate(CardPrefab);
+        var x = ComponentMapper.CardComponents[_base.GetCardType()];
+        card.AddComponent(x);
         SlimeCard sCard = card.GetComponent<SlimeCard>();
         sCard.AssignCardValues(_base , _who);
         return sCard;

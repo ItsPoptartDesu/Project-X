@@ -86,7 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3170345357212435192}
   - component: {fileID: 8336594775693505770}
-  - component: {fileID: 6171876825873748492}
+  - component: {fileID: 7103577247383968780}
   m_Layer: 0
   m_Name: CardRoot
   m_TagString: Untagged
@@ -109,7 +109,7 @@ RectTransform:
   - {fileID: 3623659994569371951}
   - {fileID: 7549734199937562964}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -124,7 +124,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111378251754244028}
   m_CullTransparentMesh: 1
---- !u!114 &6171876825873748492
+--- !u!114 &7103577247383968780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1111378251754244028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47c6e197f5b5680459342f9903b08a6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 78244de6eeac06544b5c8c69df7aea78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CardName: {fileID: 3733555412242412194}
@@ -141,10 +141,8 @@ MonoBehaviour:
   CardAttack: {fileID: 6872660084411793347}
   CardCost: {fileID: 1041494376615176885}
   img: {fileID: 1644063832947300592}
-  rawCardStats: {fileID: 0}
   CardFrontRoot: {fileID: 1247021899283560808}
   CardBackRoot: {fileID: 6735711975502314650}
-  myState: 0
 --- !u!1 &1247021899283560808
 GameObject:
   m_ObjectHideFlags: 0

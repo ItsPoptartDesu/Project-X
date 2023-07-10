@@ -17,6 +17,6 @@ MonoBehaviour:
   CardComponentType: 2
   PartName: Megahorn
   CardArt: {fileID: 0}
-  ImgToDisplay: {fileID: 0}
-  Power: 120
+  SlimeArt: {fileID: 0}
+  Power: 0
   Cost: 2
