@@ -40,6 +40,10 @@ public class NPC_BattleSystem : LevelBehavior
     public DECK_SLOTS GetCurrentTurn() { return currentTurn; }
     private WIN_STATE state = WIN_STATE.NA;
     public UI_ManaDisplay[] ManaDisplay = new UI_ManaDisplay[2];
+
+    private bool isProcessing = false;
+    private WaitForSeconds wfs = new WaitForSeconds(1f);
+    private WaitForSeconds endOfTurnPause = new WaitForSeconds(3f); 
     public HealthBar InitHealhBar(DECK_SLOTS _who , BoardPos _pos , Vector2 _HealthnShields)
     {
         SpawnPoints sp = GetSpawnPoint(_who , _pos);
@@ -60,35 +64,6 @@ public class NPC_BattleSystem : LevelBehavior
     }
     public void Update()
     {
-        //WIN_STATE state = WIN_STATE.NA;
-        //NPC_Trainer npc = LevelManager.Instance.GetBattleNPC();
-        //while (ActionQueue.Count > 0)
-        //{
-        //    CardDisplay card = ActionQueue.Dequeue();
-        //    //if the palyer is playing a card get the NPC team and vise versa
-        //    List<Slime> TeamToBeHit = currentTurn == DECK_SLOTS.PLAYER ? npc.ActiveTeam : user.GetActiveTeam();
-        //    card.OnPlay(TeamToBeHit);
-        //    ManaDisplay[(int)currentTurn].OnPlay(card.rawCardStats.GetCost());
-        //    card.OnEnterDiscardPile();
-        //    AddCardToDiscardPile(card);
-        //    ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).AddCardToDiscardPile(card , Discard[currentTurn].Count);
-        //    if (currentTurn == DECK_SLOTS.NPC && ActionQueue.Count == 0)
-        //    {
-        //        Debug.Log($"{currentTurn} is ending their turn");
-        //        IncTurn();
-        //    }
-        //    //isNPCTurn = false;
-        //    //if (!isNPCTurn && currentTurn == DECK_SLOTS.NPC)
-        //    Debug.Log($"UPDATE {currentTurn} || Deck Size {Decks[currentTurn].Count} || Hand Size {Hands[currentTurn].Count} || Discard Size {Discard[currentTurn].Count}");
-
-        //    state = IsGameOver();
-        //    if (state != WIN_STATE.NA)
-        //        break;
-        //}
-        //if (state != WIN_STATE.NA)
-        //{
-        //    StartCoroutine(End());
-        //}
         if (!isProcessing)
             StartCoroutine(ProcessCards());
         if (state != WIN_STATE.NA)
@@ -96,13 +71,12 @@ public class NPC_BattleSystem : LevelBehavior
             StartCoroutine(End());
         }
     }
-    bool isProcessing = false;
+
     IEnumerator ProcessCards()
     {
         isProcessing = true;
         NPC_Trainer npc = LevelManager.Instance.GetBattleNPC();
-        WaitForSeconds wfs = new WaitForSeconds(1f);
-        WaitForSeconds endOfTurnPause = new WaitForSeconds(3f);
+       
 
         while (ActionQueue.Count > 0)
         {
