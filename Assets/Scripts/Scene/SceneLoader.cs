@@ -32,6 +32,8 @@ public class SceneLoader : MonoBehaviour
     }
     public void StartAsyncLoad(LevelTags _level)
     {
+        //if (GameEntry.Instance.LoadingPause)
+        //    return;
         GameEntry.Instance.LoadingPause = true;
         if (GameEntry.Instance.isDEBUG)
             Debug.Log($"{SceneHash[_level].LevelName} & {_level}");

@@ -43,7 +43,8 @@ public class NPC_BattleSystem : LevelBehavior
 
     private bool isProcessing = false;
     private WaitForSeconds wfs = new WaitForSeconds(1f);
-    private WaitForSeconds endOfTurnPause = new WaitForSeconds(3f); 
+    private WaitForSeconds endOfTurnPause = new WaitForSeconds(3f);
+    private bool isEnding = false;
     public HealthBar InitHealhBar(DECK_SLOTS _who , BoardPos _pos , Vector2 _HealthnShields)
     {
         SpawnPoints sp = GetSpawnPoint(_who , _pos);
@@ -66,8 +67,9 @@ public class NPC_BattleSystem : LevelBehavior
     {
         if (!isProcessing)
             StartCoroutine(ProcessCards());
-        if (state != WIN_STATE.NA)
+        if (state != WIN_STATE.NA && isEnding == false)
         {
+            isEnding = true;
             StartCoroutine(End());
         }
     }
@@ -76,7 +78,6 @@ public class NPC_BattleSystem : LevelBehavior
     {
         isProcessing = true;
         NPC_Trainer npc = LevelManager.Instance.GetBattleNPC();
-       
 
         while (ActionQueue.Count > 0)
         {
@@ -108,11 +109,13 @@ public class NPC_BattleSystem : LevelBehavior
 
     IEnumerator End()
     {
+        //play particles tell player they are leaving
         yield return new WaitForSeconds(1f);
         GameEntry.Instance.LeaveBattle(ObjectManager.Instance.GetActivePlayer().GetPreviousLevel());
     }
     public void PreLoadForBattle(PlayerController _player)
     {
+        isEnding = false;
         user = _player;
         Debug.Log("PreLoadForBattle");
         _player.OnBattleStart(this);

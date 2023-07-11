@@ -50,18 +50,18 @@ public class GameEntry : MonoBehaviour
         //build game loop
         gameloop = new FSM_System();
         FSM_Idle FIdle = new FSM_Idle();
-        FIdle.AddTransition(Transition.To_Collection, StateID.Collection);
-        FIdle.AddTransition(Transition.To_Play, StateID.Play);
+        FIdle.AddTransition(Transition.To_Collection , StateID.Collection);
+        FIdle.AddTransition(Transition.To_Play , StateID.Play);
 
         FSM_Collection FCollection = new FSM_Collection();
-        FCollection.AddTransition(Transition.To_Idle, StateID.Idle);
+        FCollection.AddTransition(Transition.To_Idle , StateID.Idle);
 
         FSM_Play FPlay = new FSM_Play();
-        FPlay.AddTransition(Transition.To_Idle, StateID.Idle);
-        FPlay.AddTransition(Transition.To_Battle, StateID.Battle);
+        FPlay.AddTransition(Transition.To_Idle , StateID.Idle);
+        FPlay.AddTransition(Transition.To_Battle , StateID.Battle);
 
         FSM_Battle FBattle = new FSM_Battle();
-        FBattle.AddTransition(Transition.To_Play, StateID.Play);
+        FBattle.AddTransition(Transition.To_Play , StateID.Play);
 
         gameloop.AddState(FIdle);
         gameloop.AddState(FCollection);
@@ -82,7 +82,7 @@ public class GameEntry : MonoBehaviour
     /// </summary>
     /// <param name="_npc">trainer the user wants to fight</param>
     /// <param name="_player">local user</param>
-    public void PlayToBattleTransition(NPC_Trainer _npc, PlayerController _player)
+    public void PlayToBattleTransition(NPC_Trainer _npc , PlayerController _player)
     {
         //SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
         LevelManager.Instance.LoadingLevel = LevelTags.NPC_Battle;
@@ -100,8 +100,8 @@ public class GameEntry : MonoBehaviour
     {
         if (LoadingPause)
             return;
-        gameloop.CurrentState.Act(null, gameloop);
-        gameloop.CurrentState.Reason(null, gameloop);
+        gameloop.CurrentState.Act(null , gameloop);
+        gameloop.CurrentState.Reason(null , gameloop);
     }
     public void Button_OnClickSaveSlot()
     {

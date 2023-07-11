@@ -31,4 +31,5 @@ public class SO_SlimePart : ScriptableObject
     public int Power;
     public int Cost;
     public float StatusEffectProbability;
+    public float Accuracy;
 }
