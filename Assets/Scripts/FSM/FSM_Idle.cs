@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class FSM_Idle : FSM_State
 {
-    private bool toSettings = false;
     private bool toGame = false;
     public FSM_Idle()
     {
@@ -34,10 +33,6 @@ public class FSM_Idle : FSM_State
     {
         toGame = true;
     }
-    private void FSM_OnSettingsClick()
-    {
-        toSettings = true;
-    }
     private void FSM_OnCollectionClick()
     {
     }
@@ -45,7 +40,6 @@ public class FSM_Idle : FSM_State
     {
         GameEntry.OnClickCollectionMenu -= FSM_OnCollectionClick;
         SceneLoader.OnClickToGame -= FSM_OnClickToGame;
-        toSettings = false;
         toGame = false;
         Debug.Log("FSM_Idle DoBeforeLeaving()");
         //ObjectManager.Instance.DeleteMarkedObjects();

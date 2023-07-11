@@ -15,7 +15,7 @@ public class GameEntry : MonoBehaviour
 
     public static event System.Action OnClickCollectionMenu;
     public static event System.Action OnClickUIToMainMenu;
-    public static event System.Action BattleStateToPlayState;
+    //public static event System.Action BattleStateToPlayState;
     public static GameEntry Instance { get; private set; }
 
     private FSM_System gameloop;

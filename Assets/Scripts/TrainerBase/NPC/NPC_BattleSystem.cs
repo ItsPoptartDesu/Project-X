@@ -30,7 +30,6 @@ public class NPC_BattleSystem : LevelBehavior
     private List<SpawnPoints> NPC_SpawnPoints;
     [SerializeField]
     private List<SpawnPoints> Player_SpawnPoints;
-    bool isNPCTurn = false;
     public Canvas mainCanvas;
     private Dictionary<DECK_SLOTS , Queue<CardDisplay>> Decks = new Dictionary<DECK_SLOTS , Queue<CardDisplay>>();
     private Dictionary<DECK_SLOTS , List<CardDisplay>> Hands = new Dictionary<DECK_SLOTS , List<CardDisplay>>();

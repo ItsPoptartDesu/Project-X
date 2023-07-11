@@ -15,7 +15,7 @@ public class SceneLoader : MonoBehaviour
     public static event System.Action OnClickToGame;
     public static event System.Action OnTransPlayToBattle;
     public static event System.Action OnTransBattleToPlay;
-    public static event System.Action OnTransToEncounter;
+    //public static event System.Action OnTransToEncounter;
     public Dictionary<LevelTags, SceneLoaderInfo> SceneHash = new Dictionary<LevelTags, SceneLoaderInfo>();
     public List<SceneLoaderInfo> SceneName = new List<SceneLoaderInfo>();
     public void Start()

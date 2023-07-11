@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum ESlimePart
 {
-    EARS,
-    EYES,
-    MOUTH,
-    BACK,
-    BODY,
-    TAIL,
-    FOREHEAD,
+    HEAD,
+    ARMS,
+    LEGS,
+    CHEST,
     HEART,
+    BODY,
 }
 
 public enum ESlimeType

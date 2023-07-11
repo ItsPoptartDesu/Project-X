@@ -10,7 +10,6 @@ public class CardDisplay : CardBase,
 {
     private bool CanDisplayInfo { get { return myOwner == DECK_SLOTS.PLAYER && myState != CardState.DECK; } }
     private bool CanPlayCard { get { return ((NPC_BattleSystem)LevelManager.Instance.currentLevelBehaviour).GetCurrentTurn() == DECK_SLOTS.PLAYER; } }
-    private bool HasBeenPlayed = false;
     public override void OnEnterDeck()
     {
         myState = CardState.DECK;

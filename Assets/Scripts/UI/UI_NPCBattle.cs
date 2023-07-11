@@ -29,7 +29,7 @@ public class UI_NPCBattle : UI_Base
     public List<Transform> Trainer_Team;
     public Transform Trainer_Hand_Root;
 
-    public static event System.Action OnClickLeaveBattle;
+    //public static event System.Action OnClickLeaveBattle;
     public void AddCardToDiscardPile(CardDisplay _ToBeAdded,int _size)
     {
         _ToBeAdded.transform.SetParent(DiscardText[(int)_ToBeAdded.myOwner].transform);
