@@ -82,9 +82,7 @@ public class CardDisplay : CardBase,
     /// <param name="_activeTeam"></param>
     public override void OnPlay(List<Slime> _activeTeam)
     {
-        DEBUG_Message();
-        Slime hit = _activeTeam.OrderBy(x => x.stats.dna.TeamPos).FirstOrDefault();
-        hit.ApplyDamage(rawCardStats);
+        _activeTeam[0].ApplyDamage(rawCardStats);
     }
 
     public override void OnEnterDiscardPile()

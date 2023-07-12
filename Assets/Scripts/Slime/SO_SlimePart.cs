@@ -28,6 +28,8 @@ public class SO_SlimePart : ScriptableObject
     public Sprite SlimeArt;
     public int Power;
     public int Cost;
+    [Range(0f , 1f)]
     public float StatusEffectProbability;
+    [Range(0f,1f)]
     public float Accuracy;
 }

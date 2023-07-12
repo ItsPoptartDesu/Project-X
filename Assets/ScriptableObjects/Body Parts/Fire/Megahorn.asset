@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
   m_Name: Megahorn
   m_EditorClassIdentifier: 
-  SlimePart: 1
+  SlimePart: 3
   SlimeType: 1
   CardComponentType: 2
   PartName: Megahorn
@@ -20,3 +20,5 @@ MonoBehaviour:
   SlimeArt: {fileID: 0}
   Power: 0
   Cost: 2
+  StatusEffectProbability: 0
+  Accuracy: 0

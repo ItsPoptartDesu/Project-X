@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class Firebolt : CardDisplay
 {
@@ -18,10 +16,8 @@ public class Firebolt : CardDisplay
     }
     public override void OnPlay(List<Slime> _activeTeam)
     {
-        Slime closest = _activeTeam.OrderBy(x => x.myBoardPos).FirstOrDefault();
-        closest.ApplyDamage(rawCardStats);
+        _activeTeam[0].ApplyDamage(rawCardStats);
         if (Random.value < rawCardStats.GetStatusEffectProbability())
-            closest.ApplyStatusEffect(StatusEffect.Burn);
-        rawCardStats.GetHost().AdjustShields(rawCardStats.GetPower());
+            _activeTeam[0].ApplyStatusEffect(StatusEffect.Burn);
     }
 }

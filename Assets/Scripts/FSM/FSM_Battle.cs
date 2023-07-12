@@ -27,7 +27,6 @@ public class FSM_Battle : FSM_State
         Debug.Log("FSM_Battle DoBeforeEntering()");
         SceneLoader.OnTransBattleToPlay += FSM_LeaveBattle;
         GameEntry.Instance.SetCurrentLevel(LevelManager.Instance.LoadingLevel);
-        //ObjectManager.Instance.GetActivePlayer().DisablePlayerMovementRendererCamera();
         LevelManager.Instance.OnPlayerEnterClean(
             ObjectManager.Instance.GetActivePlayerObject(),
             GameEntry.Instance.GetCurrentLevel());
@@ -37,7 +36,6 @@ public class FSM_Battle : FSM_State
     {
         LeaveBattle = false;
         Debug.Log("FSM_Battle DoBeforeLeaving()");
-        //ObjectManager.Instance.DeleteMarkedObjects();
         SceneLoader.OnTransBattleToPlay -= FSM_LeaveBattle;
         LevelManager.Instance.Load();
         ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();

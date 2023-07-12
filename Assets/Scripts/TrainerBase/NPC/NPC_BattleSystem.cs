@@ -86,7 +86,7 @@ public class NPC_BattleSystem : LevelBehavior
             Debug.Log($"{currentTurn} is playing {card.rawCardStats.GetSlimePartName()}");
             yield return wfs;
 
-            card.OnPlay(TeamToBeHit);
+            card.OnPlay(TeamToBeHit.OrderBy(x => x.myBoardPos).ToList());
             ManaDisplay[(int)currentTurn].OnPlay(card.rawCardStats.GetCost());
             card.OnEnterDiscardPile();
             AddCardToDiscardPile(card);

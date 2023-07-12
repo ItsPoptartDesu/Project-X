@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
   m_Name: Spider Web
   m_EditorClassIdentifier: 
-  SlimePart: 6
+  SlimePart: 4
   SlimeType: 1
   CardComponentType: 3
   PartName: Spider Web
@@ -20,3 +20,5 @@ MonoBehaviour:
   SlimeArt: {fileID: 0}
   Power: 0
   Cost: 1
+  StatusEffectProbability: 0
+  Accuracy: 0

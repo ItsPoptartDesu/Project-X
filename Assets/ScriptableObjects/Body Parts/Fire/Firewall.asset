@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
   m_Name: Firewall
   m_EditorClassIdentifier: 
-  SlimePart: 0
+  SlimePart: 2
   SlimeType: 1
   CardComponentType: 6
   PartName: Firewall

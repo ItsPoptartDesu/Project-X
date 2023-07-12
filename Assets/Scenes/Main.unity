@@ -1989,13 +1989,13 @@ MonoBehaviour:
   EnemyPrefabs:
   - {fileID: 5628018141983903104, guid: 1a21ccbf6e5f32049bc66324e835081b, type: 3}
   unsortedParts:
+  - {fileID: 11400000, guid: 38f47bb7a7e4e8a4480eeddb3795c59e, type: 2}
   - {fileID: 11400000, guid: 7b35d46e8f4b19342a6815d839866c61, type: 2}
   - {fileID: 11400000, guid: de8a07bbbd7e51743b7d3fa6adce5b67, type: 2}
   - {fileID: 11400000, guid: 48778e745002857468a83bb103f7ba33, type: 2}
   - {fileID: 11400000, guid: 1800fff9270ca3c46ab847c3ddf588c3, type: 2}
   - {fileID: 11400000, guid: 7731f4ee027753a4f99ec58a5e08166d, type: 2}
   - {fileID: 11400000, guid: 3b6f6652047e73d438ad48c7e9e1cd5d, type: 2}
-  - {fileID: 11400000, guid: 38f47bb7a7e4e8a4480eeddb3795c59e, type: 2}
   CardPrefab: {fileID: 1111378251754244028, guid: 44bd6532184386046924657da56ec654,
     type: 3}
   BattleScale: 75
