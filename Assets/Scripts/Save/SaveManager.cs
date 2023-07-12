@@ -222,6 +222,7 @@ public class JsonSlimeInfo
 {
     [SerializeField] public string SlimeName;
     [SerializeField] public BoardPos TeamPos;
+    [SerializeField] public StatusEffect myStatus;
     [SerializeField] public List<CardComponentType> myCardType;
 
     public JsonSlimeInfo(Slime _slime)
@@ -233,6 +234,7 @@ public class JsonSlimeInfo
         }
         SlimeName = _slime.SlimeName;
         TeamPos = _slime.myBoardPos;
+        myStatus = _slime.stats.GetStatus();
     }
     public JsonSlimeInfo()
     {

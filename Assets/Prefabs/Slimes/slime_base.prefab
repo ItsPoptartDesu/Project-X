@@ -358,11 +358,10 @@ MonoBehaviour:
     myStatus: 0
   _RenderParts:
   - {fileID: 3074912535185798926}
-  - {fileID: 7989483929756840640}
+  - {fileID: 8845436600138647657}
   - {fileID: 1979553154256273469}
   - {fileID: 7004534411314096955}
   - {fileID: 2741924016891288393}
-  - {fileID: 8845436600138647657}
   myBoardPos: 6
 --- !u!114 &369451995706673055
 MonoBehaviour:

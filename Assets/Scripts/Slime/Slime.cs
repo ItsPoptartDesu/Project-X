@@ -50,30 +50,7 @@ public class Slime : MonoBehaviour
     {
         HealthBarRef = _bar;
         HealthBarRef.SetStats(stats.GetHealth() , stats.GetShield());
-    }
-    public void UpdateStatusEffect(StatusEffect _ToBeUpdated)
-    {
-        switch (_ToBeUpdated)
-        {
-            case StatusEffect.Burn:
-                if ((stats.GetStatus() & StatusEffect.Burn) != StatusEffect.Burn)
-                {
-                    HealthBarRef.AddStatusEffectIcon(StatusEffect.Burn);
-                }
-                break;
-            case StatusEffect.Poison:
-                break;
-            case StatusEffect.Freeze:
-                break;
-            case StatusEffect.Paralyze:
-                break;
-            case StatusEffect.Thorn:
-                break;
-            case StatusEffect.None:
-            default:
-                break;
-        }
-        stats.SetStatus(_ToBeUpdated);
+        CheckStatusEffects();
     }
     public int GetHealth()
     {
@@ -101,9 +78,11 @@ public class Slime : MonoBehaviour
             p.SetHost(this);
             slimeParts.Add(p.GetESlimePart() , p);
         }
-        System.Array values = System.Enum.GetValues(typeof(BoardPos));
-        System.Random random = new System.Random();
         myBoardPos = _copy.TeamPos;
+        stats.SetStatus(_copy.myStatus);
+
+        if (GameEntry.Instance.isDEBUG)
+            Debug.Log($"BoardPos {myBoardPos} | Status Effect {stats.GetStatus()}");
         isDead = false;
     }
     public void UpdateSlimePart(ESlimePart _piece , SO_SlimePart _part)
@@ -148,6 +127,7 @@ public class Slime : MonoBehaviour
     {
         if ((stats.GetStatus() & StatusEffect.Burn) != 0)
         {
+            HealthBarRef.AddStatusEffectIcon(StatusEffect.Burn);
             Debug.Log($"{stats.dna.SlimeName} has taken burn damage");
             stats.TakeDamage(SlimeStats.BurnDamage);
             RefreshHealthBar();
@@ -175,8 +155,28 @@ public class Slime : MonoBehaviour
         HealthBarRef.SetHealth(new Vector2(stats.GetHealth() , stats.GetShield()));
     }
 
-    public void ApplyStatusEffect(StatusEffect _effect)
+    public void ApplyStatusEffect(StatusEffect _ToBeUpdated)
     {
-        UpdateStatusEffect(_effect);
+        switch (_ToBeUpdated)
+        {
+            case StatusEffect.Burn:
+                if ((stats.GetStatus() & StatusEffect.Burn) != StatusEffect.Burn)
+                {
+                    HealthBarRef.AddStatusEffectIcon(StatusEffect.Burn);
+                }
+                break;
+            case StatusEffect.Poison:
+                break;
+            case StatusEffect.Freeze:
+                break;
+            case StatusEffect.Paralyze:
+                break;
+            case StatusEffect.Thorn:
+                break;
+            case StatusEffect.None:
+            default:
+                break;
+        }
+        stats.SetStatus(_ToBeUpdated);
     }
 }

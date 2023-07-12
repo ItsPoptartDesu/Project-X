@@ -152,7 +152,6 @@ public class NPC_BattleSystem : LevelBehavior
     public void CreateDecks(Slime _slime , DECK_SLOTS _who)
     {
         var shuffled = _slime.GetActiveParts()
-                    .Where(part => part.GetESlimePart() != ESlimePart.BODY)
                     .Select(part =>
                     {
                         CardDisplay card = ObjectManager.Instance.CreateCard(part , _who);

@@ -18,19 +18,25 @@ MonoBehaviour:
     SavedSlime:
     - SlimeName: Roman
       TeamPos: 0
+      myStatus: 0
       myCardType: 010000000200000003000000040000000500000006000000
     - SlimeName: Roman
       TeamPos: 1
+      myStatus: 0
       myCardType: 040000000100000002000000030000000500000006000000
     - SlimeName: Roman
       TeamPos: 2
+      myStatus: 0
       myCardType: 040000000100000002000000030000000500000006000000
     - SlimeName: Roman
       TeamPos: 3
+      myStatus: 0
       myCardType: 040000000100000002000000030000000500000006000000
     - SlimeName: Roman
       TeamPos: 4
+      myStatus: 0
       myCardType: 040000000100000002000000030000000500000006000000
     - SlimeName: Roman
       TeamPos: 5
+      myStatus: 0
       myCardType: 040000000100000002000000030000000500000006000000

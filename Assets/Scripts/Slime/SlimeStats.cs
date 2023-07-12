@@ -1,14 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System.Runtime.Serialization;
+
 [System.Flags]
 [System.Serializable]
 public enum StatusEffect
 {
+    [EnumMember(Value = "None")]
     None = 0,
+    [EnumMember(Value = "Burn")]
     Burn = 1,
+    [EnumMember(Value = "Poison")]
     Poison = 2,
+    [EnumMember(Value = "Freeze")]
     Freeze = 4,
+    [EnumMember(Value = "Paralyze")]
     Paralyze = 8,
+    [EnumMember(Value = "Thorn")]
     Thorn = 16,
 }
 /// <summary>

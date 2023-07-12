@@ -8,7 +8,6 @@ public enum ESlimePart
     LEGS,
     CHEST,
     HEART,
-    BODY,
 }
 
 public enum ESlimeType
