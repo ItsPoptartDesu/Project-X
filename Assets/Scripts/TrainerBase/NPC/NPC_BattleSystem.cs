@@ -151,7 +151,7 @@ public class NPC_BattleSystem : LevelBehavior
     }
     public void CreateDecks(Slime _slime , DECK_SLOTS _who)
     {
-        var shuffled = _slime.GetActiveParts()
+        var toBeShuffled = _slime.GetActiveParts()
                     .Select(part =>
                     {
                         CardDisplay card = ObjectManager.Instance.CreateCard(part , _who);
@@ -161,8 +161,8 @@ public class NPC_BattleSystem : LevelBehavior
                             DeckAttachmentPoints[(int)DECK_SLOTS.NPC]);
                         return card;
                     }).ToList();
-        List<CardDisplay> l = ShuffleDeck(shuffled);
-        Decks[_who] = new Queue<CardDisplay>(l);
+        List<CardDisplay> l = ShuffleDeck(toBeShuffled);
+        Decks[_who] = new Queue<CardDisplay>(toBeShuffled);
         Hands[_who] = new List<CardDisplay>();
         Discard[_who] = new List<CardDisplay>();
     }
@@ -295,5 +295,25 @@ public class NPC_BattleSystem : LevelBehavior
         _card.OnEnterDeck();
         Decks[currentTurn].Enqueue(_card);
     }
+    public static List<int> GenerateNonRepeatingNumbers(int minValue , int maxValue , int count)
+    {
+        if (count > (maxValue - minValue + 1) || count < 0)
+        {
+            throw new ArgumentOutOfRangeException("Invalid count parameter.");
+        }
 
+        System.Random random = new System.Random();
+        List<int> numbers = new List<int>();
+
+        while (numbers.Count < count)
+        {
+            int number = random.Next(minValue , maxValue + 1);
+            if (!numbers.Contains(number))
+            {
+                numbers.Add(number);
+            }
+        }
+
+        return numbers;
+    }
 }

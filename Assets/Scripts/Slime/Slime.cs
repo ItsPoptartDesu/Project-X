@@ -160,10 +160,7 @@ public class Slime : MonoBehaviour
         switch (_ToBeUpdated)
         {
             case StatusEffect.Burn:
-                if ((stats.GetStatus() & StatusEffect.Burn) != StatusEffect.Burn)
-                {
-                    HealthBarRef.AddStatusEffectIcon(StatusEffect.Burn);
-                }
+                Burn();
                 break;
             case StatusEffect.Poison:
                 break;
@@ -173,10 +170,25 @@ public class Slime : MonoBehaviour
                 break;
             case StatusEffect.Thorn:
                 break;
+            case StatusEffect.Cleanse:
+                Cleanse();
+                break;
             case StatusEffect.None:
             default:
                 break;
         }
         stats.SetStatus(_ToBeUpdated);
+    }
+    private void Burn()
+    {
+        if ((stats.GetStatus() & StatusEffect.Burn) != StatusEffect.Burn)
+        {
+            HealthBarRef.AddStatusEffectIcon(StatusEffect.Burn);
+        }
+    }
+    private void Cleanse()
+    {
+        HealthBarRef.Cleanse();
+        stats.SetStatus(StatusEffect.None);
     }
 }

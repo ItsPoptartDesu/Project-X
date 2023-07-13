@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Dragon Snot
+  m_Name: Fire Snake
   m_EditorClassIdentifier: 
-  SlimePart: 0
+  SlimePart: 4
   SlimeType: 1
-  CardComponentType: 1
-  PartName: Dragon Snot
+  CardComponentType: 3
+  PartName: Fire Snake
   CardArt: {fileID: 0}
   SlimeArt: {fileID: 0}
-  Power: 0
-  Cost: 1
-  StatusEffectProbability: 0
-  Accuracy: 0
+  Power: 50
+  Cost: 2
+  StatusEffectProbability: 0.5
+  OnHitStatusEffect: 0
+  Accuracy: 0.9

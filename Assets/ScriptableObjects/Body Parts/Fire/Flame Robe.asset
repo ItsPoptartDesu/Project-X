@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Switcheroo
+  m_Name: Flame Robe
   m_EditorClassIdentifier: 
-  SlimePart: 3
+  SlimePart: 2
   SlimeType: 1
-  CardComponentType: 5
-  PartName: Switcheroo
-  CardArt: {fileID: 0}
+  CardComponentType: 1
+  PartName: Flame Robe
+  CardArt: {fileID: 21300000, guid: 47858385c5ad48349a37a70287fcf82c, type: 3}
   SlimeArt: {fileID: 0}
   Power: 0
   Cost: 1
-  StatusEffectProbability: 0
+  StatusEffectProbability: 1
   Accuracy: 0

@@ -29,6 +29,8 @@ public class SlimePiece : MonoBehaviour
     public int GetPower() { return basePart.Power; }
     public int GetCost() { return basePart.Cost; }
     public float GetStatusEffectProbability() { return basePart.StatusEffectProbability; }
+    public StatusEffect GetOnHitStatusEffect() { return basePart.OnHitStatusEffect; }
+    public float GetAccuracy() {  return basePart.Accuracy; }
     public void SetHost(Slime _s) { Host = _s; }
     public Slime GetHost() { return Host; }
     public void UpdateSlimePart(SO_SlimePart _part)

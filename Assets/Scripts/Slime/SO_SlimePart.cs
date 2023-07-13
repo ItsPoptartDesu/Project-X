@@ -29,6 +29,7 @@ public class SO_SlimePart : ScriptableObject
     public int Cost;
     [Range(0f , 1f)]
     public float StatusEffectProbability;
+    public StatusEffect OnHitStatusEffect;
     [Range(0f,1f)]
     public float Accuracy;
 }

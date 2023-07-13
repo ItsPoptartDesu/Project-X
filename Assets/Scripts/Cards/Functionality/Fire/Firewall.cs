@@ -10,16 +10,28 @@ public class Firewall : CardDisplay
     /// <param name="_activeTeam"></param>
     public override void OnPlay(List<Slime> _activeTeam)
     {
+        int index = 0;
+        Slime target = null;
+        if (_activeTeam.Count == 1)
+        {
+            target = _activeTeam[index];
+            if (Random.value < rawCardStats.GetStatusEffectProbability())
+                target.ApplyStatusEffect(StatusEffect.Burn);
+            target.ApplyDamage(rawCardStats);
+            return;
+        }
+
+
         System.Random rnd = new System.Random();
-        int index = rnd.Next(1 , _activeTeam.Count - 1);
+        index = rnd.Next(1 , _activeTeam.Count - 1);
         int direction = rnd.Next(2);
         direction = direction == 0 ? 1 : -1;
-        
-        Slime target = _activeTeam[index];
+
+        target = _activeTeam[index];
         if (Random.value < rawCardStats.GetStatusEffectProbability())
             target.ApplyStatusEffect(StatusEffect.Burn);
         target.ApplyDamage(rawCardStats);
-        
+
         index += direction;
         target = _activeTeam[index];
         if (Random.value < rawCardStats.GetStatusEffectProbability())

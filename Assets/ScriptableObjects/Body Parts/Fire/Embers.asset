@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Spider Web
+  m_Name: Embers
   m_EditorClassIdentifier: 
-  SlimePart: 4
+  SlimePart: 3
   SlimeType: 1
-  CardComponentType: 3
-  PartName: Spider Web
-  CardArt: {fileID: 0}
+  CardComponentType: 2
+  PartName: Embers
+  CardArt: {fileID: 21300000, guid: 406456380def30a469651c259289365a, type: 3}
   SlimeArt: {fileID: 0}
-  Power: 0
+  Power: 15
   Cost: 1
   StatusEffectProbability: 0
-  Accuracy: 0
+  OnHitStatusEffect: 0
+  Accuracy: 1

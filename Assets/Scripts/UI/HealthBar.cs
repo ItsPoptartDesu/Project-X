@@ -11,6 +11,9 @@ public class HealthBar : MonoBehaviour
     public Slider healthBar;
     public TextMeshProUGUI ShieldText;
     public Transform StatusAttachPoint;
+
+    //TODO could probably do some sort of cache system so i dont need to Instantiate
+    //unless i hit a limit.
     public void AddStatusEffectIcon(StatusEffect _ToBeAdded)
     {
         GameObject icon = ObjectManager.Instance.GenerateStatusEffectIcon(_ToBeAdded);
@@ -33,5 +36,14 @@ public class HealthBar : MonoBehaviour
     public void ToggleHealthBar(bool _on)
     {
         healthBar.gameObject.SetActive(_on);
+    }
+    public void Cleanse()
+    {
+        int childCount = StatusAttachPoint.childCount;
+        for (int i = 0; i < childCount; i++)
+        {
+            Transform t = StatusAttachPoint.GetChild(i);
+            Destroy(t.gameObject);
+        }
     }
 }

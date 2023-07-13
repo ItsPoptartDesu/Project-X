@@ -18,6 +18,8 @@ public enum StatusEffect
     Paralyze = 8,
     [EnumMember(Value = "Thorn")]
     Thorn = 16,
+    [EnumMember(Value = "Cleanse")]
+    Cleanse = 32,
 }
 /// <summary>
 /// too be used for future stat saving and what not

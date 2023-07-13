@@ -9,16 +9,16 @@ public enum CardComponentType
 {
     [EnumMember(Value = "BODY")]
     BODY,
-    [EnumMember(Value = "Dragon_Snot")]
-    Dragon_Snot,
-    [EnumMember(Value = "Megahorn")]
-    Megahorn,
-    [EnumMember(Value = "Spider_Web")]
-    Spider_Web,
+    [EnumMember(Value = "Flame_Robe")]
+    Flame_Robe,
+    [EnumMember(Value = "Embers")]
+    Embers,
+    [EnumMember(Value = "Fire_Snake")]
+    Fire_Snake,
     [EnumMember(Value = "Firebolt")]
     Firebolt,
-    [EnumMember(Value = "Switcheroo")]
-    Switcheroo,
+    [EnumMember(Value = "Water_Gun")]
+    Water_Gun,
     [EnumMember(Value = "Firewall")]
     Firewall,
 }
@@ -29,10 +29,11 @@ public static class ComponentMapper
         CardComponents = new Dictionary<CardComponentType , Type>
     {
         { CardComponentType.Firebolt, typeof(Firebolt) },
-        { CardComponentType.Megahorn, typeof(Megahorn) },
-        { CardComponentType.Spider_Web, typeof(Spider_Web) },
-        { CardComponentType.Switcheroo, typeof(Switcheroo) },
+        { CardComponentType.Embers, typeof(Embers) },
+        { CardComponentType.Fire_Snake, typeof(Fire_Snake) },
+        { CardComponentType.Water_Gun, typeof(Water_Gun) },
         { CardComponentType.Firewall, typeof(Firewall) },
-        { CardComponentType.Dragon_Snot, typeof(Dragon_Snot) },
+        { CardComponentType.Flame_Robe, typeof(Flame_Robe) },
         };
+   
 }

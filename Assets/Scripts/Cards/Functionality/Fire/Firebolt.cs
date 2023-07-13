@@ -16,8 +16,10 @@ public class Firebolt : CardDisplay
     }
     public override void OnPlay(List<Slime> _activeTeam)
     {
+        if (Random.value > rawCardStats.GetAccuracy())
+            return;
         _activeTeam[0].ApplyDamage(rawCardStats);
         if (Random.value < rawCardStats.GetStatusEffectProbability())
-            _activeTeam[0].ApplyStatusEffect(StatusEffect.Burn);
+            _activeTeam[0].ApplyStatusEffect(rawCardStats.GetOnHitStatusEffect());
     }
 }
