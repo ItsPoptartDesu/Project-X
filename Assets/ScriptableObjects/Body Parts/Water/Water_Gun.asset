@@ -18,8 +18,8 @@ MonoBehaviour:
   PartName: Water Gun
   CardArt: {fileID: 21300000, guid: aeb6fba1daaf8b345b8c8b708fabdaca, type: 3}
   SlimeArt: {fileID: 0}
-  Power: 0
+  Power: 10
   Cost: 1
   StatusEffectProbability: 0
   OnHitStatusEffect: 0
-  Accuracy: 0
+  Accuracy: 1

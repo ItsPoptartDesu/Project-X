@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stubs
   m_EditorClassIdentifier: 
   TrainerName: Stubs
-  HasBeenBattled: 0
+  HasBeenBattled: 1
   ActiveTeam:
     SavedSlime:
     - SlimeName: Roman
