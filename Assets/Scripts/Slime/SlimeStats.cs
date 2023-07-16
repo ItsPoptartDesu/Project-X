@@ -1,26 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
-using System.Runtime.Serialization;
 
-[System.Flags]
-[System.Serializable]
-public enum StatusEffect
-{
-    [EnumMember(Value = "None")]
-    None = 0,
-    [EnumMember(Value = "Burn")]
-    Burn = 1,
-    [EnumMember(Value = "Poison")]
-    Poison = 2,
-    [EnumMember(Value = "Freeze")]
-    Freeze = 4,
-    [EnumMember(Value = "Paralyze")]
-    Paralyze = 8,
-    [EnumMember(Value = "Thorn")]
-    Thorn = 16,
-    [EnumMember(Value = "Cleanse")]
-    Cleanse = 32,
-}
+
 /// <summary>
 /// too be used for future stat saving and what not
 /// slime kill count and other stuff to be added

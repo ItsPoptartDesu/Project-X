@@ -26,9 +26,15 @@ public enum BoardPos
 
 public class Slime : MonoBehaviour
 {
-    public SlimeStats stats;
+    private SlimeStats stats;
+    public void TakeDamage(int _damage)
+    {
+        stats.TakeDamage(_damage);
+    }
+    public JsonSlimeInfo GetDNA() { return stats.dna; }
     private bool isDead = false;
     public bool IsDead() { return isDead; }
+    private List<StatusEffectHolder> activeStatusEffects = new List<StatusEffectHolder>();
 
     [SerializeField]
     private List<SlimePiece> _RenderParts = new List<SlimePiece>();
@@ -37,6 +43,7 @@ public class Slime : MonoBehaviour
     private HealthBar HealthBarRef;
     public string SlimeName { get; private set; }
     public BoardPos myBoardPos = BoardPos.NA;
+    public StatusEffect GetStatusEffect() { return stats.GetStatus(); }
     public void AttachParent(Transform _parent)
     {
         transform.SetParent(_parent);
@@ -50,7 +57,6 @@ public class Slime : MonoBehaviour
     {
         HealthBarRef = _bar;
         HealthBarRef.SetStats(stats.GetHealth() , stats.GetShield());
-        CheckStatusEffects();
     }
     public int GetHealth()
     {
@@ -112,29 +118,11 @@ public class Slime : MonoBehaviour
     public void ApplyDamage(SlimePiece _aggressor)
     {
         int damage = _aggressor.GetPower();
-
-        //if i have the thorn effect toggled on
-        if ((stats.GetStatus() & StatusEffect.Thorn) != 0)
-        {
-            _aggressor.GetHost().stats.TakeDamage((int)(damage * SlimeStats.ThornReturnPercentage));
-            _aggressor.GetHost().RefreshHealthBar();
-        }
         stats.TakeDamage(damage);
         CheckDeath();
         RefreshHealthBar();
     }
-    public void CheckStatusEffects()
-    {
-        if ((stats.GetStatus() & StatusEffect.Burn) != 0)
-        {
-            HealthBarRef.AddStatusEffectIcon(StatusEffect.Burn);
-            Debug.Log($"{stats.dna.SlimeName} has taken burn damage");
-            stats.TakeDamage(SlimeStats.BurnDamage);
-            RefreshHealthBar();
-            CheckDeath();
-        }
-    }
-    private void CheckDeath()
+    public void CheckDeath()
     {
         if (stats.GetHealth() <= 0)
             Die();
@@ -154,41 +142,40 @@ public class Slime : MonoBehaviour
     {
         HealthBarRef.SetHealth(new Vector2(stats.GetHealth() , stats.GetShield()));
     }
-
-    public void ApplyStatusEffect(StatusEffect _ToBeUpdated)
+    // Method to apply a status effect to the character
+    public void ApplyStatusEffect(StatusEffectHolder statusEffect)
     {
-        switch (_ToBeUpdated)
-        {
-            case StatusEffect.Burn:
-                Burn();
-                break;
-            case StatusEffect.Poison:
-                break;
-            case StatusEffect.Freeze:
-                break;
-            case StatusEffect.Paralyze:
-                break;
-            case StatusEffect.Thorn:
-                break;
-            case StatusEffect.Cleanse:
-                Cleanse();
-                break;
-            case StatusEffect.None:
-            default:
-                break;
-        }
-        stats.SetStatus(_ToBeUpdated);
+        activeStatusEffects.Add(statusEffect);
+        statusEffect.ApplyEffect();
+        HealthBarRef.AddStatusEffectIcon(statusEffect.GetStatusEffect());
     }
-    private void Burn()
+
+    // Method to remove a specific status effect from the character
+    public void RemoveStatusEffect(StatusEffectHolder statusEffect)
     {
-        if ((stats.GetStatus() & StatusEffect.Burn) != StatusEffect.Burn)
+        activeStatusEffects.Remove(statusEffect);
+        HealthBarRef.RemoveStatusEffectIcon(statusEffect.GetStatusEffect());
+        statusEffect.RemoveEffect();
+    }
+
+    // Method to update active status effects on the character
+    public void UpdateStatusEffects()
+    {
+        Debug.Log($"Update Status Effects Count{activeStatusEffects.Count}");
+        for (int i = activeStatusEffects.Count - 1; i >= 0; i--)
         {
+            StatusEffectHolder effect = activeStatusEffects[i];
+            effect.UpdateEffect();
+        }
+    }
+    public void BattleStartApplyStatusEffects()
+    {
+        Debug.Log($"BattleStartApplyStatusEffects{GetStatusEffect()}");
+        if ((GetStatusEffect() & StatusEffect.Burn) == StatusEffect.Burn)
+        {
+            BurnEffect burn = new BurnEffect(-1 , this , SlimeStats.BurnDamage);
+            activeStatusEffects.Add(burn);
             HealthBarRef.AddStatusEffectIcon(StatusEffect.Burn);
         }
-    }
-    private void Cleanse()
-    {
-        HealthBarRef.Cleanse();
-        stats.SetStatus(StatusEffect.None);
     }
 }

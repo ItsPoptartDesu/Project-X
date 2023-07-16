@@ -51,11 +51,6 @@ public class NPC_BattleSystem : LevelBehavior
         sp.myHealthBar.SetHealth(_HealthnShields);
         return sp.myHealthBar;
     }
-    public void UpdateHealthBars(DECK_SLOTS _who , BoardPos _pos , int _hp)
-    {
-        SpawnPoints sp = GetSpawnPoint(_who , _pos);
-        //sp.myHealthBar.SetHealth(_hp);
-    }
     public SpawnPoints GetSpawnPoint(DECK_SLOTS _who , BoardPos _pos)
     {
         return _who == DECK_SLOTS.PLAYER ?
@@ -201,26 +196,32 @@ public class NPC_BattleSystem : LevelBehavior
                 break;
         }
         ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).UpdateTurnDisplay(currentTurn);
-        UpdateStatusEffect();
     }
-    private void UpdateStatusEffect()
+    // TODO: play effects when this goes off
+    private IEnumerator CheckActiveTeamStatusEffects()
     {
-        var npc = LevelManager.Instance.GetBattleNPC();
-        List<Slime> activeTeam = currentTurn == DECK_SLOTS.PLAYER ? npc.ActiveTeam : user.GetActiveTeam();
+        WaitForSeconds wfs = new WaitForSeconds(0.1f);
+        List<Slime> activeTeam = currentTurn == DECK_SLOTS.PLAYER ?
+            user.GetActiveTeam() :
+            LevelManager.Instance.GetBattleNPC().ActiveTeam;
+
         foreach (var slime in activeTeam)
         {
-            slime.CheckStatusEffects();
+            slime.UpdateStatusEffects();
+            yield return wfs;
         }
     }
     private void PlayerTurn()
     {
         ManaDisplay[(int)DECK_SLOTS.PLAYER].OnTurn();
         Draw(StartDrawAmount);
+        StartCoroutine(CheckActiveTeamStatusEffects());
     }
     private void NPCTurn()
     {
         ManaDisplay[(int)DECK_SLOTS.NPC].OnTurn();
         Draw(StartDrawAmount);
+        StartCoroutine(CheckActiveTeamStatusEffects());
         Debug.Log($"{currentTurn} - NPC Turn");
         List<CardDisplay> cards = Hands[currentTurn];
         CardDisplay CardToPlay = cards.Where(x => x.rawCardStats.GetCost() <= ManaDisplay[(int)currentTurn].GetCurrentMana()).FirstOrDefault();

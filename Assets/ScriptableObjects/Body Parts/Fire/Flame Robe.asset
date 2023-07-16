@@ -21,4 +21,5 @@ MonoBehaviour:
   Power: 0
   Cost: 1
   StatusEffectProbability: 1
-  Accuracy: 0
+  OnHitStatusEffect: 0
+  Accuracy: 1

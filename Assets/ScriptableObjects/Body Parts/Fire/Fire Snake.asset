@@ -20,6 +20,6 @@ MonoBehaviour:
   SlimeArt: {fileID: 0}
   Power: 50
   Cost: 2
-  StatusEffectProbability: 0.5
-  OnHitStatusEffect: 0
-  Accuracy: 0.9
+  StatusEffectProbability: 1
+  OnHitStatusEffect: 1
+  Accuracy: 1

@@ -11,13 +11,21 @@ public class HealthBar : MonoBehaviour
     public Slider healthBar;
     public TextMeshProUGUI ShieldText;
     public Transform StatusAttachPoint;
-
+    private Dictionary<StatusEffect , GameObject> StatusChildIndexer = new Dictionary<StatusEffect , GameObject>();
     //TODO could probably do some sort of cache system so i dont need to Instantiate
     //unless i hit a limit.
     public void AddStatusEffectIcon(StatusEffect _ToBeAdded)
     {
         GameObject icon = ObjectManager.Instance.GenerateStatusEffectIcon(_ToBeAdded);
         icon.transform.SetParent(StatusAttachPoint , false);
+        if (!StatusChildIndexer.ContainsKey(_ToBeAdded))//safety check but should already he hanlded by the enum
+            StatusChildIndexer.Add(_ToBeAdded , icon);
+    }
+    public void RemoveStatusEffectIcon(StatusEffect _toBeRemoved)
+    {
+        GameObject go = StatusChildIndexer[_toBeRemoved];
+        StatusChildIndexer.Remove(_toBeRemoved);
+        Destroy(go);
     }
     public void SetStats(int _health , int _shields)
     {

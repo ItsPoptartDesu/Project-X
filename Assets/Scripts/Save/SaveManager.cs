@@ -234,7 +234,7 @@ public class JsonSlimeInfo
         }
         SlimeName = _slime.SlimeName;
         TeamPos = _slime.myBoardPos;
-        myStatus = _slime.stats.GetStatus();
+        myStatus = _slime.GetStatusEffect();
     }
     public JsonSlimeInfo()
     {

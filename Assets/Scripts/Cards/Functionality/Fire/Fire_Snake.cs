@@ -14,11 +14,16 @@ public class Fire_Snake : CardDisplay
         {
             if (Random.value > rawCardStats.GetAccuracy())
                 continue;
+            Slime target = _activeTeam[i];
+            target.ApplyDamage(rawCardStats);
 
-            Slime hit = _activeTeam[i];
-            if (Random.value > rawCardStats.GetStatusEffectProbability())
-                hit.ApplyStatusEffect(rawCardStats.GetOnHitStatusEffect());
-            hit.ApplyDamage(rawCardStats);
+            if ((target.GetStatusEffect() & rawCardStats.GetOnHitStatusEffect()) == StatusEffect.Burn)
+                return; 
+            if (Random.value < rawCardStats.GetStatusEffectProbability())
+            {
+                BurnEffect burn = new BurnEffect(-1 , _activeTeam[0] , SlimeStats.BurnDamage);
+                _activeTeam[0].ApplyStatusEffect(burn);
+            }
         }
     }
 }

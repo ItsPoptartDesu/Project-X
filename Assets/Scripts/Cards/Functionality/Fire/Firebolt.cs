@@ -19,7 +19,13 @@ public class Firebolt : CardDisplay
         if (Random.value > rawCardStats.GetAccuracy())
             return;
         _activeTeam[0].ApplyDamage(rawCardStats);
+        //if i already have burn applyed to me dont re-add it
+        if ((_activeTeam[0].GetStatusEffect() & rawCardStats.GetOnHitStatusEffect()) == StatusEffect.Burn)
+            return;
         if (Random.value < rawCardStats.GetStatusEffectProbability())
-            _activeTeam[0].ApplyStatusEffect(rawCardStats.GetOnHitStatusEffect());
+        {
+            BurnEffect burn = new BurnEffect(-1 , _activeTeam[0] , SlimeStats.BurnDamage);
+            _activeTeam[0].ApplyStatusEffect(burn);
+        }
     }
 }

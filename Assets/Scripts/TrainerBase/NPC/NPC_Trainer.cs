@@ -32,7 +32,7 @@ public class NPC_Trainer : MonoBehaviour
         string trainerName = trainerInfo.TrainerName;
         if (trainerName == null || trainerName == string.Empty)
             return;
-        if (trainerInfo.HasBeenBattled && !GameEntry.Instance.isDEBUG)
+        if (trainerInfo.HasBeenBattled)
             return;
         Debug.DrawRay(rayCastPoint.position , LookDir * LookDistance);
         var hit = Physics2D.Raycast(rayCastPoint.position , LookDir * LookDistance);
@@ -52,7 +52,7 @@ public class NPC_Trainer : MonoBehaviour
             var NPC_Slime = ObjectManager.Instance.GenerateSlime(slime);
             Slime slimeComp = NPC_Slime.GetComponent<Slime>();
 
-            BoardPos pos = slimeComp.stats.dna.TeamPos;
+            BoardPos pos = slimeComp.GetDNA().TeamPos;
             SpawnPoints sp = _system.GetSpawnPoint(DECK_SLOTS.NPC , pos);
             slimeComp.AttachParent(sp.transform);
             slimeComp.transform.localScale = new Vector3(
