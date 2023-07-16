@@ -18,7 +18,7 @@ MonoBehaviour:
   PartName: Firebolt
   CardArt: {fileID: 21300000, guid: 0c59335f23560114ea0a1352a63bef17, type: 3}
   SlimeArt: {fileID: 0}
-  Power: 10
+  Power: 200
   Cost: 1
   StatusEffectProbability: 1
   OnHitStatusEffect: 1

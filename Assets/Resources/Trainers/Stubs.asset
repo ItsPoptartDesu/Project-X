@@ -13,30 +13,10 @@ MonoBehaviour:
   m_Name: Stubs
   m_EditorClassIdentifier: 
   TrainerName: Stubs
-  HasBeenBattled: 0
+  HasBeenBattled: 1
   ActiveTeam:
     SavedSlime:
     - SlimeName: Roman
       TeamPos: 0
       myStatus: 0
       myCardType: 0100000002000000030000000400000006000000
-    - SlimeName: Roman
-      TeamPos: 1
-      myStatus: 0
-      myCardType: 040000000100000002000000030000000500000006000000
-    - SlimeName: Roman
-      TeamPos: 2
-      myStatus: 0
-      myCardType: 040000000100000002000000030000000500000006000000
-    - SlimeName: Roman
-      TeamPos: 3
-      myStatus: 0
-      myCardType: 040000000100000002000000030000000500000006000000
-    - SlimeName: Roman
-      TeamPos: 4
-      myStatus: 0
-      myCardType: 040000000100000002000000030000000500000006000000
-    - SlimeName: Roman
-      TeamPos: 5
-      myStatus: 0
-      myCardType: 040000000100000002000000030000000500000006000000
