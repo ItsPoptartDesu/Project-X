@@ -80,9 +80,9 @@ public class CardDisplay : CardBase,
     /// Base functionality is to hit the first slime on the team.
     /// </summary>
     /// <param name="_activeTeam"></param>
-    public override void OnPlay(List<Slime> _activeTeam)
+    public override bool OnPlay(List<Slime> _activeTeam)
     {
-        _activeTeam[0].ApplyDamage(rawCardStats);
+        return false;
     }
 
     public override void OnEnterDiscardPile()

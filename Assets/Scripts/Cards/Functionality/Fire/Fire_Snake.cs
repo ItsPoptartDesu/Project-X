@@ -5,25 +5,30 @@ using System.Linq;
 
 public class Fire_Snake : CardDisplay
 {
-    public override void OnPlay(List<Slime> _activeTeam)
+    public override bool OnPlay(List<Slime> _activeTeam)
     {
-        List<int> hits = NPC_BattleSystem.GenerateNonRepeatingNumbers(0 ,
-            _activeTeam.Count ,
-            2);
-        foreach (int i in hits)
-        {
-            if (Random.value > rawCardStats.GetAccuracy())
-                continue;
-            Slime target = _activeTeam[i];
-            target.ApplyDamage(rawCardStats);
+        bool hit = false;
 
-            if ((target.GetStatusEffect() & rawCardStats.GetOnHitStatusEffect()) == StatusEffect.Burn)
-                return; 
-            if (Random.value < rawCardStats.GetStatusEffectProbability())
+        List<int> hits = NPC_BattleSystem.GenerateNonRepeatingNumbers(0 , _activeTeam.Count-1 , 2);
+
+        foreach (int index in hits)
+        {
+            if (Random.value <= rawCardStats.GetHost().GetAccuracy(rawCardStats.GetAccuracy()))
             {
-                BurnEffect burn = new BurnEffect(-1 , _activeTeam[0] , SlimeStats.BurnDamage);
-                _activeTeam[0].ApplyStatusEffect(burn);
+                hit = true;
+                Slime target = _activeTeam[index];
+                target.ApplyDamage(rawCardStats);
+
+                if ((target.GetDebuffStatus() & rawCardStats.GetOnHitStatusEffect()) != DeBuffStatusEffect.Burn &&
+                    Random.value < rawCardStats.GetStatusEffectProbability())
+                {
+                    BurnEffect burn = new BurnEffect(-1 , target);
+                    target.ApplyStatusEffect(burn);
+                }
             }
         }
+
+        return hit;
     }
+
 }

@@ -7,29 +7,25 @@ using System.Runtime.Serialization;
 
 [System.Flags]
 [System.Serializable]
-public enum StatusEffect
+public enum DeBuffStatusEffect
 {
     [EnumMember(Value = "None")]
     None = 0,
     [EnumMember(Value = "Burn")]
     Burn = 1,
-    [EnumMember(Value = "Poison")]
-    Poison = 2,
+    [EnumMember(Value = "AccDebuff")]
+    AccDebuff = 2,
     [EnumMember(Value = "Freeze")]
     Freeze = 4,
     [EnumMember(Value = "Paralyze")]
     Paralyze = 8,
-    [EnumMember(Value = "Thorn")]
-    Thorn = 16,
-    [EnumMember(Value = "Cleanse")]
-    Cleanse = 32,
 }
 public abstract class StatusEffectHolder
 {
     protected int turns;
     protected Slime affectedCharacter;
-    protected StatusEffect myEffect;
-    public StatusEffect GetStatusEffect() { return myEffect; }
+    protected DeBuffStatusEffect myDebuffEffect;
+    public DeBuffStatusEffect GetStatusEffect() { return myDebuffEffect; }
 
     public StatusEffectHolder(int _turns , Slime affectedCharacter)
     {

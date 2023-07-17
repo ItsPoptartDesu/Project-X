@@ -16,7 +16,7 @@ public enum ObjectType
 [Serializable]
 public struct ImgMatcher
 {
-    public StatusEffect StatusEffect;
+    public DeBuffStatusEffect StatusEffect;
     public Sprite Img;
 }
 
@@ -50,6 +50,11 @@ public class ObjectManager : MonoBehaviour
     public CardDisplay CreateCard(SlimePiece _base , DECK_SLOTS _who)
     {
         GameObject card = Instantiate(CardPrefab);
+        if(!ComponentMapper.CardComponents.ContainsKey(_base.GetCardType()))
+        {
+            Debug.LogError($"{_base.GetSlimePartName()} | {_base.GetCardType()} is missing from ComponentMapper CardComponents");
+            return null;
+        }
         var x = ComponentMapper.CardComponents[_base.GetCardType()];
         card.AddComponent(x);
         CardDisplay sCard = card.GetComponent<CardDisplay>();
@@ -97,7 +102,7 @@ public class ObjectManager : MonoBehaviour
         }
         return slimePrefab;
     }
-    public GameObject GenerateStatusEffectIcon(StatusEffect _ToBeAdded)
+    public GameObject GenerateStatusEffectIcon(DeBuffStatusEffect _ToBeAdded)
     {
         ImgMatcher iconData = StatusEffectImage.Where(x => x.StatusEffect == _ToBeAdded).FirstOrDefault();
         GameObject icon = Instantiate(StatusEffectPrefab);
@@ -113,6 +118,11 @@ public class ObjectManager : MonoBehaviour
 
         for (int i = 0; i < _copy.myCardType.Count; i++)
         {
+            if(!So_Lookup.ContainsKey(_copy.myCardType[i]))
+            {
+                Debug.LogError($"Object Manager::GenerateSlime::Unsorted Parts doesn't have {_copy.myCardType[i]} in its List");
+                continue;
+            }
             SO_SlimePart sp = So_Lookup[_copy.myCardType[i]];
             slimeComp.UpdateSlimePart(sp.SlimePart , sp);
         }

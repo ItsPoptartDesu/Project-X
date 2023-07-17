@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Water_Gun
+  m_Name: Super_Soaker
   m_EditorClassIdentifier: 
-  SlimePart: 0
+  SlimePart: 2
   SlimeType: 2
-  CardComponentType: 6
-  PartName: Water Gun
-  CardArt: {fileID: 21300000, guid: aeb6fba1daaf8b345b8c8b708fabdaca, type: 3}
+  CardComponentType: 8
+  PartName: Super Soaker
+  CardArt: {fileID: 21300000, guid: da2e60b8ba425e2429d029191980ddac, type: 3}
   SlimeArt: {fileID: 0}
-  Power: 10
-  Cost: 1
+  Power: 30
+  Cost: 2
   StatusEffectProbability: 0
   OnHitStatusEffect: 0
   Accuracy: 1

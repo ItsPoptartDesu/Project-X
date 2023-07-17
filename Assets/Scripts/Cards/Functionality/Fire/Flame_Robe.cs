@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Flame_Robe : CardDisplay
 {
-    public override void OnPlay(List<Slime> _activeTeam)
+    public override bool OnPlay(List<Slime> _activeTeam)
     {
-        //rawCardStats.GetHost().ApplyStatusEffect(StatusEffect.Cleanse);
+        if (Random.value > rawCardStats.GetHost().GetAccuracy(rawCardStats.GetAccuracy()))
+            return false;
+        return true;
     }
 }

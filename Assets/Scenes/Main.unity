@@ -1984,6 +1984,8 @@ MonoBehaviour:
   StatusEffectImage:
   - StatusEffect: 1
     Img: {fileID: 21300000, guid: 8a7270274e8328740a48594115f47890, type: 3}
+  - StatusEffect: 2
+    Img: {fileID: 21300000, guid: 03ce15f52b933ce4c86156ba9bd4de35, type: 3}
   PlayerPrefab: {fileID: 5628018141983903104, guid: 756ce4d39053bd14d8648b7e3ef6d5b1,
     type: 3}
   EnemyPrefabs:
@@ -1996,6 +1998,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1800fff9270ca3c46ab847c3ddf588c3, type: 2}
   - {fileID: 11400000, guid: 7731f4ee027753a4f99ec58a5e08166d, type: 2}
   - {fileID: 11400000, guid: 3b6f6652047e73d438ad48c7e9e1cd5d, type: 2}
+  - {fileID: 11400000, guid: 9721160c151f4f04698e3e099ea0ce8e, type: 2}
+  - {fileID: 11400000, guid: ed4b5540ff93fc540a093e925262d922, type: 2}
+  - {fileID: 11400000, guid: d02080e6e25e229439d9177239adbf01, type: 2}
   CardPrefab: {fileID: 1111378251754244028, guid: 44bd6532184386046924657da56ec654,
     type: 3}
   BattleScale: 75

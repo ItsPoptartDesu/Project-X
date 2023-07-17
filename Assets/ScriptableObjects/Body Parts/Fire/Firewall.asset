@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlimePart: 0
   SlimeType: 1
-  CardComponentType: 6
+  CardComponentType: 5
   PartName: Firewall
   CardArt: {fileID: 21300000, guid: c489d643163147d4cae59adb93e11d42, type: 3}
   SlimeArt: {fileID: 0}

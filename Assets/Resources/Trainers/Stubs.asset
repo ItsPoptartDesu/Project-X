@@ -20,3 +20,11 @@ MonoBehaviour:
       TeamPos: 0
       myStatus: 0
       myCardType: 0100000002000000030000000400000006000000
+    - SlimeName: Roman
+      TeamPos: 1
+      myStatus: 0
+      myCardType: 0100000002000000030000000400000006000000
+    - SlimeName: Roman
+      TeamPos: 2
+      myStatus: 0
+      myCardType: 0100000002000000030000000400000006000000

@@ -13,7 +13,8 @@ public enum ESlimePart
 public enum ESlimeType
 {
     BODY,
-    Fire,
+    FIRE,
+    WATER
 }
 
 [CreateAssetMenu(fileName = "New Part", menuName = "Body Part")]
@@ -29,7 +30,7 @@ public class SO_SlimePart : ScriptableObject
     public int Cost;
     [Range(0f , 1f)]
     public float StatusEffectProbability;
-    public StatusEffect OnHitStatusEffect;
+    public DeBuffStatusEffect OnHitStatusEffect;
     [Range(0f,1f)]
     public float Accuracy;
 }

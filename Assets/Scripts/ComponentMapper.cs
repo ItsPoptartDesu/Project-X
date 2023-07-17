@@ -17,10 +17,16 @@ public enum CardComponentType
     Fire_Snake,
     [EnumMember(Value = "Firebolt")]
     Firebolt,
+    [EnumMember(Value = "Firewall")]
+    Firewall, 
     [EnumMember(Value = "Water_Gun")]
     Water_Gun,
-    [EnumMember(Value = "Firewall")]
-    Firewall,
+    [EnumMember(Value = "Mist")]
+    Mist,
+    [EnumMember(Value = "Super_Soaker")]
+    Super_Soaker,
+    [EnumMember(Value = "Water_Spear")]
+    Water_Spear,
 }
 
 public static class ComponentMapper
@@ -34,6 +40,9 @@ public static class ComponentMapper
         { CardComponentType.Water_Gun, typeof(Water_Gun) },
         { CardComponentType.Firewall, typeof(Firewall) },
         { CardComponentType.Flame_Robe, typeof(Flame_Robe) },
+        { CardComponentType.Mist, typeof(Mist) },
+        { CardComponentType.Super_Soaker, typeof(Super_Soaker) },
+        { CardComponentType.Water_Spear, typeof(Water_Spear) },
         };
    
 }

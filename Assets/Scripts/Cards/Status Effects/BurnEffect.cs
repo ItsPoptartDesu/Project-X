@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 public class BurnEffect : StatusEffectHolder
 {
-    private int damagePerHit;
-    public BurnEffect(int _duration , Slime _affectedCharacter, int _damagePerHit) : base(_duration , _affectedCharacter)
+    public BurnEffect(int _duration , Slime _affectedCharacter) : base(_duration , _affectedCharacter)
     {
-        damagePerHit = _damagePerHit;
         affectedCharacter = _affectedCharacter;
-        myEffect = StatusEffect.Burn;
+        myDebuffEffect = DeBuffStatusEffect.Burn;
     }
 
     public override void ApplyEffect()
@@ -25,7 +23,7 @@ public class BurnEffect : StatusEffectHolder
 
     public override void UpdateEffect()
     {
-        affectedCharacter.TakeDamage(damagePerHit);
+        affectedCharacter.TakeDamage(SlimeStats.BurnDamage);
         affectedCharacter.RefreshHealthBar();
         affectedCharacter.CheckDeath();
     }

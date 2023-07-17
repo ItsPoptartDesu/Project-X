@@ -34,7 +34,7 @@ public abstract class CardBase : MonoBehaviour
     public abstract void OnExitHand();
     public abstract void OnEnterDeck();
     public abstract void OnExitDeck();
-    public abstract void OnPlay(List<Slime> _NPCActiveTeam);
+    public abstract bool OnPlay(List<Slime> _NPCActiveTeam);
     public abstract void OnEnterDiscardPile();
     public abstract void OnExitDiscardPile();
 

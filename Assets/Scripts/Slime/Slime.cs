@@ -43,7 +43,10 @@ public class Slime : MonoBehaviour
     private HealthBar HealthBarRef;
     public string SlimeName { get; private set; }
     public BoardPos myBoardPos = BoardPos.NA;
-    public StatusEffect GetStatusEffect() { return stats.GetStatus(); }
+    public DeBuffStatusEffect GetDebuffStatus() { return stats.GetDebuffStatus(); }
+    public float GetAccuracy(float _cardAcc) { return stats.GetAccuracy(_cardAcc); }
+    public void SetAccuracyModifier(float _acc) { stats.SetAccuracyModifier(_acc); }
+    public float GetAccuracyModifier() { return stats.GetAccuracyModifier(); }
     public void AttachParent(Transform _parent)
     {
         transform.SetParent(_parent);
@@ -85,10 +88,10 @@ public class Slime : MonoBehaviour
             slimeParts.Add(p.GetESlimePart() , p);
         }
         myBoardPos = _copy.TeamPos;
-        stats.SetStatus(_copy.myStatus);
+        stats.SetDebuffStatus(_copy.myStatus);
 
         if (GameEntry.Instance.isDEBUG)
-            Debug.Log($"BoardPos {myBoardPos} | Status Effect {stats.GetStatus()}");
+            Debug.Log($"BoardPos {myBoardPos} | Status Effect {stats.GetDebuffStatus()}");
         isDead = false;
     }
     public void UpdateSlimePart(ESlimePart _piece , SO_SlimePart _part)
@@ -155,7 +158,6 @@ public class Slime : MonoBehaviour
     {
         activeStatusEffects.Remove(statusEffect);
         HealthBarRef.RemoveStatusEffectIcon(statusEffect.GetStatusEffect());
-        statusEffect.RemoveEffect();
     }
 
     // Method to update active status effects on the character
@@ -170,12 +172,12 @@ public class Slime : MonoBehaviour
     }
     public void BattleStartApplyStatusEffects()
     {
-        Debug.Log($"BattleStartApplyStatusEffects{GetStatusEffect()}");
-        if ((GetStatusEffect() & StatusEffect.Burn) == StatusEffect.Burn)
+        Debug.Log($"BattleStartApplyStatusEffects{GetDebuffStatus()}");
+        if ((GetDebuffStatus() & DeBuffStatusEffect.Burn) == DeBuffStatusEffect.Burn)
         {
-            BurnEffect burn = new BurnEffect(-1 , this , SlimeStats.BurnDamage);
+            BurnEffect burn = new BurnEffect(-1 , this);
             activeStatusEffects.Add(burn);
-            HealthBarRef.AddStatusEffectIcon(StatusEffect.Burn);
+            HealthBarRef.AddStatusEffectIcon(DeBuffStatusEffect.Burn);
         }
     }
 }

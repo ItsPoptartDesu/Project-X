@@ -14,18 +14,26 @@ public class Firebolt : CardDisplay
     {
 
     }
-    public override void OnPlay(List<Slime> _activeTeam)
+    public override bool OnPlay(List<Slime> _activeTeam)
     {
-        if (Random.value > rawCardStats.GetAccuracy())
-            return;
-        _activeTeam[0].ApplyDamage(rawCardStats);
-        //if i already have burn applyed to me dont re-add it
-        if ((_activeTeam[0].GetStatusEffect() & rawCardStats.GetOnHitStatusEffect()) == StatusEffect.Burn)
-            return;
-        if (Random.value < rawCardStats.GetStatusEffectProbability())
+        SlimePiece cardStats = rawCardStats;
+        Slime activeSlime = _activeTeam[0];
+
+        if (Random.value > cardStats.GetHost().GetAccuracy(cardStats.GetAccuracy()))
+            return false;
+
+        activeSlime.ApplyDamage(cardStats);
+
+        if ((activeSlime.GetDebuffStatus() & cardStats.GetOnHitStatusEffect()) == DeBuffStatusEffect.Burn)
+            return true;
+
+        if (Random.value < cardStats.GetStatusEffectProbability())
         {
-            BurnEffect burn = new BurnEffect(-1 , _activeTeam[0] , SlimeStats.BurnDamage);
-            _activeTeam[0].ApplyStatusEffect(burn);
+            BurnEffect burn = new BurnEffect(-1 , activeSlime);
+            activeSlime.ApplyStatusEffect(burn);
         }
+
+        return true;
     }
+
 }

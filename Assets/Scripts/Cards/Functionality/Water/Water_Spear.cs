@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Embers : CardDisplay
+public class Water_Spear : CardDisplay
 {
+    public float AccDebuffRate = .5f;
     public override bool OnPlay(List<Slime> _activeTeam)
     {
         if (Random.value > rawCardStats.GetHost().GetAccuracy(rawCardStats.GetAccuracy()))
@@ -13,7 +13,13 @@ public class Embers : CardDisplay
         {
             Slime hit = _activeTeam[i];
             hit.ApplyDamage(rawCardStats);
+            if (Random.value < rawCardStats.GetStatusEffectProbability())
+            {
+                AccDebuff burn = new AccDebuff(2 , hit , AccDebuffRate);
+                hit.ApplyStatusEffect(burn);
+            }
         }
         return true;
     }
 }
+

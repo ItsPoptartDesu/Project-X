@@ -20,12 +20,28 @@ public class SlimeStats
     private int BaseShield = 0;
     private int RawShield;
     private int ShieldModifier = 0;
+    private float AccuracyModifier = 1f;
     [SerializeField]
-    private StatusEffect myStatus = StatusEffect.None;
-    public StatusEffect GetStatus() { return myStatus; }
-    public void SetStatus(StatusEffect status) { myStatus = status; }
+    private DeBuffStatusEffect myDebuffStatus = DeBuffStatusEffect.None;
+    public DeBuffStatusEffect GetDebuffStatus() { return myDebuffStatus; }
+    public void SetDebuffStatus(DeBuffStatusEffect status) { myDebuffStatus = status; }
     public int GetHealth() { return RawHealth; }
-
+    public float GetAccuracyModifier() {  return AccuracyModifier; }
+    public float GetAccuracy(float _cardAcc) { return AccuracyModifier * _cardAcc; }
+    public void SetAccuracyModifier(float _rate)
+    {
+        if(_rate < 0)
+        {
+            AccuracyModifier = 0;
+            return;
+        }
+        if(_rate > 1)
+        {
+            AccuracyModifier = 1;
+            return;
+        }
+        AccuracyModifier *= _rate;
+    }
     public void TakeDamage(int _damage)
     {
         int diff = System.Math.Min(RawShield, _damage);

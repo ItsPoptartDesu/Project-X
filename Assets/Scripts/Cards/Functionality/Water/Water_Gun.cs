@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Water_Gun : CardDisplay
 {
-    public override void OnPlay(List<Slime> _activeTeam)
+    public override bool OnPlay(List<Slime> _activeTeam)
     {
-        if (Random.value > rawCardStats.GetAccuracy())
-            return;
+        if (Random.value > rawCardStats.GetHost().GetAccuracy(rawCardStats.GetAccuracy()))
+            return false;
 
         int index = Random.Range(0, _activeTeam.Count);
         _activeTeam[index].ApplyDamage(rawCardStats);
+        return true;
     }
 }
