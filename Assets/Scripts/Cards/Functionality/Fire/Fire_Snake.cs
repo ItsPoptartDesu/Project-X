@@ -23,7 +23,7 @@ public class Fire_Snake : CardDisplay
                     Random.value < rawCardStats.GetStatusEffectProbability())
                 {
                     BurnEffect burn = new BurnEffect(-1 , target);
-                    target.ApplyStatusEffect(burn);
+                    target.ApplyDebuffStatusEffect(burn);
                 }
             }
         }

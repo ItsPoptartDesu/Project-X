@@ -16,7 +16,7 @@ public class Water_Spear : CardDisplay
             if (Random.value < rawCardStats.GetStatusEffectProbability())
             {
                 AccDebuff burn = new AccDebuff(2 , hit , AccDebuffRate);
-                hit.ApplyStatusEffect(burn);
+                hit.ApplyDebuffStatusEffect(burn);
             }
         }
         return true;

@@ -40,7 +40,7 @@ public class Firewall : CardDisplay
         if (Random.value < rawCardStats.GetStatusEffectProbability())
         {
             BurnEffect burn = new BurnEffect(-1 , _target);
-            _target.ApplyStatusEffect(burn);
+            _target.ApplyDebuffStatusEffect(burn);
         }
     }
 }

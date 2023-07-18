@@ -20,12 +20,24 @@ public enum DeBuffStatusEffect
     [EnumMember(Value = "Paralyze")]
     Paralyze = 8,
 }
+[System.Flags]
+[System.Serializable]
+public enum BuffStatusEffects
+{
+    [EnumMember(Value = "None")]
+    None = 0,
+    [EnumMember(Value = "Cleanse")]
+    Cleanse = 1,
+}
+
 public abstract class StatusEffectHolder
 {
     protected int turns;
     protected Slime affectedCharacter;
     protected DeBuffStatusEffect myDebuffEffect;
+    protected BuffStatusEffects myBuffStatusEffects;
     public DeBuffStatusEffect GetStatusEffect() { return myDebuffEffect; }
+    public BuffStatusEffects GetBuffEffect() { return myBuffStatusEffects; }
 
     public StatusEffectHolder(int _turns , Slime affectedCharacter)
     {

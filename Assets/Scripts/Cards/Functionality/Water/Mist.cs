@@ -11,7 +11,7 @@ public class Mist : CardDisplay
         foreach (Slime s in _activeTeam)
         {
             AccDebuff acc = new AccDebuff(2 , s, AccDebuffRate);
-            s.ApplyStatusEffect(acc);
+            s.ApplyDebuffStatusEffect(acc);
         }
         return true;
     }

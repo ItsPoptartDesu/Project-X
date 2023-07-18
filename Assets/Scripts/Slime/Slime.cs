@@ -34,7 +34,9 @@ public class Slime : MonoBehaviour
     public JsonSlimeInfo GetDNA() { return stats.dna; }
     private bool isDead = false;
     public bool IsDead() { return isDead; }
-    private List<StatusEffectHolder> activeStatusEffects = new List<StatusEffectHolder>();
+    private List<StatusEffectHolder> activeDebuffStatusEffects = new List<StatusEffectHolder>();
+    private List<StatusEffectHolder> activeBuffStatusEffects = new List<StatusEffectHolder>();
+
 
     [SerializeField]
     private List<SlimePiece> _RenderParts = new List<SlimePiece>();
@@ -44,6 +46,7 @@ public class Slime : MonoBehaviour
     public string SlimeName { get; private set; }
     public BoardPos myBoardPos = BoardPos.NA;
     public DeBuffStatusEffect GetDebuffStatus() { return stats.GetDebuffStatus(); }
+    public void SetDebuffStatus(DeBuffStatusEffect _effect) { stats.SetDebuffStatus(_effect); } 
     public float GetAccuracy(float _cardAcc) { return stats.GetAccuracy(_cardAcc); }
     public void SetAccuracyModifier(float _acc) { stats.SetAccuracyModifier(_acc); }
     public float GetAccuracyModifier() { return stats.GetAccuracyModifier(); }
@@ -145,28 +148,45 @@ public class Slime : MonoBehaviour
     {
         HealthBarRef.SetHealth(new Vector2(stats.GetHealth() , stats.GetShield()));
     }
-    // Method to apply a status effect to the character
-    public void ApplyStatusEffect(StatusEffectHolder statusEffect)
+    public void Cleanse()
     {
-        activeStatusEffects.Add(statusEffect);
-        statusEffect.ApplyEffect();
-        HealthBarRef.AddStatusEffectIcon(statusEffect.GetStatusEffect());
+        SetDebuffStatus(DeBuffStatusEffect.None);
+        List<StatusEffectHolder> effectsToRemove = activeDebuffStatusEffects.ToList();
+        effectsToRemove.ForEach(effect => RemoveStatusEffect(effect));
+    }
+    public void ApplyBuffStatusEffect(StatusEffectHolder _statusEffect)
+    {
+        activeBuffStatusEffects.Add(_statusEffect);
+        _statusEffect.ApplyEffect();
+        
+    }
+    // Method to apply a status effect to the character
+    public void ApplyDebuffStatusEffect(StatusEffectHolder _statusEffect)
+    {
+        activeDebuffStatusEffects.Add(_statusEffect);
+        _statusEffect.ApplyEffect();
+        HealthBarRef.AddStatusEffectIcon(_statusEffect.GetStatusEffect());
     }
 
     // Method to remove a specific status effect from the character
-    public void RemoveStatusEffect(StatusEffectHolder statusEffect)
+    public void RemoveStatusEffect(StatusEffectHolder _statusEffect)
     {
-        activeStatusEffects.Remove(statusEffect);
-        HealthBarRef.RemoveStatusEffectIcon(statusEffect.GetStatusEffect());
+        activeDebuffStatusEffects.Remove(_statusEffect);
+        HealthBarRef.RemoveStatusEffectIcon(_statusEffect.GetStatusEffect());
     }
 
     // Method to update active status effects on the character
     public void UpdateStatusEffects()
     {
-        Debug.Log($"Update Status Effects Count{activeStatusEffects.Count}");
-        for (int i = activeStatusEffects.Count - 1; i >= 0; i--)
+        Debug.Log($"Update Status Effects Count{activeDebuffStatusEffects.Count}");
+        for (int i = activeDebuffStatusEffects.Count - 1; i >= 0; i--)
         {
-            StatusEffectHolder effect = activeStatusEffects[i];
+            StatusEffectHolder effect = activeDebuffStatusEffects[i];
+            effect.UpdateEffect();
+        }
+        for (int i = activeBuffStatusEffects.Count - 1; i >= 0; i--)
+        {
+            StatusEffectHolder effect = activeBuffStatusEffects[i];
             effect.UpdateEffect();
         }
     }
@@ -176,7 +196,7 @@ public class Slime : MonoBehaviour
         if ((GetDebuffStatus() & DeBuffStatusEffect.Burn) == DeBuffStatusEffect.Burn)
         {
             BurnEffect burn = new BurnEffect(-1 , this);
-            activeStatusEffects.Add(burn);
+            activeDebuffStatusEffects.Add(burn);
             HealthBarRef.AddStatusEffectIcon(DeBuffStatusEffect.Burn);
         }
     }

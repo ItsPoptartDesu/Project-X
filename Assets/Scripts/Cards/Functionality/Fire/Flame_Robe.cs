@@ -8,6 +8,11 @@ public class Flame_Robe : CardDisplay
     {
         if (Random.value > rawCardStats.GetHost().GetAccuracy(rawCardStats.GetAccuracy()))
             return false;
+        if(Random.value < rawCardStats.GetStatusEffectProbability())
+        {
+            Cleanse cleanse = new Cleanse(1 , rawCardStats.GetHost());
+            rawCardStats.GetHost().ApplyBuffStatusEffect(cleanse);
+        }
         return true;
     }
 }

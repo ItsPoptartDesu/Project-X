@@ -30,7 +30,7 @@ public class Firebolt : CardDisplay
         if (Random.value < cardStats.GetStatusEffectProbability())
         {
             BurnEffect burn = new BurnEffect(-1 , activeSlime);
-            activeSlime.ApplyStatusEffect(burn);
+            activeSlime.ApplyDebuffStatusEffect(burn);
         }
 
         return true;
