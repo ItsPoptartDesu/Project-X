@@ -26,16 +26,16 @@ public class SlimeStats
     public DeBuffStatusEffect GetDebuffStatus() { return myDebuffStatus; }
     public void SetDebuffStatus(DeBuffStatusEffect status) { myDebuffStatus = status; }
     public int GetHealth() { return RawHealth; }
-    public float GetAccuracyModifier() {  return AccuracyModifier; }
+    public float GetAccuracyModifier() { return AccuracyModifier; }
     public float GetAccuracy(float _cardAcc) { return AccuracyModifier * _cardAcc; }
     public void SetAccuracyModifier(float _rate)
     {
-        if(_rate < 0)
+        if (_rate < 0)
         {
             AccuracyModifier = 0;
             return;
         }
-        if(_rate > 1)
+        if (_rate > 1)
         {
             AccuracyModifier = 1;
             return;
@@ -44,15 +44,20 @@ public class SlimeStats
     }
     public void TakeDamage(int _damage)
     {
-        int diff = System.Math.Min(RawShield, _damage);
+        int diff = System.Math.Min(RawShield , _damage);
         RawShield -= diff;
         RawHealth -= _damage - diff;
+    }
+    public void Heal(int _amount)
+    {
+        RawHealth = System.Math.Min(RawHealth + _amount , BaseHP);
     }
     public int GetShield() { return RawShield; }
     public void AdjustShields(int _shield)
     {
         RawShield += _shield;
     }
+    public bool isInjured() { return RawHealth < BaseHP; }
     public SlimeStats(JsonSlimeInfo _copy)
     {
         dna = _copy;

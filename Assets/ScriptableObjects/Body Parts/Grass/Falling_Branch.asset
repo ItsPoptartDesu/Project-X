@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Warm_Winds
+  m_Name: Falling_Branch
   m_EditorClassIdentifier: 
-  SlimePart: 2
+  SlimePart: 1
   SlimeType: 3
-  CardComponentType: 12
-  PartName: Warm Winds
-  CardArt: {fileID: 21300000, guid: 319ccb47c87820b48a5faf82efc47620, type: 3}
+  CardComponentType: 13
+  PartName: Falling Branch
+  CardArt: {fileID: 21300000, guid: eb95a53997a72eb4f9046a95b1a35a1c, type: 3}
   SlimeArt: {fileID: 0}
-  Power: 0
+  Power: 15
   Cost: 1
   StatusEffectProbability: 1
   OnHitStatusEffect: 0

@@ -33,6 +33,10 @@ public enum CardComponentType
     Sunray,
     [EnumMember(Value = "Warm_Winds")]
     Warm_Winds,
+    [EnumMember(Value = "Falling_Branch")]
+    Falling_Branch, 
+    [EnumMember(Value = "Sun_Shine")]
+    Sun_Shine,
 }
 
 public static class ComponentMapper
@@ -52,6 +56,8 @@ public static class ComponentMapper
         { CardComponentType.Cloud, typeof(Cloud) },
         { CardComponentType.Sunray, typeof(Sunray) },
         { CardComponentType.Warm_Winds, typeof(Warm_Winds) },
+        { CardComponentType.Falling_Branch, typeof(Falling_Branch) },
+        { CardComponentType.Sun_Shine, typeof(Sun_Shine) },
         };
    
 }

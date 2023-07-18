@@ -46,10 +46,11 @@ public class Slime : MonoBehaviour
     public string SlimeName { get; private set; }
     public BoardPos myBoardPos = BoardPos.NA;
     public DeBuffStatusEffect GetDebuffStatus() { return stats.GetDebuffStatus(); }
-    public void SetDebuffStatus(DeBuffStatusEffect _effect) { stats.SetDebuffStatus(_effect); } 
+    public void SetDebuffStatus(DeBuffStatusEffect _effect) { stats.SetDebuffStatus(_effect); }
     public float GetAccuracy(float _cardAcc) { return stats.GetAccuracy(_cardAcc); }
     public void SetAccuracyModifier(float _acc) { stats.SetAccuracyModifier(_acc); }
     public float GetAccuracyModifier() { return stats.GetAccuracyModifier(); }
+    public bool GetIsInjured() { return stats.isInjured(); }
     public void AttachParent(Transform _parent)
     {
         transform.SetParent(_parent);
@@ -128,6 +129,11 @@ public class Slime : MonoBehaviour
         CheckDeath();
         RefreshHealthBar();
     }
+    public void Heal(int _amount)
+    {
+        stats.Heal(_amount);
+        RefreshHealthBar();
+    }
     public void CheckDeath()
     {
         if (stats.GetHealth() <= 0)
@@ -158,7 +164,7 @@ public class Slime : MonoBehaviour
     {
         activeBuffStatusEffects.Add(_statusEffect);
         _statusEffect.ApplyEffect();
-        
+
     }
     // Method to apply a status effect to the character
     public void ApplyDebuffStatusEffect(StatusEffectHolder _statusEffect)

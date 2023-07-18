@@ -300,13 +300,16 @@ public class NPC_BattleSystem : LevelBehavior
             throw new ArgumentOutOfRangeException("Invalid count parameter.");
         }
 
+        List<int> numbers = new List<int>(count);
+        HashSet<int> generatedNumbers = new HashSet<int>();
+
         System.Random random = new System.Random();
-        List<int> numbers = new List<int>();
 
         while (numbers.Count < count)
         {
             int number = random.Next(minValue , maxValue + 1);
-            if (!numbers.Contains(number))
+
+            if (generatedNumbers.Add(number))
             {
                 numbers.Add(number);
             }
@@ -314,4 +317,5 @@ public class NPC_BattleSystem : LevelBehavior
 
         return numbers;
     }
+
 }

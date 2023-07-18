@@ -158,7 +158,7 @@ public class SaveManager : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Exception caught while deserializing SaveSlotData at {_path}: {ex.Message}");
+            Debug.LogError($"Check ComponentMapper.cs :: Exception caught while deserializing SaveSlotData at {_path}: {ex.Message}");
             return false;
         }
     }
