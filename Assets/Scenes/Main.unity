@@ -2002,6 +2002,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed4b5540ff93fc540a093e925262d922, type: 2}
   - {fileID: 11400000, guid: d02080e6e25e229439d9177239adbf01, type: 2}
   - {fileID: 11400000, guid: 05e8319a630104343bbe9ea49d1a2a5c, type: 2}
+  - {fileID: 11400000, guid: 95b49b6e29ff6e6498a50b71ee4c4d01, type: 2}
   CardPrefab: {fileID: 1111378251754244028, guid: 44bd6532184386046924657da56ec654,
     type: 3}
   BattleScale: 75
