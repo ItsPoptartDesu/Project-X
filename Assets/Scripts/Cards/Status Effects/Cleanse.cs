@@ -13,9 +13,12 @@
 
     public override void RemoveEffect()
     {
+        affectedCharacter.RemoveBuffStatusEffect(this);
+        UnityEngine.Debug.Log("REMOVEING CLEANSE");
     }
 
     public override void UpdateEffect()
     {
+        RemoveEffect();
     }
 }

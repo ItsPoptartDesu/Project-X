@@ -174,6 +174,10 @@ public class Slime : MonoBehaviour
         activeDebuffStatusEffects.Remove(_statusEffect);
         HealthBarRef.RemoveStatusEffectIcon(_statusEffect.GetStatusEffect());
     }
+    public void RemoveBuffStatusEffect(StatusEffectHolder _statusEffect)
+    {
+        activeBuffStatusEffects.Remove(_statusEffect);
+    }
 
     // Method to update active status effects on the character
     public void UpdateStatusEffects()
