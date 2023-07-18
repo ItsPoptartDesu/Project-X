@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faeacae1201c5c747b8a3e41cf3ed462, type: 3}
-  m_Name: Sun_Shine
+  m_Name: Sunny_Day
   m_EditorClassIdentifier: 
-  SlimePart: 0
+  SlimePart: 4
   SlimeType: 3
-  CardComponentType: 14
-  PartName: Sun Shine
-  CardArt: {fileID: 21300000, guid: a502caf51feab824cae18a23fb21339d, type: 3}
+  CardComponentType: 15
+  PartName: Sunny Day
+  CardArt: {fileID: 21300000, guid: 6c6480cc3e9cc17479a1a3de6645b2f4, type: 3}
   SlimeArt: {fileID: 0}
-  Power: 10
+  Power: 15
   Cost: 1
   StatusEffectProbability: 0
   OnHitStatusEffect: 0
