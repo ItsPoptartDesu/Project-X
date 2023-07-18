@@ -27,6 +27,8 @@ public enum CardComponentType
     Super_Soaker,
     [EnumMember(Value = "Water_Spear")]
     Water_Spear,
+    [EnumMember(Value = "Cloud")]
+    Cloud,
 }
 
 public static class ComponentMapper
@@ -43,6 +45,7 @@ public static class ComponentMapper
         { CardComponentType.Mist, typeof(Mist) },
         { CardComponentType.Super_Soaker, typeof(Super_Soaker) },
         { CardComponentType.Water_Spear, typeof(Water_Spear) },
+        { CardComponentType.Cloud, typeof(Cloud) },
         };
    
 }

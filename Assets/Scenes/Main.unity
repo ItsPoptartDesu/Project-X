@@ -2001,6 +2001,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9721160c151f4f04698e3e099ea0ce8e, type: 2}
   - {fileID: 11400000, guid: ed4b5540ff93fc540a093e925262d922, type: 2}
   - {fileID: 11400000, guid: d02080e6e25e229439d9177239adbf01, type: 2}
+  - {fileID: 11400000, guid: 05e8319a630104343bbe9ea49d1a2a5c, type: 2}
   CardPrefab: {fileID: 1111378251754244028, guid: 44bd6532184386046924657da56ec654,
     type: 3}
   BattleScale: 75
@@ -2902,7 +2903,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveManager: {fileID: 1385555359}
   sceneLoader: {fileID: 1385555364}
-  isDEBUG: 1
+  isDEBUG: 0
   currentLevel: 0
   LoadingPause: 0
 --- !u!1 &1986617916
