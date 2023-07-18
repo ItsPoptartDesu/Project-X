@@ -14,7 +14,8 @@ public enum ESlimeType
 {
     BODY,
     FIRE,
-    WATER
+    WATER,
+    GRASS
 }
 
 [CreateAssetMenu(fileName = "New Part", menuName = "Body Part")]
