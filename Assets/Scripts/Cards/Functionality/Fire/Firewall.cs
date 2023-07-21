@@ -22,7 +22,7 @@ public class Firewall : CardDisplay
         }
 
         int index = Random.Range(1 , _activeTeam.Count - 1);
-        int direction = Random.Range(2) == 0 ? 1 : -1;
+        int direction = Random.Range(0,2) == 0 ? 1 : -1;
 
         Helper(_activeTeam[index]);
         index += direction;
