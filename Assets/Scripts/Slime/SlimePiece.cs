@@ -9,6 +9,7 @@ public class SlimePiece : MonoBehaviour
     protected SpriteRenderer myRenderer;
     private SO_SlimePart basePart;
     private Slime Host;
+    public Dictionary<GeneAllele , Gene> Genes = new Dictionary<GeneAllele , Gene>();
     public CardComponentType GetCardType() { return basePart.CardComponentType; }
     public void Awake()
     {
@@ -30,7 +31,7 @@ public class SlimePiece : MonoBehaviour
     public int GetCost() { return basePart.Cost; }
     public float GetStatusEffectProbability() { return basePart.StatusEffectProbability; }
     public DeBuffStatusEffect GetOnHitStatusEffect() { return basePart.OnHitStatusEffect; }
-    public float GetAccuracy() {  return basePart.Accuracy; }
+    public float GetAccuracy() { return basePart.Accuracy; }
     public void SetHost(Slime _s) { Host = _s; }
     public Slime GetHost() { return Host; }
     public void UpdateSlimePart(SO_SlimePart _part)

@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour
     {
         myRenderers = GetComponents<SpriteRenderer>();
         playerMovement = GetComponent<PlayerMovement>();
+        playerMovement.FirstLoad();
         myRigidbody = GetComponent<Rigidbody2D>();
         //turn it off until we load a level
         ToggleRenderers(false);
@@ -140,5 +141,11 @@ public class PlayerController : MonoBehaviour
     public void ToggleSettingsUI()
     {
         UIIG_Controller.GetSettingsMenu().ToggleSelf();
+    }
+    public void Encounter()
+    {
+        SetPreviousPosition(transform.position);
+        SetPreviousLevel(GameEntry.Instance.GetCurrentLevel());
+        GameEntry.Instance.PlayToEncounterTransition(this);
     }
 }

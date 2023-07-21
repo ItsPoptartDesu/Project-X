@@ -6,6 +6,7 @@ public class FSM_Play : FSM_State
 {
     private bool toBattle = false;
     private bool toMainMenu = false;
+    private bool toEncounter = false;
     public FSM_Play()
     {
         stateID = StateID.Play;
@@ -23,6 +24,10 @@ public class FSM_Play : FSM_State
         if (toBattle)
         {
             npc.PerformTransition(Transition.To_Battle);
+        }
+        if(toEncounter)
+        {
+            npc.PerformTransition(Transition.To_Encounter);
         }
     }
     public override void DoBeforeEntering()
@@ -44,12 +49,17 @@ public class FSM_Play : FSM_State
         SceneLoader.OnTransPlayToBattle -= FSM_OnClickToBattle;
         Debug.Log("FSM_Play DoBeforeLeaving()");
         UI_IGController.OnClickGameToMainMenu -= FSM_OnClickToMainMenu;
-        toMainMenu = false;
-        toBattle = false;
+        Reset();
         LevelManager.Instance.Load();
         ObjectManager.Instance.GetActivePlayer().DisablePlayerMovementRendererCamera();
         ObjectManager.Instance.GetActivePlayer().
             SetPreviousLevel(GameEntry.Instance.GetCurrentLevel());
+    }
+    private void Reset()
+    {
+        toMainMenu = false;
+        toBattle = false;
+        toEncounter = false;
     }
     private void FSM_OnClickToMainMenu()
     {
@@ -58,5 +68,9 @@ public class FSM_Play : FSM_State
     private void FSM_OnClickToBattle()
     {
         toBattle = true;
+    }
+    private void FSM_TransToEncounter()
+    {
+        toEncounter = true;
     }
 }

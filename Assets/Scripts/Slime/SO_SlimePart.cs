@@ -18,6 +18,7 @@ public enum ESlimeType
     GRASS
 }
 
+[System.Serializable]
 [CreateAssetMenu(fileName = "New Part", menuName = "Body Part")]
 public class SO_SlimePart : ScriptableObject
 {

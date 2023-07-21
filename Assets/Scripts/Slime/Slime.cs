@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Runtime.Serialization;
-using System;
 
 [System.Serializable]
 public enum BoardPos
@@ -80,10 +78,7 @@ public class Slime : MonoBehaviour
         {
             if (slimeParts.ContainsKey(p.GetESlimePart()))
             {
-                if (GameEntry.Instance.isDEBUG)
-                {
-                    Debug.LogWarning($"duplicate part added {p.GetESlimePart() + " || " + p.GetSlimePartName() }");
-                }
+                Debug.LogWarning($"duplicate part added {p.GetESlimePart() + " || " + p.GetSlimePartName() }");
                 continue;
             }
             if (GameEntry.Instance.isDEBUG)

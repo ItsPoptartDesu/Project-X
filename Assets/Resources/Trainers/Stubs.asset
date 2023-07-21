@@ -13,18 +13,63 @@ MonoBehaviour:
   m_Name: Stubs
   m_EditorClassIdentifier: 
   TrainerName: Stubs
-  HasBeenBattled: 0
+  HasBeenBattled: 1
   ActiveTeam:
     SavedSlime:
     - SlimeName: Roman
       TeamPos: 0
       myStatus: 0
-      myCardType: 0100000002000000030000000400000006000000
+      Genes:
+      - Allele: 0
+        Part: 1
+        Parent: 0
+      - Allele: 0
+        Part: 2
+        Parent: 1
+      - Allele: 0
+        Part: 3
+        Parent: 2
+      - Allele: 0
+        Part: 4
+        Parent: 3
+      - Allele: 0
+        Part: 6
+        Parent: 4
     - SlimeName: Jesus
       TeamPos: 1
       myStatus: 0
-      myCardType: 0100000002000000030000000400000006000000
+      Genes:
+      - Allele: 0
+        Part: 1
+        Parent: 0
+      - Allele: 0
+        Part: 2
+        Parent: 1
+      - Allele: 0
+        Part: 3
+        Parent: 2
+      - Allele: 0
+        Part: 4
+        Parent: 3
+      - Allele: 0
+        Part: 6
+        Parent: 4
     - SlimeName: Dreamy
       TeamPos: 2
       myStatus: 0
-      myCardType: 0100000002000000030000000400000006000000
+      Genes:
+      - Allele: 0
+        Part: 1
+        Parent: 0
+      - Allele: 0
+        Part: 2
+        Parent: 1
+      - Allele: 0
+        Part: 3
+        Parent: 2
+      - Allele: 0
+        Part: 4
+        Parent: 3
+      - Allele: 0
+        Part: 6
+        Parent: 4

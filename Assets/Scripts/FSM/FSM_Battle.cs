@@ -39,7 +39,6 @@ public class FSM_Battle : FSM_State
         SceneLoader.OnTransBattleToPlay -= FSM_LeaveBattle;
         LevelManager.Instance.Load();
         ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
-        LeaveBattle = false;
         ObjectManager.Instance.GetActivePlayer().
             SetPreviousLevel(GameEntry.Instance.GetCurrentLevel());
     }

@@ -115,15 +115,19 @@ public class ObjectManager : MonoBehaviour
         GameObject slimePrefab = Instantiate(SlimePrefab);
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
         slimeComp.Init(_copy);
-
-        for (int i = 0; i < _copy.myCardType.Count; i++)
+        var activeParts = _copy.Genes;
+        List<CardComponentType> cardTypes = activeParts
+                 .Where(g => g.Allele == GeneAllele.D)
+                 .Select(g => g.Part)
+                 .ToList();
+        for (int i = 0; i < cardTypes.Count; i++)
         {
-            if(!So_Lookup.ContainsKey(_copy.myCardType[i]))
+            if(!So_Lookup.ContainsKey(cardTypes[i]))
             {
-                Debug.LogError($"Object Manager::GenerateSlime::Unsorted Parts doesn't have {_copy.myCardType[i]} in its List");
+                Debug.LogError($"Object Manager::GenerateSlime::Unsorted Parts doesn't have {cardTypes[i]} in its List");
                 continue;
             }
-            SO_SlimePart sp = So_Lookup[_copy.myCardType[i]];
+            SO_SlimePart sp = So_Lookup[cardTypes[i]];
             slimeComp.UpdateSlimePart(sp.SlimePart , sp);
         }
         return slimePrefab;

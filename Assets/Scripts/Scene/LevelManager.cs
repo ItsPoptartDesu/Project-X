@@ -14,6 +14,8 @@ public enum LevelTags
     LEVEL_1,
     [EnumMember(Value = "NPC_Battle")]
     NPC_Battle,
+    [EnumMember(Value = "Encounter")]
+    ENCOUNTER,
     [EnumMember(Value = "NOT_SET")]
     NOT_SET,
 

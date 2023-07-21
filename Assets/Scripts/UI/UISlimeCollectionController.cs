@@ -41,10 +41,10 @@ public class UISlimeCollectionController : UI_Base
     }
     public void GenerateRandomSlime()
     {
-        if (SpawnedObject != null)
-            Destroy(SpawnedObject);
-        SpawnedObject = ObjectManager.Instance.GenerateRandomSlime();
-        MainMenuUI.Instance.teamSelectionManager.OnSpawnAttachment(SpawnedObject.transform);
+        //if (SpawnedObject != null)
+        //    Destroy(SpawnedObject);
+        //SpawnedObject = ObjectManager.Instance.GenerateRandomSlime();
+        //MainMenuUI.Instance.teamSelectionManager.OnSpawnAttachment(SpawnedObject.transform);
     }
     public void OnClickAddToTeam()
     {

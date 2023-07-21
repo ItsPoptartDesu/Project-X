@@ -223,33 +223,37 @@ public class JsonSlimeInfo
     [SerializeField] public string SlimeName;
     [SerializeField] public BoardPos TeamPos;
     [SerializeField] public DeBuffStatusEffect myStatus;
-    [SerializeField] public List<CardComponentType> myCardType;
-
+    [SerializeField] public List<Gene> Genes;
     public JsonSlimeInfo(Slime _slime)
     {
-        myCardType = new List<CardComponentType>();
+        Genes = new List<Gene>();
+        /*
         foreach (SlimePiece p in _slime.GetActiveParts())
         {
-            myCardType.Add(p.GetCardType());
+            foreach (var g in p.Genes)
+            {
+                Genes.Add(g.Value);
+                if (g.Value.Allele == GeneAllele.D)
+                    myCardType.Add(g.Value.Part);
+            }
         }
+        */
+        var activeParts = _slime.GetActiveParts();
+        Genes = activeParts
+               .SelectMany(p => p.Genes.Values)
+               .ToList();
+
         SlimeName = _slime.SlimeName;
         TeamPos = _slime.myBoardPos;
         myStatus = _slime.GetDebuffStatus();
     }
     public JsonSlimeInfo()
     {
-        myCardType = new List<CardComponentType>();
         TeamPos = BoardPos.NA; // initialize to default value
     }
     public void DebugStatement()
     {
-        string statement = SlimeName + " Parts: ";
-        foreach (var p in myCardType)
-        {
-            statement += p + " & ";
-        }
-        statement += TeamPos.ToString();
-        Debug.Log(statement);
+        Debug.Log("TODO");
     }
 }
 [System.Serializable]

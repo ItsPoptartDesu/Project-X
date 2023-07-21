@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Runtime.Serialization;
+using System.Reflection;
 
 [System.Serializable]
 public enum CardComponentType
@@ -18,7 +19,7 @@ public enum CardComponentType
     [EnumMember(Value = "Firebolt")]
     Firebolt,
     [EnumMember(Value = "Firewall")]
-    Firewall, 
+    Firewall,
     [EnumMember(Value = "Water_Gun")]
     Water_Gun,
     [EnumMember(Value = "Mist")]
@@ -34,7 +35,7 @@ public enum CardComponentType
     [EnumMember(Value = "Warm_Winds")]
     Warm_Winds,
     [EnumMember(Value = "Falling_Branch")]
-    Falling_Branch, 
+    Falling_Branch,
     [EnumMember(Value = "Sun_Shine")]
     Sun_Shine,
     [EnumMember(Value = "Sunny_Day")]
@@ -62,5 +63,20 @@ public static class ComponentMapper
         { CardComponentType.Sun_Shine, typeof(Sun_Shine) },
         { CardComponentType.Sunny_Day, typeof(Sunny_Day) },
         };
-   
+    private static readonly CardComponentType[] allValues;
+
+    static ComponentMapper()
+    {
+        // Get all values of the CardComponentType enum using reflection and store them in the 'allValues' array.
+        allValues = (CardComponentType[])Enum.GetValues(typeof(CardComponentType));
+    }
+
+    public static CardComponentType GetRandomCardType()
+    {
+        // Generate a random index to select a random value from the 'allValues' array.
+        int randomIndex = UnityEngine.Random.Range(0 , allValues.Length);
+
+        // Get the random value from the enum and return it.
+        return allValues[randomIndex];
+    }
 }

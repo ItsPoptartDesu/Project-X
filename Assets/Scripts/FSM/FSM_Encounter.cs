@@ -22,10 +22,21 @@ public class FSM_Encounter : FSM_State
     }
     public override void DoBeforeEntering()
     {
+        GameEntry.Instance.SetCurrentLevel(LevelManager.Instance.LoadingLevel);
+        LevelManager.Instance.OnPlayerEnterClean(
+                ObjectManager.Instance.GetActivePlayerObject() ,
+                GameEntry.Instance.GetCurrentLevel());
+        LevelManager.Instance.GetCurrentLevelBehavior().PostLevelLoad();
     }
     public override void DoBeforeLeaving()
     {
         toPlay = false;
+        Debug.Log("FSM_Battle DoBeforeLeaving()");
+        SceneLoader.OnTransBattleToPlay -= FSM_OnTransitionToPlay;
+        LevelManager.Instance.Load();
+        ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
+        ObjectManager.Instance.GetActivePlayer().
+            SetPreviousLevel(GameEntry.Instance.GetCurrentLevel());
     }
     private void FSM_OnTransitionToPlay()
     {

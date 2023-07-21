@@ -88,6 +88,11 @@ public class GameEntry : MonoBehaviour
         LevelManager.Instance.LoadingLevel = LevelTags.NPC_Battle;
         StartLoadLevel();
     }
+    public void PlayToEncounterTransition(PlayerController _player)
+    {
+        LevelManager.Instance.LoadingLevel = LevelTags.ENCOUNTER;
+        StartLoadLevel();
+    }
     // Start is called before the first frame update
     void Start()
     {

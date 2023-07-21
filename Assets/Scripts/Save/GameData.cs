@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameData
 {
@@ -38,6 +39,14 @@ public class GameData
             GameObject mySlime = ObjectManager.Instance.GenerateSlime(s);
             ObjectManager.Instance.GetActivePlayer().AttachToSelf(mySlime.transform);
             Slime slimeComp = mySlime.GetComponent<Slime>();
+            foreach (var p in slimeComp.GetActiveParts())
+            {
+                List<Gene> geneList = s.Genes.Where(x => x.Parent == p.GetESlimePart()).ToList();
+                foreach (var g in geneList)
+                {
+                    p.Genes.Add(g.Allele , g);
+                }
+            }
             slimeComp.ToggleRenderers();
             AddSlimeToTeam(slimeComp);
         }

@@ -7,8 +7,13 @@ public class PlayerMovement : MonoBehaviour //TODO: use new unity input system. 
     public float speed;
     public LayerMask grassLayer;
     private Animator animator;
+    private PlayerController playerController;
     private void Start()
     {
+    }
+    public void FirstLoad()
+    {
+        playerController = GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
     }
     private void Update()
@@ -50,7 +55,7 @@ public class PlayerMovement : MonoBehaviour //TODO: use new unity input system. 
             System.Random r = new System.Random();
             if (r.Next(0, 100) < 10)
             {
-                Debug.Log("Random Encounter Hit");
+                playerController.Encounter();
             }
         }
     }
