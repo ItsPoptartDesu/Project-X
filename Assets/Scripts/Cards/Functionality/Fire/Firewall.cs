@@ -21,9 +21,8 @@ public class Firewall : CardDisplay
             return hit;
         }
 
-        System.Random rnd = new System.Random();
-        int index = rnd.Next(1 , _activeTeam.Count - 1);
-        int direction = rnd.Next(2) == 0 ? 1 : -1;
+        int index = Random.Range(1 , _activeTeam.Count - 1);
+        int direction = Random.Range(2) == 0 ? 1 : -1;
 
         Helper(_activeTeam[index]);
         index += direction;

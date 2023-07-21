@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System;
 
 public enum ObjectType
 {
@@ -13,7 +11,7 @@ public enum ObjectType
     NULL,
 }
 
-[Serializable]
+[System.Serializable]
 public struct ImgMatcher
 {
     public DeBuffStatusEffect StatusEffect;
@@ -87,14 +85,13 @@ public class ObjectManager : MonoBehaviour
         GameObject slimePrefab = Instantiate(SlimePrefab);
         Slime slimeComp = slimePrefab.GetComponent<Slime>();
         slimeComp.Init(null);
-        System.Random rnd = new System.Random();
-        foreach (ESlimePart desiredPart in Enum.GetValues(typeof(ESlimePart)))
+        foreach (ESlimePart desiredPart in System.Enum.GetValues(typeof(ESlimePart)))
         {
             List<SO_SlimePart> parts = unsortedParts.Where(obj => obj.SlimePart == desiredPart).ToList();
 
             if (parts.Count > 0)
             {
-                SO_SlimePart toBeRendered = parts[rnd.Next(0 , parts.Count)];
+                SO_SlimePart toBeRendered = parts[Random.Range(0 , parts.Count)];
                 slimeComp.UpdateSlimePart(desiredPart , toBeRendered);
             }
             else

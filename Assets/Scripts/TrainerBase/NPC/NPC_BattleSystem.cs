@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System;
 
 public enum DECK_SLOTS
 {
@@ -160,12 +159,11 @@ public class NPC_BattleSystem : LevelBehavior
     }
     public List<CardDisplay> ShuffleDeck(List<CardDisplay> _toBeShuffled)
     {
-        System.Random rnd = new System.Random();
         List<CardDisplay> shuffled = new List<CardDisplay>(_toBeShuffled);
         for (int i = shuffled.Count - 1; i > 0; i--)
         {
             //int k = rnd.Next(i + 1);
-            int k = UnityEngine.Random.Range(0 , i + 1);
+            int k = Random.Range(0 , i + 1);
             CardDisplay value = shuffled[k];
             shuffled[k] = shuffled[i];
             shuffled[i] = value;
@@ -297,17 +295,15 @@ public class NPC_BattleSystem : LevelBehavior
     {
         if (count > (maxValue - minValue + 1) || count < 0)
         {
-            throw new ArgumentOutOfRangeException("Invalid count parameter.");
+            throw new System.ArgumentOutOfRangeException("Invalid count parameter.");
         }
 
         List<int> numbers = new List<int>(count);
         HashSet<int> generatedNumbers = new HashSet<int>();
 
-        System.Random random = new System.Random();
-
         while (numbers.Count < count)
         {
-            int number = random.Next(minValue , maxValue + 1);
+            int number = Random.Range(minValue , maxValue + 1);
 
             if (generatedNumbers.Add(number))
             {

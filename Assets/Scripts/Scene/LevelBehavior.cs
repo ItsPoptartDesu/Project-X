@@ -28,8 +28,7 @@ public class LevelBehavior : MonoBehaviour
     }
     public void MoveToRandomSpawnPoint(GameObject _player)
     {
-        System.Random r = new System.Random();
-        int Index = r.Next(0, spawnPoints.Count);
+        int Index = Random.Range(0, spawnPoints.Count);
         _player.transform.position = spawnPoints[Index].position;
     }
 

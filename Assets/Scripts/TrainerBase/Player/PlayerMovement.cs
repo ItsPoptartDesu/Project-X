@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour //TODO: use new unity input system. 
     public float speed;
     public LayerMask grassLayer;
     private Animator animator;
+    private Vector3 lastTilePosition;
     private PlayerController playerController;
     private void Start()
     {
@@ -45,15 +46,19 @@ public class PlayerMovement : MonoBehaviour //TODO: use new unity input system. 
         animator.SetBool("IsMoving", dir.magnitude > 0);
 
         GetComponent<Rigidbody2D>().velocity = speed * dir;
-        CheckForEncounters();
+        Vector3 currentTilePosition = new Vector3(Mathf.Round(transform.position.x) , Mathf.Round(transform.position.y) , 0);
+        if (currentTilePosition != lastTilePosition)
+        {
+            lastTilePosition = currentTilePosition;
+            CheckForEncounters();
+        }
     }
 
     private void CheckForEncounters()
     {
         if (Physics2D.OverlapCircle(transform.position, 0.2f, grassLayer) != null)
         {
-            System.Random r = new System.Random();
-            if (r.Next(0, 100) < 10)
+            if (Random.Range(0, 100) < 10)
             {
                 playerController.Encounter();
             }
