@@ -41,7 +41,7 @@ public class GameData
             Slime slimeComp = mySlime.GetComponent<Slime>();
             foreach (var p in slimeComp.GetActiveParts())
             {
-                List<Gene> geneList = s.Genes.Where(x => x.Parent == p.GetESlimePart()).ToList();
+                List<Gene> geneList = s.Genes.Where(x => ObjectManager.Instance.GetSlimePartFromCardType(x.Part) == p.GetESlimePart()).ToList();
                 foreach (var g in geneList)
                 {
                     p.Genes.Add(g.Allele , g);

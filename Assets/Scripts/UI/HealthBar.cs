@@ -35,11 +35,11 @@ public class HealthBar : MonoBehaviour
         HealthText.text = _health.ToString();
         ShieldText.text = _shields.ToString();
     }
-    public void SetHealth(Vector2 _HealthnShields)
+    public void SetHealth(int _hp, int _shields)
     {
-        healthBar.value = _HealthnShields.x;
-        HealthText.text = _HealthnShields.x.ToString();
-        ShieldText.text = _HealthnShields.y.ToString();
+        healthBar.value = _hp;
+        HealthText.text = _hp.ToString();
+        ShieldText.text = _shields.ToString();
     }
     public void ToggleHealthBar(bool _on)
     {

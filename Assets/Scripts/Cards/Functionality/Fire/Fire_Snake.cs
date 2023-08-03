@@ -9,7 +9,7 @@ public class Fire_Snake : CardDisplay
     {
         bool hit = false;
 
-        List<int> hits = NPC_BattleSystem.GenerateNonRepeatingNumbers(0 , _activeTeam.Count-1 , 2);
+        List<int> hits = NPC_BattleSystem.GenerateRepeatingNumbers(0 , _activeTeam.Count-1 , 2);
 
         foreach (int index in hits)
         {

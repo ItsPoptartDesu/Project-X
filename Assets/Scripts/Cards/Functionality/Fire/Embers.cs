@@ -8,12 +8,14 @@ public class Embers : CardDisplay
     {
         if (Random.value > rawCardStats.GetHost().GetAccuracy(rawCardStats.GetAccuracy()))
             return false;
-        List<int> hits = NPC_BattleSystem.GenerateNonRepeatingNumbers(0 , _activeTeam.Count-1 , 3);
+
+        List<int> hits = NPC_BattleSystem.GenerateRepeatingNumbers(0 , _activeTeam.Count - 1 , 3);
         foreach (int i in hits)
         {
             Slime hit = _activeTeam[i];
             hit.ApplyDamage(rawCardStats);
         }
+
         return true;
     }
 }

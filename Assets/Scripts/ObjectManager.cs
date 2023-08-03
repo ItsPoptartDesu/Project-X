@@ -8,6 +8,8 @@ public enum ObjectType
     NPC,
     Slime,
     Collectible,
+    PlayerEncounterSpawnPos,
+    OpponentEncounterSpawnPos,
     NULL,
 }
 
@@ -20,35 +22,20 @@ public struct ImgMatcher
 
 public class ObjectManager : MonoBehaviour
 {
-    public GameObject StatusEffectPrefab;
-    public ImgMatcher[] StatusEffectImage;
-    [SerializeField]
-    GameObject PlayerPrefab;
 
-    [SerializeField]
-    private List<GameObject> EnemyPrefabs = new List<GameObject>();
-
-    private PlayerController ActivePlayer;
-    public GameObject GetActivePlayerObject() { return ActivePlayer.gameObject; }
-    public PlayerController GetActivePlayer() { return ActivePlayer; }
-
-    [Header("Scriptable Objects")]
-    [Space(1)]
-    [SerializeField]
-    private List<SO_SlimePart> unsortedParts = new List<SO_SlimePart>();
-
-    [Header("Card Prefabs")]
-    [Space(1)]
-    [SerializeField]
-    private GameObject CardPrefab;
-    private Dictionary<CardComponentType , SO_SlimePart> So_Lookup = new Dictionary<CardComponentType , SO_SlimePart>();
+    public ESlimePart GetSlimePartFromCardType(CardComponentType _card)
+    {
+        return So_Lookup[_card].SlimePart;
+    }
     public static ObjectManager Instance { get; private set; }
 
-    public float BattleScale = 75f;
     public CardDisplay CreateCard(SlimePiece _base , DECK_SLOTS _who)
     {
         GameObject card = Instantiate(CardPrefab);
-        if(!ComponentMapper.CardComponents.ContainsKey(_base.GetCardType()))
+        CardDisplay cd = card.GetComponent<CardDisplay>();
+        var r = cd.rawCardStats;
+        var c = r.GetCardType();
+        if (!ComponentMapper.CardComponents.ContainsKey(c))
         {
             Debug.LogError($"{_base.GetSlimePartName()} | {_base.GetCardType()} is missing from ComponentMapper CardComponents");
             return null;
@@ -79,7 +66,6 @@ public class ObjectManager : MonoBehaviour
         GeneratePlayer();
         ActivePlayer.FirstLoad();
     }
-    public GameObject SlimePrefab;
     public GameObject GenerateRandomSlime()
     {
         GameObject slimePrefab = Instantiate(SlimePrefab);
@@ -119,7 +105,7 @@ public class ObjectManager : MonoBehaviour
                  .ToList();
         for (int i = 0; i < cardTypes.Count; i++)
         {
-            if(!So_Lookup.ContainsKey(cardTypes[i]))
+            if (!So_Lookup.ContainsKey(cardTypes[i]))
             {
                 Debug.LogError($"Object Manager::GenerateSlime::Unsorted Parts doesn't have {cardTypes[i]} in its List");
                 continue;
@@ -132,6 +118,7 @@ public class ObjectManager : MonoBehaviour
     public void LoadAssets()
     {
         CreatePart_LookupTable();
+        GenerateDummyTrainer();
     }
     private void CreatePart_LookupTable()
     {
@@ -144,4 +131,40 @@ public class ObjectManager : MonoBehaviour
         ActivePlayer = player.GetComponent<PlayerController>();
         return player;
     }
+    public void GenerateDummyTrainer()
+    {
+        DummyTrainer = Instantiate(DummyTrainerPrefab);
+        DummyTrainer.transform.SetParent(this.transform);
+        NPC_Trainer t = DummyTrainer.GetComponent<NPC_Trainer>();
+        t.isDummy = true;
+        t.ToggleRenderers(false);
+        t.trainerInfo = new TrainerStatus("RANDOM ENCOUNTER");
+    }
+    private GameObject DummyTrainer;
+    public NPC_Trainer GetDummyTrainer() { return DummyTrainer.GetComponent<NPC_Trainer>(); }
+    public GameObject StatusEffectPrefab;
+    public ImgMatcher[] StatusEffectImage;
+    [SerializeField]
+    GameObject PlayerPrefab;
+
+    [SerializeField]
+    private List<GameObject> EnemyPrefabs = new List<GameObject>();
+    [SerializeField]
+    private GameObject DummyTrainerPrefab;
+    private PlayerController ActivePlayer;
+    public GameObject GetActivePlayerObject() { return ActivePlayer.gameObject; }
+    public PlayerController GetActivePlayer() { return ActivePlayer; }
+    public float BattleScale = 75f;
+
+    [Header("Scriptable Objects")]
+    [Space(1)]
+    [SerializeField]
+    private List<SO_SlimePart> unsortedParts = new List<SO_SlimePart>();
+
+    [Header("Card Prefabs")]
+    [Space(1)]
+    [SerializeField]
+    private GameObject CardPrefab;
+    private Dictionary<CardComponentType , SO_SlimePart> So_Lookup = new Dictionary<CardComponentType , SO_SlimePart>();
+    public GameObject SlimePrefab;
 }

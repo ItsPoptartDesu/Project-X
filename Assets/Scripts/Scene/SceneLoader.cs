@@ -12,6 +12,7 @@ public struct SceneLoaderInfo
 
 public class SceneLoader : MonoBehaviour
 {
+    public static event System.Action OnSceneTransition;
     public static event System.Action OnClickToGame;
     public static event System.Action OnTransPlayToBattle;
     public static event System.Action OnTransBattleToPlay;

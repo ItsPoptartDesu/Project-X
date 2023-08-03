@@ -11,11 +11,24 @@ public class LevelBehavior : MonoBehaviour
     public UI_Base inGameUIController;
     public List<NPC_Trainer> npc_Trainers = new List<NPC_Trainer>();
     public Camera lvlCamera;
-    
+    protected Queue<CardDisplay> ActionQueue = new Queue<CardDisplay>();
 
     public virtual void PostLevelLoad()
     {
 
+    }
+    public List<CardDisplay> ShuffleDeck(List<CardDisplay> _toBeShuffled)
+    {
+        List<CardDisplay> shuffled = new List<CardDisplay>(_toBeShuffled);
+        for (int i = shuffled.Count - 1; i > 0; i--)
+        {
+            //int k = rnd.Next(i + 1);
+            int k = Random.Range(0 , i + 1);
+            CardDisplay value = shuffled[k];
+            shuffled[k] = shuffled[i];
+            shuffled[i] = value;
+        }
+        return shuffled;
     }
     public void SetPlayerToSpawnPoint(GameObject _player)
     {
@@ -45,7 +58,8 @@ public class LevelBehavior : MonoBehaviour
         if (lvlCamera != null)
             lvlCamera.enabled = true;
     }
-
+    public virtual void AddCardToActionQueue(CardDisplay _card) { Debug.LogError("Using Default AddCardToActionQueue"); }
+    protected virtual void AddCardToDiscardPile(CardDisplay _card) { Debug.LogError("Using Default AddCardToDiscardPile"); }
     public void ToggleSettingsUI()
     {
         ObjectManager.Instance.GetActivePlayer().ToggleSettingsUI();

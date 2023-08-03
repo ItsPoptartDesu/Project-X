@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public enum DECK_SLOTS
-{
-    PLAYER = 0,
-    NPC = 1,
-    MAX = 2,
-    STARTING,
-}
+
+
+
 public enum WIN_STATE
 {
     PLAYER_WIN,
@@ -25,6 +21,8 @@ public class NPC_BattleSystem : LevelBehavior
     public Transform[] DeckAttachmentPoints = new Transform[2];
     public Transform[] HandAttachmentPoints = new Transform[2];
     private PlayerController user;
+    private NPC_Trainer cachedTrainer;
+
     [SerializeField]//TODO: make this an array and use DECK_SLOTS enum to index in to them
     private List<SpawnPoints> NPC_SpawnPoints;
     [SerializeField]
@@ -33,12 +31,10 @@ public class NPC_BattleSystem : LevelBehavior
     private Dictionary<DECK_SLOTS , Queue<CardDisplay>> Decks = new Dictionary<DECK_SLOTS , Queue<CardDisplay>>();
     private Dictionary<DECK_SLOTS , List<CardDisplay>> Hands = new Dictionary<DECK_SLOTS , List<CardDisplay>>();
     private Dictionary<DECK_SLOTS , List<CardDisplay>> Discard = new Dictionary<DECK_SLOTS , List<CardDisplay>>();
+    public UI_ManaDisplay[] ManaDisplay = new UI_ManaDisplay[2];
     private DECK_SLOTS currentTurn = DECK_SLOTS.STARTING;
-    private Queue<CardDisplay> ActionQueue = new Queue<CardDisplay>();
     public DECK_SLOTS GetCurrentTurn() { return currentTurn; }
     private WIN_STATE state = WIN_STATE.NA;
-    public UI_ManaDisplay[] ManaDisplay = new UI_ManaDisplay[2];
-
     private bool isProcessing = false;
     private WaitForSeconds wfs = new WaitForSeconds(1f);
     private WaitForSeconds endOfTurnPause = new WaitForSeconds(3f);
@@ -46,25 +42,37 @@ public class NPC_BattleSystem : LevelBehavior
     {
         SpawnPoints sp = GetSpawnPoint(_who , _pos);
         sp.myHealthBar.ToggleHealthBar(true);
-        sp.myHealthBar.SetHealth(_HealthnShields);
+        sp.myHealthBar.SetHealth((int)_HealthnShields.x , (int)_HealthnShields.y);
         return sp.myHealthBar;
     }
     public SpawnPoints GetSpawnPoint(DECK_SLOTS _who , BoardPos _pos)
     {
         return _who == DECK_SLOTS.PLAYER ?
-            Player_SpawnPoints.First(x => x.Spot == _pos) :
-            NPC_SpawnPoints.First(x => x.Spot == _pos);
+            Player_SpawnPoints.First(x => x.GetSpot() == _pos) :
+            NPC_SpawnPoints.First(x => x.GetSpot() == _pos);
     }
     public void Update()
     {
         if (!isProcessing)
             StartCoroutine(ProcessCards());
-        if (state != WIN_STATE.NA )
+        if (state != WIN_STATE.NA)
         {
             StartCoroutine(End());
         }
+        //while(currentState != GAME_STATE.GAME_OVER)
+        //{
+        //    switch (currentState)
+        //    {
+        //        case GAME_STATE.PLAYER_TURN:
+        //            PlayerTurn();
+        //            break;
+        //        case GAME_STATE.NPC_TURN:
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
     }
-
     IEnumerator ProcessCards()
     {
         isProcessing = true;
@@ -74,13 +82,12 @@ public class NPC_BattleSystem : LevelBehavior
         {
             CardDisplay card = ActionQueue.Dequeue();
             //if the palyer is playing a card get the NPC team and vise versa
-            List<Slime> TeamToBeHit = currentTurn == DECK_SLOTS.PLAYER ? npc.ActiveTeam : user.GetActiveTeam();
+            List<Slime> TeamToBeHit = currentTurn == DECK_SLOTS.PLAYER ? npc.GetActiveTeam() : user.GetActiveTeam();
             Debug.Log($"{currentTurn} is playing {card.rawCardStats.GetSlimePartName()}");
             yield return wfs;
 
             card.OnPlay(TeamToBeHit.OrderBy(x => x.myBoardPos).ToList());
             ManaDisplay[(int)currentTurn].OnPlay(card.rawCardStats.GetCost());
-            card.OnEnterDiscardPile();
             AddCardToDiscardPile(card);
             ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).AddCardToDiscardPile(card , Discard[currentTurn].Count);
             if (currentTurn == DECK_SLOTS.NPC && ActionQueue.Count == 0)
@@ -109,7 +116,8 @@ public class NPC_BattleSystem : LevelBehavior
         user = _player;
         Debug.Log("PreLoadForBattle");
         _player.OnBattleStart(this);
-        LevelManager.Instance.GetBattleNPC().OnBattleStart(this);
+        cachedTrainer = LevelManager.Instance.GetBattleNPC();
+        cachedTrainer.OnBattleStart(this);
         currentTurn = DECK_SLOTS.PLAYER;
         TurnPicker();
     }
@@ -142,7 +150,7 @@ public class NPC_BattleSystem : LevelBehavior
     }
     public void CreateDecks(Slime _slime , DECK_SLOTS _who)
     {
-        var toBeShuffled = _slime.GetActiveParts()
+        List<CardDisplay> toBeShuffled = _slime.GetActiveParts()
                     .Select(part =>
                     {
                         CardDisplay card = ObjectManager.Instance.CreateCard(part , _who);
@@ -153,23 +161,11 @@ public class NPC_BattleSystem : LevelBehavior
                         return card;
                     }).ToList();
         List<CardDisplay> l = ShuffleDeck(toBeShuffled);
-        Decks[_who] = new Queue<CardDisplay>(toBeShuffled);
+        Decks[_who] = new Queue<CardDisplay>(l);
         Hands[_who] = new List<CardDisplay>();
         Discard[_who] = new List<CardDisplay>();
     }
-    public List<CardDisplay> ShuffleDeck(List<CardDisplay> _toBeShuffled)
-    {
-        List<CardDisplay> shuffled = new List<CardDisplay>(_toBeShuffled);
-        for (int i = shuffled.Count - 1; i > 0; i--)
-        {
-            //int k = rnd.Next(i + 1);
-            int k = Random.Range(0 , i + 1);
-            CardDisplay value = shuffled[k];
-            shuffled[k] = shuffled[i];
-            shuffled[i] = value;
-        }
-        return shuffled;
-    }
+
     public override void PostLevelLoad()
     {
         user.DisablePlayerMovementAndRenderer();
@@ -198,7 +194,7 @@ public class NPC_BattleSystem : LevelBehavior
         WaitForSeconds wfs = new WaitForSeconds(0.1f);
         List<Slime> activeTeam = currentTurn == DECK_SLOTS.PLAYER ?
             user.GetActiveTeam() :
-            LevelManager.Instance.GetBattleNPC().ActiveTeam;
+            LevelManager.Instance.GetBattleNPC().GetActiveTeam();
 
         foreach (var slime in activeTeam)
         {
@@ -219,6 +215,7 @@ public class NPC_BattleSystem : LevelBehavior
         StartCoroutine(CheckActiveTeamStatusEffects());
         Debug.Log($"{currentTurn} - NPC Turn");
         List<CardDisplay> cards = Hands[currentTurn];
+        //cachedTrainer.BattleBehaviour.MakeDecision(cards , ManaDisplay[(int)currentTurn].GetCurrentMana());
         CardDisplay CardToPlay = cards.Where(x => x.rawCardStats.GetCost() <= ManaDisplay[(int)currentTurn].GetCurrentMana()).FirstOrDefault();
         AddCardToActionQueue(CardToPlay);
     }
@@ -239,7 +236,7 @@ public class NPC_BattleSystem : LevelBehavior
             currentTurn = DECK_SLOTS.PLAYER;
         TurnPicker();
     }
-    public void AddCardToActionQueue(CardDisplay _card)
+    public override void AddCardToActionQueue(CardDisplay _card)
     {
         int cost = (int)_card.rawCardStats.GetCost();
         //if the card cost's too much mana
@@ -257,8 +254,8 @@ public class NPC_BattleSystem : LevelBehavior
     {
         NPC_Trainer npc = LevelManager.Instance.GetBattleNPC();
         int playerDeadCount = user.GetActiveTeam().Count(s => s.IsDead());
-        int npcDeadCount = npc.ActiveTeam.Count(s => s.IsDead());
-        if (playerDeadCount == user.GetActiveTeam().Count && npcDeadCount == npc.ActiveTeam.Count())
+        int npcDeadCount = npc.GetActiveTeam().Count(s => s.IsDead());
+        if (playerDeadCount == user.GetActiveTeam().Count && npcDeadCount == npc.GetActiveTeam().Count())
         {
             return WIN_STATE.TIE;
         }
@@ -268,7 +265,7 @@ public class NPC_BattleSystem : LevelBehavior
 
             return WIN_STATE.NPC_WIN;
         }
-        if (npcDeadCount == npc.ActiveTeam.Count)
+        if (npcDeadCount == npc.GetActiveTeam().Count)
         {
             Debug.Log("Player Wins");
             return WIN_STATE.PLAYER_WIN;
@@ -278,9 +275,10 @@ public class NPC_BattleSystem : LevelBehavior
             return WIN_STATE.NA;
         }
     }
-    private void AddCardToDiscardPile(CardDisplay _card)
+    protected override void AddCardToDiscardPile(CardDisplay _card)
     {
         Debug.Log($"Moving {_card.rawCardStats.GetSlimePartName()} to the discard pile");
+        _card.OnEnterDiscardPile();
         Discard[currentTurn].Add(_card);
         ((UI_NPCBattle)LevelManager.Instance.currentLevelBehaviour.inGameUIController).AddCardToDiscardPile(_card , Discard[currentTurn].Count);
     }
@@ -297,7 +295,8 @@ public class NPC_BattleSystem : LevelBehavior
         {
             throw new System.ArgumentOutOfRangeException("Invalid count parameter.");
         }
-
+        if (count == 1 && maxValue == 0)
+            return new List<int> { 0 };
         List<int> numbers = new List<int>(count);
         HashSet<int> generatedNumbers = new HashSet<int>();
 
@@ -313,5 +312,20 @@ public class NPC_BattleSystem : LevelBehavior
 
         return numbers;
     }
+    public static List<int> GenerateRepeatingNumbers(int minValue , int maxValue , int count)
+    {
+        if (count < 0)
+        {
+            throw new System.ArgumentOutOfRangeException("Invalid count parameter.");
+        }
 
+        List<int> numbers = new List<int>(count);
+        for (int i = 0; i < count; i++)
+        {
+            int number = Random.Range(minValue , maxValue + 1);
+            numbers.Add(number);
+        }
+
+        return numbers;
+    }
 }

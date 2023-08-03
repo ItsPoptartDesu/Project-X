@@ -14,7 +14,6 @@ public class Gene
 {
     public GeneAllele Allele;
     public CardComponentType Part;
-    public ESlimePart Parent;
 
     private static readonly Dictionary<GeneAllele , float> genePercentages = new Dictionary<GeneAllele , float>()
     {

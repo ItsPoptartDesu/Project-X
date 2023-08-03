@@ -22,54 +22,11 @@ MonoBehaviour:
       Genes:
       - Allele: 0
         Part: 1
-        Parent: 0
       - Allele: 0
         Part: 2
-        Parent: 1
       - Allele: 0
         Part: 3
-        Parent: 2
       - Allele: 0
         Part: 4
-        Parent: 3
       - Allele: 0
         Part: 6
-        Parent: 4
-    - SlimeName: Jesus
-      TeamPos: 1
-      myStatus: 0
-      Genes:
-      - Allele: 0
-        Part: 1
-        Parent: 0
-      - Allele: 0
-        Part: 2
-        Parent: 1
-      - Allele: 0
-        Part: 3
-        Parent: 2
-      - Allele: 0
-        Part: 4
-        Parent: 3
-      - Allele: 0
-        Part: 6
-        Parent: 4
-    - SlimeName: Dreamy
-      TeamPos: 2
-      myStatus: 0
-      Genes:
-      - Allele: 0
-        Part: 1
-        Parent: 0
-      - Allele: 0
-        Part: 2
-        Parent: 1
-      - Allele: 0
-        Part: 3
-        Parent: 2
-      - Allele: 0
-        Part: 4
-        Parent: 3
-      - Allele: 0
-        Part: 6
-        Parent: 4

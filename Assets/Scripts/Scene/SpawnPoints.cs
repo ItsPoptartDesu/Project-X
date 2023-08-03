@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SpawnPoints : MonoBehaviour
 {
-    public BoardPos Spot;
     [SerializeField]
-    ObjectType myType;
+    private BoardPos spot;
     public ObjectType GetObjectType() { return myType; }
+    [SerializeField]
+    private ObjectType myType;
+    public BoardPos GetSpot() { return spot; }
     public Vector3 position { get { return transform.position; } }
     public HealthBar myHealthBar;
 

@@ -64,7 +64,6 @@ public static class ComponentMapper
         { CardComponentType.Sunny_Day, typeof(Sunny_Day) },
         };
     private static readonly CardComponentType[] allValues;
-
     static ComponentMapper()
     {
         // Get all values of the CardComponentType enum using reflection and store them in the 'allValues' array.

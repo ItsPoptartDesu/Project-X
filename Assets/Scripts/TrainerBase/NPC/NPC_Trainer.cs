@@ -4,9 +4,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-public class NPC_Trainer : MonoBehaviour
+public class NPC_Trainer : BaseNPC
 {
-    public BattleBehaviour battleBehaviour;
+    public NPC_Trainer() : base()
+    {
+        Init();
+    }
+    public AI_LEVEL myAILevel;
     public TrainerStatus trainerInfo;
     [SerializeField]
     [Range(2f , 10f)]
@@ -18,29 +22,48 @@ public class NPC_Trainer : MonoBehaviour
     [SerializeField]
     Vector2 LookDir = Vector2.left;
     public string GetTrainerName() { return trainerInfo.TrainerName; }
-    public List<Slime> ActiveTeam = new List<Slime>();
+    public override List<Slime> GetActiveTeam() { return ActiveTeam; }
+    private List<Slime> ActiveTeam = new List<Slime>();
+    public bool isDummy = false;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        Init();
+    }
+    private void Init()
+    {
         LookDistance = 2;
+        UpdateBattleBehaviour();
+    }
+    public void UpdateBattleBehaviour()
+    {
+        switch (myAILevel)
+        {
+            case AI_LEVEL.EASY:
+                BattleBehaviour = new EasyAI();
+                break;
+        }
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-        string trainerName = trainerInfo.TrainerName;
-        if (trainerName == null || trainerName == string.Empty)
+        if (isDummy)
             return;
         if (trainerInfo.HasBeenBattled)
             return;
+        string trainerName = trainerInfo.TrainerName;
+        if (trainerName == null || trainerName == string.Empty)
+            return;
         Debug.DrawRay(rayCastPoint.position , LookDir * LookDistance);
         var hit = Physics2D.Raycast(rayCastPoint.position , LookDir * LookDistance);
-        if (hit.collider != null)
+        PlayerController pc = hit.transform.gameObject.GetComponent<PlayerController>();
+        if (hit.collider != null && pc != null)
         {
             Debug.Log($"Hit: {hit.transform.gameObject.name}");
             trainerInfo.HasBeenBattled = true;
-            LevelManager.Instance.StartBattle(this , hit.transform.gameObject.GetComponent<PlayerController>());
+            LevelManager.Instance.StartEncounter(this , pc);
         }
     }
     public void OnBattleStart(NPC_BattleSystem _system)
@@ -65,6 +88,17 @@ public class NPC_Trainer : MonoBehaviour
                 pos ,
                 new Vector2(slimeComp.GetHealth() , slimeComp.GetShields()));
             slimeComp.InitHealthBar(hb);
+            ActiveTeam.Add(slimeComp);
+        }
+    }
+    public override void OnEncounterStart(UI_ManaDisplay _mana)
+    {
+        List<JsonSlimeInfo> team = trainerInfo.ActiveTeam.SavedSlime;
+        BattleBehaviour.ManaDisplayReference = _mana;
+        foreach (JsonSlimeInfo slime in team)
+        {
+            var NPC_Slime = ObjectManager.Instance.GenerateSlime(slime);
+            Slime slimeComp = NPC_Slime.GetComponent<Slime>();
             ActiveTeam.Add(slimeComp);
         }
     }

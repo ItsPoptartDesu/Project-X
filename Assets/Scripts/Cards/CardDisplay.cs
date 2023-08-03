@@ -9,7 +9,7 @@ public class CardDisplay : CardBase,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private bool CanDisplayInfo { get { return myOwner == DECK_SLOTS.PLAYER && myState != CardState.DECK; } }
-    private bool CanPlayCard { get { return ((NPC_BattleSystem)LevelManager.Instance.currentLevelBehaviour).GetCurrentTurn() == DECK_SLOTS.PLAYER; } }
+    private bool CanPlayCard { get { return ((Encounter)LevelManager.Instance.currentLevelBehaviour).GetCurrentTurn() == DECK_SLOTS.PLAYER; } }
     public override void OnEnterDeck()
     {
         myState = CardState.DECK;
@@ -61,7 +61,10 @@ public class CardDisplay : CardBase,
         if (!CanDisplayInfo)
             return;
     }
-
+    public CardComponentType GetCardType()
+    {
+        return rawCardStats.GetCardType();
+    }
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         GameObject clickedOn = eventData.pointerPress;
@@ -73,8 +76,8 @@ public class CardDisplay : CardBase,
         if (!CanPlayCard || myState == CardState.IN_PLAY)
             return;
         Debug.Log("OnPointerClick");
-        ((NPC_BattleSystem)LevelManager.Instance.currentLevelBehaviour).AddCardToActionQueue(card);
         myState = CardState.IN_PLAY;
+        LevelManager.Instance.currentLevelBehaviour.AddCardToActionQueue(card);
     }
     /// <summary>
     /// Base functionality is to hit the first slime on the team.

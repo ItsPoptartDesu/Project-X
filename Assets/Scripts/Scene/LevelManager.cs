@@ -47,15 +47,12 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
     }
-    public void OnPlayerEnterClean(GameObject _player, LevelTags _lvlTag)
+    public void OnPlayerEnterClean(GameObject _player , LevelTags _lvlTag)
     {
         currentLevelBehaviour = GameObject.FindObjectOfType<LevelBehavior>();
-        if (ObjectManager.Instance.GetActivePlayer().GetPreviousLevel() == LevelTags.NPC_Battle)
-        {
-            PlayerController pc = _player.GetComponent<PlayerController>();
-            _player.transform.SetLocalPositionAndRotation(pc.GetPreviousPosition(), Quaternion.identity);
-        }
-        else if (currentLevelBehaviour != null)
+        PlayerController pc = _player.GetComponent<PlayerController>();
+        _player.transform.SetLocalPositionAndRotation(pc.GetPreviousPosition() , Quaternion.identity);
+        if (currentLevelBehaviour != null)
         {
             currentLevelBehaviour.SetPlayerToSpawnPoint(_player);
         }
@@ -65,13 +62,18 @@ public class LevelManager : MonoBehaviour
             ((NPC_BattleSystem)currentLevelBehaviour).PreLoadForBattle(Player);
         }
     }
-    public void StartBattle(NPC_Trainer _npc, PlayerController _player)
+    public void StartRandomEncounter(ref NPC_Trainer _npc , PlayerController _player)
+    {
+        BattleNPC = _npc; 
+        StartEncounter(BattleNPC, _player);
+    }
+    public void StartEncounter(NPC_Trainer _npc , PlayerController _player)
     {
         _player.SetPreviousPosition(_player.transform.position);
         _player.SetPreviousLevel(GameEntry.Instance.GetCurrentLevel());
         BattleNPC = _npc;
-        Debug.Log($"{_npc.name} is in a battle with {_player.GetUsername()}");
-        GameEntry.Instance.PlayToBattleTransition(_npc, _player);
+        Debug.Log($"{BattleNPC.trainerInfo.TrainerName} is in a battle with {_player.GetUsername()}");
+        GameEntry.Instance.PlayToBattleTransition(_npc , _player);
     }
     private void DisableLevels()
     {

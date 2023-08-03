@@ -10,6 +10,18 @@ using System;
 public class SaveManager : MonoBehaviour
 {
     //TODO: change back to private
+    public static SaveManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     public GameData activeGameData;
     private SaveSlotData SavedSlot;
     string GameDataFileName = "/GameData.json";
@@ -45,6 +57,12 @@ public class SaveManager : MonoBehaviour
 
         // Save the active team's slimes
         SavedSlot.ActiveTeam.SavedSlime.Clear();
+        //var trainer = GameObject.FindGameObjectWithTag("Trainer");
+        //NPC_Trainer t = trainer.GetComponent<NPC_Trainer>();
+        //foreach(var s in t.jsi())
+        //{
+        //    SavedSlot.ActiveTeam.SavedSlime.Add(s);
+        //}
         foreach (var s in activeGameData.GetActiveTeam())
         {
             SavedSlot.ActiveTeam.SavedSlime.Add(new JsonSlimeInfo(s));

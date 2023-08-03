@@ -16,21 +16,22 @@ public class UI_NPCBattle : UI_Base
     [Space(2)]
     [Header("Game Timer")]
     public TextMeshProUGUI Text_TurnCounter;
-    public TextMeshProUGUI Text_Timer;
+    public TextMeshProUGUI Text_TurnTimer;
     public TextMeshProUGUI Text_PlayerTurnIndicator;
     [Space(2f)]
     [Header("Player")]
     public List<Transform> Player_Team;
     public Transform Player_Hand_Root;
-
+    public Transform PlayerDeckRoot;
 
     [Space(2f)]
     [Header("Trainer")]
     public List<Transform> Trainer_Team;
     public Transform Trainer_Hand_Root;
+    public Transform TrainerDeckRoot;
 
     //public static event System.Action OnClickLeaveBattle;
-    public void AddCardToDiscardPile(CardDisplay _ToBeAdded,int _size)
+    public void AddCardToDiscardPile(CardDisplay _ToBeAdded , int _size)
     {
         _ToBeAdded.transform.SetParent(DiscardText[(int)_ToBeAdded.myOwner].transform);
         DiscardText[(int)_ToBeAdded.myOwner].text = _size.ToString();
@@ -45,7 +46,7 @@ public class UI_NPCBattle : UI_Base
         UIRoot.enabled = !UIRoot.enabled;
         EscapeMenuRoot.SetActive(!EscapeMenuRoot.activeSelf);
     }
-    public void UpdateUIObject(DECK_SLOTS _who, int _deckSize, string _name)
+    public void UpdateUIObject(DECK_SLOTS _who , int _deckSize , string _name)
     {
         DiscardText[(int)_who].text = "0";
         InkedPileText[(int)_who].text = "0";

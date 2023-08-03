@@ -11,11 +11,11 @@ public class FSM_Play : FSM_State
     {
         stateID = StateID.Play;
     }
-    public override void Act(Behaviour player, FSM_System npc)
+    public override void Act(Behaviour player , FSM_System npc)
     {
 
     }
-    public override void Reason(Behaviour player, FSM_System npc)
+    public override void Reason(Behaviour player , FSM_System npc)
     {
         if (toMainMenu)
         {
@@ -25,7 +25,7 @@ public class FSM_Play : FSM_State
         {
             npc.PerformTransition(Transition.To_Battle);
         }
-        if(toEncounter)
+        if (toEncounter)
         {
             npc.PerformTransition(Transition.To_Encounter);
         }
@@ -37,8 +37,9 @@ public class FSM_Play : FSM_State
         ObjectManager.Instance.GetActivePlayer().LastPlayableLevel = LevelTags.LEVEL_1;
         UI_IGController.OnClickGameToMainMenu += FSM_OnClickToMainMenu;
         SceneLoader.OnTransPlayToBattle += FSM_OnClickToBattle;
+        SceneLoader.OnTransToEncounter += FSM_TransToEncounter;
         LevelManager.Instance.OnPlayerEnterClean(
-            ObjectManager.Instance.GetActivePlayerObject(),
+            ObjectManager.Instance.GetActivePlayerObject() ,
             GameEntry.Instance.GetCurrentLevel());
         ObjectManager.Instance.GetActivePlayer().EnablePlayerMovementRendererCamera();
         LevelManager.Instance.currentLevelBehaviour.PostLevelLoad();
@@ -47,6 +48,7 @@ public class FSM_Play : FSM_State
     {
         //ObjectManager.Instance.DeleteMarkedObjects();
         SceneLoader.OnTransPlayToBattle -= FSM_OnClickToBattle;
+        SceneLoader.OnTransToEncounter -= FSM_TransToEncounter;
         Debug.Log("FSM_Play DoBeforeLeaving()");
         UI_IGController.OnClickGameToMainMenu -= FSM_OnClickToMainMenu;
         Reset();

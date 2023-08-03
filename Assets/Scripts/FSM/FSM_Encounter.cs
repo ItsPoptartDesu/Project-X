@@ -22,6 +22,7 @@ public class FSM_Encounter : FSM_State
     }
     public override void DoBeforeEntering()
     {
+        SceneLoader.OnTransBattleToPlay += FSM_OnTransitionToPlay;
         GameEntry.Instance.SetCurrentLevel(LevelManager.Instance.LoadingLevel);
         LevelManager.Instance.OnPlayerEnterClean(
                 ObjectManager.Instance.GetActivePlayerObject() ,

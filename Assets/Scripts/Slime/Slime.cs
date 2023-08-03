@@ -137,17 +137,17 @@ public class Slime : MonoBehaviour
     public void AdjustShields(int _amount)
     {
         stats.AdjustShields(_amount);
-        HealthBarRef.SetHealth(new Vector2(GetHealth() , _amount));
+        HealthBarRef.SetHealth(GetHealth() , _amount);
     }
     private void Die()
     {
-        HealthBarRef.SetHealth(Vector2.zero);
+        HealthBarRef.SetHealth(0 , 0);
         isDead = true;
         Debug.Log($"{stats.dna.SlimeName} has died");
     }
     public void RefreshHealthBar()
     {
-        HealthBarRef.SetHealth(new Vector2(stats.GetHealth() , stats.GetShield()));
+        HealthBarRef.SetHealth(stats.GetHealth() , stats.GetShield());
     }
     public void Cleanse()
     {
@@ -195,7 +195,7 @@ public class Slime : MonoBehaviour
             effect.UpdateEffect();
         }
     }
-    public void BattleStartApplyStatusEffects()
+    public void EncounterStartApplyStatusEffects()
     {
         Debug.Log($"BattleStartApplyStatusEffects{GetDebuffStatus()}");
         if ((GetDebuffStatus() & DeBuffStatusEffect.Burn) == DeBuffStatusEffect.Burn)

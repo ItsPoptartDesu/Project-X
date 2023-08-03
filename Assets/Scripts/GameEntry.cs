@@ -9,7 +9,6 @@ public class GameEntry : MonoBehaviour
     private SaveManager saveManager;
     [SerializeField]
     private SceneLoader sceneLoader;
-    public SaveManager GetSaveManager() { return saveManager; }
 
     public bool isDEBUG = false;
 
@@ -59,14 +58,19 @@ public class GameEntry : MonoBehaviour
         FSM_Play FPlay = new FSM_Play();
         FPlay.AddTransition(Transition.To_Idle , StateID.Idle);
         FPlay.AddTransition(Transition.To_Battle , StateID.Battle);
+        FPlay.AddTransition(Transition.To_Encounter , StateID.Encounter);
 
         FSM_Battle FBattle = new FSM_Battle();
         FBattle.AddTransition(Transition.To_Play , StateID.Play);
+
+        FSM_Encounter FEncounter = new FSM_Encounter();
+        FEncounter.AddTransition(Transition.To_Play , StateID.Play);
 
         gameloop.AddState(FIdle);
         gameloop.AddState(FCollection);
         gameloop.AddState(FPlay);
         gameloop.AddState(FBattle);
+        gameloop.AddState(FEncounter);
 
         //load games assest
         ObjectManager.Instance.LoadAssets();
@@ -85,7 +89,7 @@ public class GameEntry : MonoBehaviour
     public void PlayToBattleTransition(NPC_Trainer _npc , PlayerController _player)
     {
         //SceneLoader.OnAsyncLoadFinish += OnAsyncLevelLoadFinish;
-        LevelManager.Instance.LoadingLevel = LevelTags.NPC_Battle;
+        LevelManager.Instance.LoadingLevel = LevelTags.ENCOUNTER;
         StartLoadLevel();
     }
     public void PlayToEncounterTransition(PlayerController _player)
